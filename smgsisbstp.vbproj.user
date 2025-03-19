@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Compile Update="AuditTrailForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CategoryMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DeliveryMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DiscountMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ExpirationMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ExportUser.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="InventoryMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="InventoryReportForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="InventoryUpdate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="InventoryUserControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="LogHistoryForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Login.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Main.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="POS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ProductMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ProductScan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SalesReportForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SupplierMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="VatMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Main.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
