@@ -63,8 +63,7 @@
               "ViewState": "AgIAAP4AAAAAAAAAAAAcwA4BAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-03-19T15:42:31.275Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -88,8 +87,7 @@
               "RelativeToolTip": "Main.resx",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAALgAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2025-03-19T16:46:39.379Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-19T16:46:39.379Z"
             },
             {
               "$type": "Document",
@@ -99,7 +97,7 @@
               "RelativeDocumentMoniker": "Main.Designer.vb",
               "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Main.Designer.vb",
               "RelativeToolTip": "Main.Designer.vb",
-              "ViewState": "AgIAAGIAAAAAAAAAAAAYwHsAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAYwGwAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-03-19T16:45:29.793Z",
               "EditorCaption": ""
@@ -126,8 +124,7 @@
               "RelativeToolTip": "DeliveryMain.Designer.vb",
               "ViewState": "AgIAABsAAAAAAAAAAAAnwCsAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-19T16:34:25.742Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-19T16:34:25.742Z"
             },
             {
               "$type": "Document",
@@ -139,8 +136,7 @@
               "RelativeToolTip": "ApplicationEvents.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-19T15:59:31.405Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-19T15:59:31.405Z"
             },
             {
               "$type": "Document",
@@ -151,8 +147,7 @@
               "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\smgsisbstp.vbproj",
               "RelativeToolTip": "smgsisbstp.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-03-19T15:57:36.429Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-19T15:57:36.429Z"
             },
             {
               "$type": "Document",
@@ -164,8 +159,7 @@
               "RelativeToolTip": "Login.vb",
               "ViewState": "AgIAAGIAAAAAAAAAAAAIwHAAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-19T15:35:30.54Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-19T15:35:30.54Z"
             },
             {
               "$type": "Document",
