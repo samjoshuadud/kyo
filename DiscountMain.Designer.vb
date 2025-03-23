@@ -32,6 +32,7 @@ Partial Class DiscountMain
         btnEdit = New Button()
         btnDelete = New Button()
         btnClose = New Button()
+        btnReset = New Button()
         CType(dgvDiscounts, ComponentModel.ISupportInitialize).BeginInit()
         pnlInputs.SuspendLayout()
         SuspendLayout()
@@ -131,6 +132,15 @@ Partial Class DiscountMain
         btnClose.TabIndex = 5
         btnClose.Text = "Close"
         ' 
+        ' btnReset
+        ' 
+        btnReset.Location = New Point(331, 321)
+        btnReset.Margin = New Padding(2, 2, 2, 2)
+        btnReset.Name = "btnReset"
+        btnReset.Size = New Size(84, 24)
+        btnReset.TabIndex = 6
+        btnReset.Text = "Reset"
+        ' 
         ' DiscountMain
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -142,6 +152,7 @@ Partial Class DiscountMain
         Controls.Add(btnEdit)
         Controls.Add(btnDelete)
         Controls.Add(btnClose)
+        Controls.Add(btnReset)
         FormBorderStyle = FormBorderStyle.None
         Margin = New Padding(2, 2, 2, 2)
         Name = "DiscountMain"
@@ -157,10 +168,11 @@ Partial Class DiscountMain
     Private lblDiscountName As System.Windows.Forms.Label
     Private txtDiscountName As System.Windows.Forms.TextBox
     Private lblDiscountRate As System.Windows.Forms.Label
-    Private txtDiscountRate As System.Windows.Forms.TextBox
+    Private WithEvents txtDiscountRate As System.Windows.Forms.TextBox
     Private WithEvents btnAdd As System.Windows.Forms.Button
     Private WithEvents btnEdit As System.Windows.Forms.Button
     Private WithEvents btnDelete As System.Windows.Forms.Button
     Private WithEvents btnClose As System.Windows.Forms.Button
+    Private WithEvents btnReset As System.Windows.Forms.Button
 
 End Class
