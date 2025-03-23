@@ -3,8 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\inventorymain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:inventorymain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\usermain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:usermain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\productmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:productmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\productmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:productmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\main.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:main.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\main.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:main.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\login.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:login.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\login.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:login.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\expirationmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -13,6 +41,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\discountmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:discountmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\inventorymain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:inventorymain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\vatmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -27,18 +59,6 @@
       "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:inventorymain.designer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\login.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:login.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\login.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
-      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:login.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\main.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
-      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:main.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\categorymain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:categorymain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -51,24 +71,12 @@
       "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:categorymain.designer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\productmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
-      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:productmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\productmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:productmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\deliverymain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
       "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:deliverymain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\deliverymain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:deliverymain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\main.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:main.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\audittrailform.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
@@ -97,10 +105,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\discountmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
       "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:discountmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\usermain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
-      "RelativeMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|solutionrelative:usermain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{19EB15F4-057C-4A44-9BF2-C6A909FFE456}|smgsisbstp.vbproj|c:\\users\\caleb\\downloads\\systemfinal-20250319t131723z-001\\systemfinal\\smgsisbstp\\usermain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -138,17 +142,17 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 4,
               "Title": "Main.vb",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Main.vb",
               "RelativeDocumentMoniker": "Main.vb",
               "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Main.vb",
               "RelativeToolTip": "Main.vb",
-              "ViewState": "AgIAAPwAAAAAAAAAAAAIwAsBAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAHsAAAAAAAAAAAAcwA0BAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-03-19T15:42:31.275Z",
               "IsPinned": true,
@@ -156,7 +160,145 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": ".gitignore",
+              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\.gitignore",
+              "RelativeDocumentMoniker": ".gitignore",
+              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\.gitignore",
+              "RelativeToolTip": ".gitignore",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-03-23T13:20:26.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Main.vb [Design]",
+              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Main.vb",
+              "RelativeDocumentMoniker": "Main.vb",
+              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Main.vb [Design]",
+              "RelativeToolTip": "Main.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-03-19T16:50:28.999Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Login.vb [Design]",
+              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Login.vb",
+              "RelativeDocumentMoniker": "Login.vb",
+              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Login.vb [Design]",
+              "RelativeToolTip": "Login.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-03-19T15:34:34.316Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Login.vb",
+              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Login.vb",
+              "RelativeDocumentMoniker": "Login.vb",
+              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Login.vb",
+              "RelativeToolTip": "Login.vb",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAkwFIAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-03-19T15:35:30.54Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ExpirationMain.vb",
+              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ExpirationMain.vb",
+              "RelativeDocumentMoniker": "ExpirationMain.vb",
+              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ExpirationMain.vb",
+              "RelativeToolTip": "ExpirationMain.vb",
+              "ViewState": "AgIAAN4AAAAAAAAAAAAIwOMAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-03-22T06:03:34.956Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "DiscountMain.vb",
+              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\DiscountMain.vb",
+              "RelativeDocumentMoniker": "DiscountMain.vb",
+              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\DiscountMain.vb",
+              "RelativeToolTip": "DiscountMain.vb",
+              "ViewState": "AgIAAL0AAAAAAAAAAAAcwLoAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-03-22T14:55:38.104Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "ProductMain.vb [Design]",
+              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ProductMain.vb",
+              "RelativeDocumentMoniker": "ProductMain.vb",
+              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ProductMain.vb [Design]",
+              "RelativeToolTip": "ProductMain.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-03-22T14:45:38.892Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProductMain.vb",
+              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ProductMain.vb",
+              "RelativeDocumentMoniker": "ProductMain.vb",
+              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ProductMain.vb",
+              "RelativeToolTip": "ProductMain.vb",
+              "ViewState": "AgIAAJABAAAAAAAAAAAiwKwBAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-03-22T14:45:54.52Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserMain.vb [Design]",
+              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\UserMain.vb",
+              "RelativeDocumentMoniker": "UserMain.vb",
+              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\UserMain.vb [Design]",
+              "RelativeToolTip": "UserMain.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-03-19T17:00:45.137Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "InventoryMain.vb",
+              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\InventoryMain.vb",
+              "RelativeDocumentMoniker": "InventoryMain.vb",
+              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\InventoryMain.vb",
+              "RelativeToolTip": "InventoryMain.vb",
+              "ViewState": "AgIAAKMAAAAAAAAAAAAIwL0AAABpAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-03-22T15:00:05.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "InventoryMain.vb [Design]",
+              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\InventoryMain.vb",
+              "RelativeDocumentMoniker": "InventoryMain.vb",
+              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\InventoryMain.vb [Design]",
+              "RelativeToolTip": "InventoryMain.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-03-22T14:54:24.085Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "VatMain.vb",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\VatMain.vb",
               "RelativeDocumentMoniker": "VatMain.vb",
@@ -169,95 +311,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Main.vb [Design]",
-              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Main.vb",
-              "RelativeDocumentMoniker": "Main.vb",
-              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Main.vb [Design]",
-              "RelativeToolTip": "Main.vb [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-19T16:50:28.999Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Login.vb [Design]",
-              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Login.vb",
-              "RelativeDocumentMoniker": "Login.vb",
-              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Login.vb [Design]",
-              "RelativeToolTip": "Login.vb [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-19T15:34:34.316Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Login.vb",
-              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Login.vb",
-              "RelativeDocumentMoniker": "Login.vb",
-              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Login.vb",
-              "RelativeToolTip": "Login.vb",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAIwFIAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-19T15:35:30.54Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "InventoryMain.vb [Design]",
-              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\InventoryMain.vb",
-              "RelativeDocumentMoniker": "InventoryMain.vb",
-              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\InventoryMain.vb [Design]*",
-              "RelativeToolTip": "InventoryMain.vb [Design]*",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-22T14:54:24.085Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "InventoryMain.vb",
-              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\InventoryMain.vb",
-              "RelativeDocumentMoniker": "InventoryMain.vb",
-              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\InventoryMain.vb*",
-              "RelativeToolTip": "InventoryMain.vb*",
-              "ViewState": "AgIAAKMAAAAAAAAAAAAIwK0AAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-22T15:00:05.584Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ExpirationMain.vb",
-              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ExpirationMain.vb",
-              "RelativeDocumentMoniker": "ExpirationMain.vb",
-              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ExpirationMain.vb",
-              "RelativeToolTip": "ExpirationMain.vb",
-              "ViewState": "AgIAAMwAAAAAAAAAAAAIwOMAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-22T06:03:34.956Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DiscountMain.vb",
-              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\DiscountMain.vb",
-              "RelativeDocumentMoniker": "DiscountMain.vb",
-              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\DiscountMain.vb",
-              "RelativeToolTip": "DiscountMain.vb",
-              "ViewState": "AgIAAKMAAAAAAAAAAAAwwLoAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-22T14:55:38.104Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "CategoryMain.vb",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\CategoryMain.vb",
               "RelativeDocumentMoniker": "CategoryMain.vb",
@@ -270,7 +324,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 13,
               "Title": "InventoryMain.Designer.vb",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\InventoryMain.Designer.vb",
               "RelativeDocumentMoniker": "InventoryMain.Designer.vb",
@@ -283,19 +337,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "ProductMain.vb [Design]",
-              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ProductMain.vb",
-              "RelativeDocumentMoniker": "ProductMain.vb",
-              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ProductMain.vb [Design]",
-              "RelativeToolTip": "ProductMain.vb [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-22T14:45:38.892Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 16,
               "Title": "CategoryMain.Designer.vb",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\CategoryMain.Designer.vb",
               "RelativeDocumentMoniker": "CategoryMain.Designer.vb",
@@ -308,7 +350,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 15,
               "Title": "CategoryMain.vb [Design]",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\CategoryMain.vb",
               "RelativeDocumentMoniker": "CategoryMain.vb",
@@ -320,20 +362,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "ProductMain.vb",
-              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ProductMain.vb",
-              "RelativeDocumentMoniker": "ProductMain.vb",
-              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ProductMain.vb",
-              "RelativeToolTip": "ProductMain.vb",
-              "ViewState": "AgIAAOgAAAAAAAAAAAAiwPsAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-22T14:45:54.52Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "SupplierMain.vb [Design]",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\SupplierMain.vb",
               "RelativeDocumentMoniker": "SupplierMain.vb",
@@ -345,7 +374,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "SalesReportForm.vb [Design]",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\SalesReportForm.vb",
               "RelativeDocumentMoniker": "SalesReportForm.vb",
@@ -357,7 +386,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "AuditTrailForm.vb [Design]",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\AuditTrailForm.vb",
               "RelativeDocumentMoniker": "AuditTrailForm.vb",
@@ -369,20 +398,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "DeliveryMain.vb",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\DeliveryMain.vb",
               "RelativeDocumentMoniker": "DeliveryMain.vb",
               "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\DeliveryMain.vb",
               "RelativeToolTip": "DeliveryMain.vb",
-              "ViewState": "AgIAAI8AAAAAAAAAAAAuwLIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAOAAAAAAAAAAAAAuwHUBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-03-22T14:55:08.008Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "DeliveryMain.vb [Design]",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\DeliveryMain.vb",
               "RelativeDocumentMoniker": "DeliveryMain.vb",
@@ -394,7 +423,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "InventoryUpdate.vb [Design]",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\InventoryUpdate.vb",
               "RelativeDocumentMoniker": "InventoryUpdate.vb",
@@ -406,7 +435,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "InventoryReportForm.vb [Design]",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\InventoryReportForm.vb",
               "RelativeDocumentMoniker": "InventoryReportForm.vb",
@@ -418,7 +447,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "DiscountMain.vb [Design]",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\DiscountMain.vb",
               "RelativeDocumentMoniker": "DiscountMain.vb",
@@ -430,7 +459,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "ExpirationMain.vb [Design]",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ExpirationMain.vb",
               "RelativeDocumentMoniker": "ExpirationMain.vb",
@@ -442,7 +471,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "UserMain.vb",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\UserMain.vb",
               "RelativeDocumentMoniker": "UserMain.vb",
@@ -455,7 +484,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 27,
               "Title": "ExpirationMain.resx",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ExpirationMain.resx",
               "RelativeDocumentMoniker": "ExpirationMain.resx",
@@ -467,7 +496,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 28,
               "Title": "Main.Designer.vb",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Main.Designer.vb",
               "RelativeDocumentMoniker": "Main.Designer.vb",
@@ -480,19 +509,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "UserMain.vb [Design]",
-              "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\UserMain.vb",
-              "RelativeDocumentMoniker": "UserMain.vb",
-              "ToolTip": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\UserMain.vb [Design]",
-              "RelativeToolTip": "UserMain.vb [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-19T17:00:45.137Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 30,
               "Title": "DeliveryMain.Designer.vb",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\DeliveryMain.Designer.vb",
               "RelativeDocumentMoniker": "DeliveryMain.Designer.vb",
@@ -505,7 +522,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 29,
               "Title": "Main.resx",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\Main.resx",
               "RelativeDocumentMoniker": "Main.resx",
@@ -518,7 +535,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 31,
               "Title": "ApplicationEvents.vb",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\ApplicationEvents.vb",
               "RelativeDocumentMoniker": "ApplicationEvents.vb",
@@ -530,7 +547,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 32,
               "Title": "smgsisbstp",
               "DocumentMoniker": "C:\\Users\\Caleb\\Downloads\\SystemFINAL-20250319T131723Z-001\\SystemFINAL\\smgsisbstp\\smgsisbstp.vbproj",
               "RelativeDocumentMoniker": "smgsisbstp.vbproj",
