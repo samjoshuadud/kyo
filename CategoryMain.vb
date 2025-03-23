@@ -30,6 +30,13 @@ Public Class CategoryMain
             Dim adapter As New MySqlDataAdapter(cmd)
             Dim dt As New DataTable()
             adapter.Fill(dt)
+
+            If dt.Rows.Count = 0 Then
+                ' Add an empty row to the DataTable
+                dt.Rows.Add(dt.NewRow())
+                MessageBox.Show("No categories found. Displaying an empty row.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+
             dgvCategories.DataSource = dt
 
             ' Rename columns
@@ -49,6 +56,7 @@ Public Class CategoryMain
             connection.Close()
         End Try
     End Sub
+
 
     Private Sub CustomizeDataGridView()
         With dgvCategories
@@ -327,7 +335,7 @@ Public Class CategoryMain
 
     ' Reset Fields
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles btnAddcat.Click
+    Private Sub Button3_Click(sender As Object, e As EventArgs)
         PanelCategory.Visible = True
     End Sub
 
@@ -386,5 +394,9 @@ Public Class CategoryMain
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Me.Close()
+    End Sub
+
+    Private Sub dgvCategories_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvCategories.CellContentClick
+
     End Sub
 End Class

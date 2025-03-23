@@ -26,9 +26,10 @@ Partial Class SalesReportForm
         ' 
         ' SalesReportForm
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(800, 450)
+        ClientSize = New Size(671, 448)
+        Margin = New Padding(2, 2, 2, 2)
         Name = "SalesReportForm"
         Text = "SalesReportForm"
         ResumeLayout(False)

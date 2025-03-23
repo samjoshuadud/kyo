@@ -37,10 +37,11 @@ Partial Class AuditTrailForm
         dgvAuditTrail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgvAuditTrail.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvAuditTrail.Columns.AddRange(New DataGridViewColumn() {AuditID, Role, FullName, Action, Form, dates})
-        dgvAuditTrail.Location = New Point(1, 127)
+        dgvAuditTrail.Location = New Point(15, 76)
+        dgvAuditTrail.Margin = New Padding(2, 2, 2, 2)
         dgvAuditTrail.Name = "dgvAuditTrail"
         dgvAuditTrail.RowHeadersWidth = 62
-        dgvAuditTrail.Size = New Size(1636, 626)
+        dgvAuditTrail.Size = New Size(1145, 376)
         dgvAuditTrail.TabIndex = 0
         ' 
         ' AuditID
@@ -88,11 +89,12 @@ Partial Class AuditTrailForm
         ' 
         ' AuditTrailForm
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1297, 756)
+        ClientSize = New Size(1171, 520)
         Controls.Add(dgvAuditTrail)
         FormBorderStyle = FormBorderStyle.None
+        Margin = New Padding(2, 2, 2, 2)
         Name = "AuditTrailForm"
         StartPosition = FormStartPosition.CenterScreen
         Text = "AuditTrailForm"

@@ -30,76 +30,108 @@ Partial Class DeliveryMain
     ' Designer method for UI initialization
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Me.lblTransactionTitle = New System.Windows.Forms.Label()
-        Me.lblTransactionNumber = New System.Windows.Forms.Label()
-        Me.lblSupplier = New System.Windows.Forms.Label()
-        Me.cmbSupplier = New System.Windows.Forms.ComboBox()
-        Me.lblDeliveryDate = New System.Windows.Forms.Label()
-        Me.dtpDeliveryDate = New System.Windows.Forms.DateTimePicker()
-        Me.btnSave = New System.Windows.Forms.Button()
-        Me.btnClose = New System.Windows.Forms.Button()
-
-        ' Form properties
-        Me.Text = "Delivery Maintenance"
-        Me.Width = 500
-        Me.Height = 350
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.BackColor = System.Drawing.ColorTranslator.FromHtml("#B2DFEE")
-
-        ' Transaction Number Label
-        Me.lblTransactionTitle.Text = "Transaction Number:"
-        Me.lblTransactionTitle.Location = New System.Drawing.Point(20, 20)
-        Me.lblTransactionTitle.Font = New System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold)
-
-        Me.lblTransactionNumber.Text = "Generating..."
-        Me.lblTransactionNumber.Location = New System.Drawing.Point(180, 20)
-        Me.lblTransactionNumber.Width = 280
-        Me.lblTransactionNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblTransactionNumber.Font = New System.Drawing.Font("Segoe UI", 10)
-
-        ' Supplier Label and ComboBox
-        Me.lblSupplier.Text = "Supplier:"
-        Me.lblSupplier.Location = New System.Drawing.Point(20, 60)
-        Me.lblSupplier.Font = New System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold)
-
-        Me.cmbSupplier.Location = New System.Drawing.Point(180, 60)
-        Me.cmbSupplier.Width = 280
-        Me.cmbSupplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-
-        ' Delivery Date Label and DateTimePicker
-        Me.lblDeliveryDate.Text = "Delivery Date:"
-        Me.lblDeliveryDate.Location = New System.Drawing.Point(20, 100)
-        Me.lblDeliveryDate.Font = New System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold)
-
-        Me.dtpDeliveryDate.Location = New System.Drawing.Point(180, 100)
-        Me.dtpDeliveryDate.Width = 280
-        Me.dtpDeliveryDate.Format = System.Windows.Forms.DateTimePickerFormat.Short
-
-        ' Save Button
-        Me.btnSave.Text = "Save"
-        Me.btnSave.Location = New System.Drawing.Point(100, 200)
-        Me.btnSave.Width = 120
-        Me.btnSave.BackColor = System.Drawing.ColorTranslator.FromHtml("#32CD32") ' Green color for Save
-        Me.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnSave.ForeColor = System.Drawing.Color.White
-
-        ' Close Button
-        Me.btnClose.Text = "Close"
-        Me.btnClose.Location = New System.Drawing.Point(260, 200)
-        Me.btnClose.Width = 120
-        Me.btnClose.BackColor = System.Drawing.ColorTranslator.FromHtml("#FF4500") ' Orange color for Close
-        Me.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnClose.ForeColor = System.Drawing.Color.White
-
-        ' Add controls to the form
-        Me.Controls.Add(Me.lblTransactionTitle)
-        Me.Controls.Add(Me.lblTransactionNumber)
-        Me.Controls.Add(Me.lblSupplier)
-        Me.Controls.Add(Me.cmbSupplier)
-        Me.Controls.Add(Me.lblDeliveryDate)
-        Me.Controls.Add(Me.dtpDeliveryDate)
-        Me.Controls.Add(Me.btnSave)
-        Me.Controls.Add(Me.btnClose)
+        lblTransactionTitle = New Label()
+        lblTransactionNumber = New Label()
+        lblSupplier = New Label()
+        cmbSupplier = New ComboBox()
+        lblDeliveryDate = New Label()
+        dtpDeliveryDate = New DateTimePicker()
+        btnSave = New Button()
+        btnClose = New Button()
+        SuspendLayout()
+        ' 
+        ' lblTransactionTitle
+        ' 
+        lblTransactionTitle.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        lblTransactionTitle.Location = New Point(20, 20)
+        lblTransactionTitle.Name = "lblTransactionTitle"
+        lblTransactionTitle.Size = New Size(100, 23)
+        lblTransactionTitle.TabIndex = 0
+        lblTransactionTitle.Text = "Transaction Number:"
+        ' 
+        ' lblTransactionNumber
+        ' 
+        lblTransactionNumber.BorderStyle = BorderStyle.FixedSingle
+        lblTransactionNumber.Font = New Font("Segoe UI", 10F)
+        lblTransactionNumber.Location = New Point(180, 20)
+        lblTransactionNumber.Name = "lblTransactionNumber"
+        lblTransactionNumber.Size = New Size(280, 23)
+        lblTransactionNumber.TabIndex = 1
+        lblTransactionNumber.Text = "Generating..."
+        ' 
+        ' lblSupplier
+        ' 
+        lblSupplier.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        lblSupplier.Location = New Point(20, 60)
+        lblSupplier.Name = "lblSupplier"
+        lblSupplier.Size = New Size(100, 23)
+        lblSupplier.TabIndex = 2
+        lblSupplier.Text = "Supplier:"
+        ' 
+        ' cmbSupplier
+        ' 
+        cmbSupplier.DropDownStyle = ComboBoxStyle.DropDownList
+        cmbSupplier.Location = New Point(180, 60)
+        cmbSupplier.Name = "cmbSupplier"
+        cmbSupplier.Size = New Size(280, 23)
+        cmbSupplier.TabIndex = 3
+        ' 
+        ' lblDeliveryDate
+        ' 
+        lblDeliveryDate.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        lblDeliveryDate.Location = New Point(20, 100)
+        lblDeliveryDate.Name = "lblDeliveryDate"
+        lblDeliveryDate.Size = New Size(100, 23)
+        lblDeliveryDate.TabIndex = 4
+        lblDeliveryDate.Text = "Delivery Date:"
+        ' 
+        ' dtpDeliveryDate
+        ' 
+        dtpDeliveryDate.Format = DateTimePickerFormat.Short
+        dtpDeliveryDate.Location = New Point(180, 100)
+        dtpDeliveryDate.Name = "dtpDeliveryDate"
+        dtpDeliveryDate.Size = New Size(280, 23)
+        dtpDeliveryDate.TabIndex = 5
+        ' 
+        ' btnSave
+        ' 
+        btnSave.BackColor = Color.DarkRed
+        btnSave.FlatStyle = FlatStyle.Flat
+        btnSave.ForeColor = Color.White
+        btnSave.Location = New Point(100, 200)
+        btnSave.Name = "btnSave"
+        btnSave.Size = New Size(120, 39)
+        btnSave.TabIndex = 6
+        btnSave.Text = "Save"
+        btnSave.UseVisualStyleBackColor = False
+        ' 
+        ' btnClose
+        ' 
+        btnClose.BackColor = Color.DarkRed
+        btnClose.FlatStyle = FlatStyle.Flat
+        btnClose.ForeColor = Color.White
+        btnClose.Location = New Point(260, 200)
+        btnClose.Name = "btnClose"
+        btnClose.Size = New Size(120, 39)
+        btnClose.TabIndex = 7
+        btnClose.Text = "Close"
+        btnClose.UseVisualStyleBackColor = False
+        ' 
+        ' DeliveryMain
+        ' 
+        BackColor = SystemColors.Control
+        ClientSize = New Size(484, 348)
+        Controls.Add(lblTransactionTitle)
+        Controls.Add(lblTransactionNumber)
+        Controls.Add(lblSupplier)
+        Controls.Add(cmbSupplier)
+        Controls.Add(lblDeliveryDate)
+        Controls.Add(dtpDeliveryDate)
+        Controls.Add(btnSave)
+        Controls.Add(btnClose)
+        Name = "DeliveryMain"
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "Delivery Maintenance"
+        ResumeLayout(False)
     End Sub
 End Class

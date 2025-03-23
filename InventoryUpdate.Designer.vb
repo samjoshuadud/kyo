@@ -34,145 +34,183 @@ Partial Class InventoryUpdate
     ' InitializeComponent: designer-generated method to add UI controls
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.lblBarcode = New Label()
-        Me.txtBarcode = New TextBox()
-        Me.lblProductName = New Label()
-        Me.lblDescription = New Label()
-        Me.lblSellingPrice = New Label()
-        Me.lblCostPrice = New Label()
-        Me.lblCategory = New Label()
-        Me.lblDate = New Label()
-        Me.dtpDate = New DateTimePicker()
-        Me.lblQuantity = New Label()
-        Me.txtQuantity = New TextBox()
-        Me.btnSubmit = New Button()
-
-        ' SuspendLayout allows batch setting controls for better performance
-        Me.SuspendLayout()
-
-        ' Form settings
-        Me.AutoScaleDimensions = New SizeF(10.0F, 25.0F)
-        Me.AutoScaleMode = AutoScaleMode.Font
-        Me.ClientSize = New Size(800, 450)
-        Me.Name = "InventoryUpdate"
-        Me.Text = "Inventory Update"
-
-        ' Set properties for lblBarcode
-        Me.lblBarcode.AutoSize = True
-        Me.lblBarcode.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point)
-        Me.lblBarcode.ForeColor = ColorTranslator.FromHtml("#0D47A1")
-        Me.lblBarcode.Location = New Point(20, 20)
-        Me.lblBarcode.Name = "lblBarcode"
-        Me.lblBarcode.Text = "Barcode:"
-
-        ' Set properties for txtBarcode
-        Me.txtBarcode.Font = New Font("Segoe UI", 10.0F, FontStyle.Regular, GraphicsUnit.Point)
-        Me.txtBarcode.Location = New Point(150, 20)
-        Me.txtBarcode.Name = "txtBarcode"
-        Me.txtBarcode.Size = New Size(200, 30)
-        Me.txtBarcode.ReadOnly = True
-        Me.txtBarcode.BackColor = ColorTranslator.FromHtml("#FFFFFF")
-
-        ' Set properties for lblProductName
-        Me.lblProductName.AutoSize = True
-        Me.lblProductName.Font = New Font("Segoe UI", 10.0F, FontStyle.Regular, GraphicsUnit.Point)
-        Me.lblProductName.ForeColor = ColorTranslator.FromHtml("#0D47A1")
-        Me.lblProductName.Location = New Point(20, 80)
-        Me.lblProductName.Name = "lblProductName"
-        Me.lblProductName.Text = "Product Name: "
-
-        ' Set properties for lblDescription
-        Me.lblDescription.AutoSize = True
-        Me.lblDescription.Font = New Font("Segoe UI", 10.0F, FontStyle.Regular, GraphicsUnit.Point)
-        Me.lblDescription.ForeColor = ColorTranslator.FromHtml("#0D47A1")
-        Me.lblDescription.Location = New Point(20, 120)
-        Me.lblDescription.Name = "lblDescription"
-        Me.lblDescription.Text = "Description: "
-
-        ' Set properties for lblSellingPrice
-        Me.lblSellingPrice.AutoSize = True
-        Me.lblSellingPrice.Font = New Font("Segoe UI", 10.0F, FontStyle.Regular, GraphicsUnit.Point)
-        Me.lblSellingPrice.ForeColor = ColorTranslator.FromHtml("#0D47A1")
-        Me.lblSellingPrice.Location = New Point(20, 160)
-        Me.lblSellingPrice.Name = "lblSellingPrice"
-        Me.lblSellingPrice.Text = "Selling Price: "
-
-        ' Set properties for lblCostPrice
-        Me.lblCostPrice.AutoSize = True
-        Me.lblCostPrice.Font = New Font("Segoe UI", 10.0F, FontStyle.Regular, GraphicsUnit.Point)
-        Me.lblCostPrice.ForeColor = ColorTranslator.FromHtml("#0D47A1")
-        Me.lblCostPrice.Location = New Point(20, 200)
-        Me.lblCostPrice.Name = "lblCostPrice"
-        Me.lblCostPrice.Text = "Cost Price: "
-
-        ' Set properties for lblCategory
-        Me.lblCategory.AutoSize = True
-        Me.lblCategory.Font = New Font("Segoe UI", 10.0F, FontStyle.Regular, GraphicsUnit.Point)
-        Me.lblCategory.ForeColor = ColorTranslator.FromHtml("#0D47A1")
-        Me.lblCategory.Location = New Point(20, 240)
-        Me.lblCategory.Name = "lblCategory"
-        Me.lblCategory.Text = "Category: "
-
-        ' Set properties for lblDate
-        Me.lblDate.AutoSize = True
-        Me.lblDate.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point)
-        Me.lblDate.ForeColor = ColorTranslator.FromHtml("#0D47A1")
-        Me.lblDate.Location = New Point(20, 280)
-        Me.lblDate.Name = "lblDate"
-        Me.lblDate.Text = "Date:"
-
-        ' Set properties for dtpDate
-        Me.dtpDate.Font = New Font("Segoe UI", 10.0F, FontStyle.Regular, GraphicsUnit.Point)
-        Me.dtpDate.Location = New Point(150, 280)
-        Me.dtpDate.Name = "dtpDate"
-        Me.dtpDate.Format = DateTimePickerFormat.Short
-        Me.dtpDate.Size = New Size(200, 30)
-
-        ' Set properties for lblQuantity
-        Me.lblQuantity.AutoSize = True
-        Me.lblQuantity.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point)
-        Me.lblQuantity.ForeColor = ColorTranslator.FromHtml("#0D47A1")
-        Me.lblQuantity.Location = New Point(20, 320)
-        Me.lblQuantity.Name = "lblQuantity"
-        Me.lblQuantity.Text = "Quantity:"
-
-        ' Set properties for txtQuantity
-        Me.txtQuantity.Font = New Font("Segoe UI", 10.0F, FontStyle.Regular, GraphicsUnit.Point)
-        Me.txtQuantity.Location = New Point(150, 320)
-        Me.txtQuantity.Name = "txtQuantity"
-        Me.txtQuantity.Size = New Size(200, 30)
-        Me.txtQuantity.BackColor = ColorTranslator.FromHtml("#FFFFFF")
-
-        ' Set properties for btnSubmit
-        Me.btnSubmit.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point)
-        Me.btnSubmit.BackColor = ColorTranslator.FromHtml("#4CAF50")
-        Me.btnSubmit.ForeColor = Color.White
-        Me.btnSubmit.Location = New Point(150, 360)
-        Me.btnSubmit.Name = "btnSubmit"
-        Me.btnSubmit.Size = New Size(150, 40)
-        Me.btnSubmit.FlatStyle = FlatStyle.Flat
-        Me.btnSubmit.Text = "Submit"
-
-        ' Add event handler for the submit button
-        AddHandler btnSubmit.Click, AddressOf BtnSubmit_Click
-
-        ' Add controls to the form
-        Me.Controls.Add(Me.lblBarcode)
-        Me.Controls.Add(Me.txtBarcode)
-        Me.Controls.Add(Me.lblProductName)
-        Me.Controls.Add(Me.lblDescription)
-        Me.Controls.Add(Me.lblSellingPrice)
-        Me.Controls.Add(Me.lblCostPrice)
-        Me.Controls.Add(Me.lblCategory)
-        Me.Controls.Add(Me.lblDate)
-        Me.Controls.Add(Me.dtpDate)
-        Me.Controls.Add(Me.lblQuantity)
-        Me.Controls.Add(Me.txtQuantity)
-        Me.Controls.Add(Me.btnSubmit)
-
-        ' Resume layout for performance
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        lblBarcode = New Label()
+        txtBarcode = New TextBox()
+        lblProductName = New Label()
+        lblDescription = New Label()
+        lblSellingPrice = New Label()
+        lblCostPrice = New Label()
+        lblCategory = New Label()
+        lblDate = New Label()
+        dtpDate = New DateTimePicker()
+        lblQuantity = New Label()
+        txtQuantity = New TextBox()
+        btnSubmit = New Button()
+        SuspendLayout()
+        ' 
+        ' lblBarcode
+        ' 
+        lblBarcode.AutoSize = True
+        lblBarcode.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
+        lblBarcode.ForeColor = Color.FromArgb(CByte(13), CByte(71), CByte(161))
+        lblBarcode.Location = New Point(14, 12)
+        lblBarcode.Margin = New Padding(2, 0, 2, 0)
+        lblBarcode.Name = "lblBarcode"
+        lblBarcode.Size = New Size(76, 21)
+        lblBarcode.TabIndex = 0
+        lblBarcode.Text = "Barcode:"
+        ' 
+        ' txtBarcode
+        ' 
+        txtBarcode.BackColor = Color.FromArgb(CByte(255), CByte(255), CByte(255))
+        txtBarcode.Font = New Font("Segoe UI", 10F)
+        txtBarcode.Location = New Point(105, 12)
+        txtBarcode.Margin = New Padding(2, 2, 2, 2)
+        txtBarcode.Name = "txtBarcode"
+        txtBarcode.ReadOnly = True
+        txtBarcode.Size = New Size(141, 25)
+        txtBarcode.TabIndex = 1
+        ' 
+        ' lblProductName
+        ' 
+        lblProductName.AutoSize = True
+        lblProductName.Font = New Font("Segoe UI", 10F)
+        lblProductName.ForeColor = Color.FromArgb(CByte(13), CByte(71), CByte(161))
+        lblProductName.Location = New Point(14, 48)
+        lblProductName.Margin = New Padding(2, 0, 2, 0)
+        lblProductName.Name = "lblProductName"
+        lblProductName.Size = New Size(104, 19)
+        lblProductName.TabIndex = 2
+        lblProductName.Text = "Product Name: "
+        ' 
+        ' lblDescription
+        ' 
+        lblDescription.AutoSize = True
+        lblDescription.Font = New Font("Segoe UI", 10F)
+        lblDescription.ForeColor = Color.FromArgb(CByte(13), CByte(71), CByte(161))
+        lblDescription.Location = New Point(14, 72)
+        lblDescription.Margin = New Padding(2, 0, 2, 0)
+        lblDescription.Name = "lblDescription"
+        lblDescription.Size = New Size(85, 19)
+        lblDescription.TabIndex = 3
+        lblDescription.Text = "Description: "
+        ' 
+        ' lblSellingPrice
+        ' 
+        lblSellingPrice.AutoSize = True
+        lblSellingPrice.Font = New Font("Segoe UI", 10F)
+        lblSellingPrice.ForeColor = Color.FromArgb(CByte(13), CByte(71), CByte(161))
+        lblSellingPrice.Location = New Point(14, 96)
+        lblSellingPrice.Margin = New Padding(2, 0, 2, 0)
+        lblSellingPrice.Name = "lblSellingPrice"
+        lblSellingPrice.Size = New Size(88, 19)
+        lblSellingPrice.TabIndex = 4
+        lblSellingPrice.Text = "Selling Price: "
+        ' 
+        ' lblCostPrice
+        ' 
+        lblCostPrice.AutoSize = True
+        lblCostPrice.Font = New Font("Segoe UI", 10F)
+        lblCostPrice.ForeColor = Color.FromArgb(CByte(13), CByte(71), CByte(161))
+        lblCostPrice.Location = New Point(14, 120)
+        lblCostPrice.Margin = New Padding(2, 0, 2, 0)
+        lblCostPrice.Name = "lblCostPrice"
+        lblCostPrice.Size = New Size(77, 19)
+        lblCostPrice.TabIndex = 5
+        lblCostPrice.Text = "Cost Price: "
+        ' 
+        ' lblCategory
+        ' 
+        lblCategory.AutoSize = True
+        lblCategory.Font = New Font("Segoe UI", 10F)
+        lblCategory.ForeColor = Color.FromArgb(CByte(13), CByte(71), CByte(161))
+        lblCategory.Location = New Point(14, 144)
+        lblCategory.Margin = New Padding(2, 0, 2, 0)
+        lblCategory.Name = "lblCategory"
+        lblCategory.Size = New Size(72, 19)
+        lblCategory.TabIndex = 6
+        lblCategory.Text = "Category: "
+        ' 
+        ' lblDate
+        ' 
+        lblDate.AutoSize = True
+        lblDate.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
+        lblDate.ForeColor = Color.FromArgb(CByte(13), CByte(71), CByte(161))
+        lblDate.Location = New Point(14, 183)
+        lblDate.Margin = New Padding(2, 0, 2, 0)
+        lblDate.Name = "lblDate"
+        lblDate.Size = New Size(50, 21)
+        lblDate.TabIndex = 7
+        lblDate.Text = "Date:"
+        ' 
+        ' dtpDate
+        ' 
+        dtpDate.Font = New Font("Segoe UI", 10F)
+        dtpDate.Format = DateTimePickerFormat.Short
+        dtpDate.Location = New Point(105, 185)
+        dtpDate.Margin = New Padding(2, 2, 2, 2)
+        dtpDate.Name = "dtpDate"
+        dtpDate.Size = New Size(141, 25)
+        dtpDate.TabIndex = 8
+        ' 
+        ' lblQuantity
+        ' 
+        lblQuantity.AutoSize = True
+        lblQuantity.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
+        lblQuantity.ForeColor = Color.FromArgb(CByte(13), CByte(71), CByte(161))
+        lblQuantity.Location = New Point(14, 214)
+        lblQuantity.Margin = New Padding(2, 0, 2, 0)
+        lblQuantity.Name = "lblQuantity"
+        lblQuantity.Size = New Size(81, 21)
+        lblQuantity.TabIndex = 9
+        lblQuantity.Text = "Quantity:"
+        ' 
+        ' txtQuantity
+        ' 
+        txtQuantity.BackColor = Color.FromArgb(CByte(255), CByte(255), CByte(255))
+        txtQuantity.Font = New Font("Segoe UI", 10F)
+        txtQuantity.Location = New Point(105, 214)
+        txtQuantity.Margin = New Padding(2, 2, 2, 2)
+        txtQuantity.Name = "txtQuantity"
+        txtQuantity.Size = New Size(141, 25)
+        txtQuantity.TabIndex = 10
+        ' 
+        ' btnSubmit
+        ' 
+        btnSubmit.BackColor = Color.FromArgb(CByte(76), CByte(175), CByte(80))
+        btnSubmit.FlatStyle = FlatStyle.Flat
+        btnSubmit.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
+        btnSubmit.ForeColor = Color.White
+        btnSubmit.Location = New Point(105, 253)
+        btnSubmit.Margin = New Padding(2, 2, 2, 2)
+        btnSubmit.Name = "btnSubmit"
+        btnSubmit.Size = New Size(105, 44)
+        btnSubmit.TabIndex = 11
+        btnSubmit.Text = "Submit"
+        btnSubmit.UseVisualStyleBackColor = False
+        ' 
+        ' InventoryUpdate
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        ClientSize = New Size(569, 325)
+        Controls.Add(lblBarcode)
+        Controls.Add(txtBarcode)
+        Controls.Add(lblProductName)
+        Controls.Add(lblDescription)
+        Controls.Add(lblSellingPrice)
+        Controls.Add(lblCostPrice)
+        Controls.Add(lblCategory)
+        Controls.Add(lblDate)
+        Controls.Add(dtpDate)
+        Controls.Add(lblQuantity)
+        Controls.Add(txtQuantity)
+        Controls.Add(btnSubmit)
+        Margin = New Padding(2, 2, 2, 2)
+        Name = "InventoryUpdate"
+        Text = "Inventory Update"
+        ResumeLayout(False)
+        PerformLayout()
     End Sub
 
 End Class

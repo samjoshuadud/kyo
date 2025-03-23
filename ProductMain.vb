@@ -91,6 +91,11 @@ Public Class ProductMain
         ' Validate inputs before proceeding
         If Not ValidateInputs() Then Exit Sub
 
+        If cmbCategories.SelectedIndex = -1 Then
+            MessageBox.Show("Please select a category.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
         ' Check if the product name already exists in the database
         Dim checkQuery = "SELECT COUNT(*) FROM products WHERE product_name = @product_name"
         Dim checkCmd As New MySqlCommand(checkQuery, connection)
@@ -148,7 +153,7 @@ Public Class ProductMain
 
 
     ' Update Product
-    Private Sub btnUpdate_Click(sender As Object, e As EventArgs)
+    Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
         If Not ValidateInputs() Then Exit Sub
         If dgvProducts.CurrentRow Is Nothing Then
             MessageBox.Show("Select a product to update.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -244,7 +249,7 @@ Public Class ProductMain
 
 
     ' Delete Product
-    Private Sub btnDelete_Click(sender As Object, e As EventArgs)
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         If dgvProducts.CurrentRow Is Nothing Then
             MessageBox.Show("Select a product to delete.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
@@ -301,11 +306,20 @@ Public Class ProductMain
 
 
 
-    Private Sub dgvProducts_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvProducts.CellContentClick
+    Private Sub dgvProducts_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvProducts.CellClick
         If e.RowIndex >= 0 Then ' Ensure the click is on a valid row (not on headers)
             Dim selectedRow As DataGridViewRow = dgvProducts.Rows(e.RowIndex)
-
-            ' Populate input fields with the selected product's details
+            
+            ' Check if the row is empty (has no product_id or all cells are empty)
+            If selectedRow.Cells("product_id").Value Is Nothing OrElse 
+               String.IsNullOrEmpty(selectedRow.Cells("product_id").Value.ToString()) Then
+                ' Empty row - prepare for adding a new product
+                ResetForm()
+                PanelProduct.Visible = True
+                Return
+            End If
+            
+            ' Populated row - load product details
             txtProductName.Text = selectedRow.Cells("product_name").Value.ToString()
             txtBarcode.Text = selectedRow.Cells("barcode").Value.ToString()
             txtSellingPrice.Text = selectedRow.Cells("selling_price").Value.ToString()
@@ -320,6 +334,9 @@ Public Class ProductMain
             Else
                 MessageBox.Show("Category not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
+            
+            ' Make sure the panel becomes visible
+            PanelProduct.Visible = True
         End If
     End Sub
 
@@ -356,6 +373,7 @@ Public Class ProductMain
         cmbExpirationOption.SelectedIndex = 0
         cmbCategories.SelectedIndex = -1
     End Sub
+
     Private Sub Logaudittrail(ByVal role As String, ByVal fullName As String, ByVal action As String)
         Try
             'Dim role As String = SessionData.role
@@ -375,7 +393,6 @@ Public Class ProductMain
         Catch ex As Exception
             MessageBox.Show("Error logging audit trail: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
     End Sub
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -383,9 +400,9 @@ Public Class ProductMain
         PanelProduct.Location = New Point(437, 59) ' Set panel location
     End Sub
 
-    Private Sub btnAddProduct_Click(sender As Object, e As EventArgs) Handles btnAddProduct.Click
-        PanelProduct.Visible = True
-    End Sub
+    'Private Sub btnAddProduct_Click(sender As Object, e As EventArgs)
+    '    PanelProduct.Visible = True
+    'End Sub
 
     Private Sub CustomizeDataGridView()
         With dgvProducts
@@ -419,5 +436,19 @@ Public Class ProductMain
         Next
     End Sub
 
+    Private Sub lblBarcode_Click(sender As Object, e As EventArgs) Handles lblBarcode.Click
 
+    End Sub
+
+    Private Sub lblDescription_Click(sender As Object, e As EventArgs) Handles lblDescription.Click
+
+    End Sub
+
+    Private Sub btnExitPanel_Click(sender As Object, e As EventArgs) Handles btnExitPanel.Click
+        PanelProduct.Visible = False
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs)
+        Me.Close()
+    End Sub
 End Class

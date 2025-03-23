@@ -62,7 +62,6 @@ Partial Class UserMain
         Label1 = New Label()
         MySqlCommand1 = New MySqlConnector.MySqlCommand()
         Button2 = New Button()
-        Button3 = New Button()
         CType(dgvUsers, ComponentModel.ISupportInitialize).BeginInit()
         UserPanel.SuspendLayout()
         Panelimage.SuspendLayout()
@@ -527,23 +526,11 @@ Partial Class UserMain
         Button2.FlatAppearance.BorderSize = 0
         Button2.FlatStyle = FlatStyle.Flat
         Button2.Image = CType(resources.GetObject("Button2.Image"), Image)
-        Button2.Location = New Point(979, 8)
+        Button2.Location = New Point(968, 6)
         Button2.Name = "Button2"
         Button2.Size = New Size(62, 42)
         Button2.TabIndex = 4
         Button2.UseVisualStyleBackColor = False
-        ' 
-        ' Button3
-        ' 
-        Button3.BackColor = Color.Transparent
-        Button3.FlatAppearance.BorderSize = 0
-        Button3.FlatStyle = FlatStyle.Flat
-        Button3.Image = CType(resources.GetObject("Button3.Image"), Image)
-        Button3.Location = New Point(926, 9)
-        Button3.Name = "Button3"
-        Button3.Size = New Size(62, 42)
-        Button3.TabIndex = 3
-        Button3.UseVisualStyleBackColor = False
         ' 
         ' UserMain
         ' 
@@ -551,7 +538,6 @@ Partial Class UserMain
         ClientSize = New Size(1030, 597)
         Controls.Add(Button2)
         Controls.Add(UserPanel)
-        Controls.Add(Button3)
         Controls.Add(Label1)
         Controls.Add(dgvUsers)
         Controls.Add(txtSearch)
@@ -609,7 +595,6 @@ Partial Class UserMain
     Friend WithEvents MySqlCommand1 As MySqlConnector.MySqlCommand
     Friend WithEvents btnUser As Button
     Friend WithEvents Button2 As Button
-    Friend WithEvents Button3 As Button
     Friend WithEvents Button5 As Button
     Friend WithEvents btnViewRecords As Button
     Friend WithEvents Button4 As Button

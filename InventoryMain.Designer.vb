@@ -22,111 +22,146 @@ Partial Class InventoryMain
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.dgvInventory = New System.Windows.Forms.DataGridView()
-        Me.btnAdd = New System.Windows.Forms.Button()
-        Me.btnEdit = New System.Windows.Forms.Button()
-        Me.btnDelete = New System.Windows.Forms.Button()
-        Me.btnRefresh = New System.Windows.Forms.Button()
-        Me.txtSearch = New System.Windows.Forms.TextBox()
-        Me.lblSearch = New System.Windows.Forms.Label()
-        Me.txtProductName = New System.Windows.Forms.TextBox()
-        Me.lblProduct = New System.Windows.Forms.Label()
-        Me.txtQuantity = New System.Windows.Forms.TextBox()
-        Me.lblQuantity = New System.Windows.Forms.Label()
-
-        CType(Me.dgvInventory, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
-
-        ' DataGridView
-        Me.dgvInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvInventory.Location = New System.Drawing.Point(30, 120)
-        Me.dgvInventory.Name = "dgvInventory"
-        Me.dgvInventory.Size = New System.Drawing.Size(800, 360)
-        Me.dgvInventory.TabIndex = 0
-
-        ' Buttons
-        Me.btnAdd.Location = New System.Drawing.Point(850, 120)
-        Me.btnAdd.Name = "btnAdd"
-        Me.btnAdd.Size = New System.Drawing.Size(100, 40)
-        Me.btnAdd.Text = "Add"
-        Me.btnAdd.UseVisualStyleBackColor = True
-
-        Me.btnEdit.Location = New System.Drawing.Point(850, 170)
-        Me.btnEdit.Name = "btnEdit"
-        Me.btnEdit.Size = New System.Drawing.Size(100, 40)
-        Me.btnEdit.Text = "Edit"
-        Me.btnEdit.UseVisualStyleBackColor = True
-
-        Me.btnDelete.Location = New System.Drawing.Point(850, 220)
-        Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(100, 40)
-        Me.btnDelete.Text = "Delete"
-        Me.btnDelete.UseVisualStyleBackColor = True
-
-        Me.btnRefresh.Location = New System.Drawing.Point(850, 270)
-        Me.btnRefresh.Name = "btnRefresh"
-        Me.btnRefresh.Size = New System.Drawing.Size(100, 40)
-        Me.btnRefresh.Text = "Refresh"
-        Me.btnRefresh.UseVisualStyleBackColor = True
-
-        ' Search
-        Me.txtSearch.Location = New System.Drawing.Point(120, 30)
-        Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(300, 30)
-        Me.txtSearch.TabIndex = 5
-
-        Me.lblSearch.AutoSize = True
-        Me.lblSearch.Location = New System.Drawing.Point(30, 35)
-        Me.lblSearch.Name = "lblSearch"
-        Me.lblSearch.Size = New System.Drawing.Size(70, 25)
-        Me.lblSearch.Text = "Search:"
-
-        ' Product
-        Me.lblProduct.AutoSize = True
-        Me.lblProduct.Location = New System.Drawing.Point(30, 75)
-        Me.lblProduct.Name = "lblProduct"
-        Me.lblProduct.Size = New System.Drawing.Size(78, 25)
-        Me.lblProduct.Text = "Product:"
-
-        Me.txtProductName.Location = New System.Drawing.Point(120, 70)
-        Me.txtProductName.Name = "txtProduct"
-        Me.txtProductName.Size = New System.Drawing.Size(200, 30)
-        Me.txtProductName.TabIndex = 6
-
-        ' Quantity
-        Me.lblQuantity.AutoSize = True
-        Me.lblQuantity.Location = New System.Drawing.Point(350, 75)
-        Me.lblQuantity.Name = "lblQuantity"
-        Me.lblQuantity.Size = New System.Drawing.Size(85, 25)
-        Me.lblQuantity.Text = "Quantity:"
-
-        Me.txtQuantity.Location = New System.Drawing.Point(440, 70)
-        Me.txtQuantity.Name = "txtQuantity"
-        Me.txtQuantity.Size = New System.Drawing.Size(100, 30)
-        Me.txtQuantity.TabIndex = 7
-
-        ' Form
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(10.0!, 25.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1000, 550)
-        Me.Controls.Add(Me.dgvInventory)
-        Me.Controls.Add(Me.btnAdd)
-        Me.Controls.Add(Me.btnEdit)
-        Me.Controls.Add(Me.btnDelete)
-        Me.Controls.Add(Me.btnRefresh)
-        Me.Controls.Add(Me.txtSearch)
-        Me.Controls.Add(Me.lblSearch)
-        Me.Controls.Add(Me.txtProductName)
-        Me.Controls.Add(Me.lblProduct)
-        Me.Controls.Add(Me.txtQuantity)
-        Me.Controls.Add(Me.lblQuantity)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.Name = "InventoryMain"
-        Me.Text = "Inventory Management"
-
-        CType(Me.dgvInventory, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        dgvInventory = New DataGridView()
+        btnAdd = New Button()
+        btnEdit = New Button()
+        btnDelete = New Button()
+        btnRefresh = New Button()
+        txtSearch = New TextBox()
+        lblSearch = New Label()
+        txtProductName = New TextBox()
+        lblProduct = New Label()
+        txtQuantity = New TextBox()
+        lblQuantity = New Label()
+        CType(dgvInventory, ComponentModel.ISupportInitialize).BeginInit()
+        SuspendLayout()
+        ' 
+        ' dgvInventory
+        ' 
+        dgvInventory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        dgvInventory.Location = New Point(21, 72)
+        dgvInventory.Margin = New Padding(2, 2, 2, 2)
+        dgvInventory.Name = "dgvInventory"
+        dgvInventory.Size = New Size(560, 216)
+        dgvInventory.TabIndex = 0
+        ' 
+        ' btnAdd
+        ' 
+        btnAdd.Location = New Point(595, 72)
+        btnAdd.Margin = New Padding(2, 2, 2, 2)
+        btnAdd.Name = "btnAdd"
+        btnAdd.Size = New Size(70, 24)
+        btnAdd.TabIndex = 1
+        btnAdd.Text = "Add"
+        btnAdd.UseVisualStyleBackColor = True
+        ' 
+        ' btnEdit
+        ' 
+        btnEdit.Location = New Point(595, 102)
+        btnEdit.Margin = New Padding(2, 2, 2, 2)
+        btnEdit.Name = "btnEdit"
+        btnEdit.Size = New Size(70, 24)
+        btnEdit.TabIndex = 2
+        btnEdit.Text = "Edit"
+        btnEdit.UseVisualStyleBackColor = True
+        ' 
+        ' btnDelete
+        ' 
+        btnDelete.Location = New Point(595, 132)
+        btnDelete.Margin = New Padding(2, 2, 2, 2)
+        btnDelete.Name = "btnDelete"
+        btnDelete.Size = New Size(70, 24)
+        btnDelete.TabIndex = 3
+        btnDelete.Text = "Delete"
+        btnDelete.UseVisualStyleBackColor = True
+        ' 
+        ' btnRefresh
+        ' 
+        btnRefresh.Location = New Point(595, 162)
+        btnRefresh.Margin = New Padding(2, 2, 2, 2)
+        btnRefresh.Name = "btnRefresh"
+        btnRefresh.Size = New Size(70, 24)
+        btnRefresh.TabIndex = 4
+        btnRefresh.Text = "Refresh"
+        btnRefresh.UseVisualStyleBackColor = True
+        ' 
+        ' txtSearch
+        ' 
+        txtSearch.Location = New Point(84, 18)
+        txtSearch.Margin = New Padding(2, 2, 2, 2)
+        txtSearch.Name = "txtSearch"
+        txtSearch.Size = New Size(211, 23)
+        txtSearch.TabIndex = 5
+        ' 
+        ' lblSearch
+        ' 
+        lblSearch.AutoSize = True
+        lblSearch.Location = New Point(21, 21)
+        lblSearch.Margin = New Padding(2, 0, 2, 0)
+        lblSearch.Name = "lblSearch"
+        lblSearch.Size = New Size(45, 15)
+        lblSearch.TabIndex = 6
+        lblSearch.Text = "Search:"
+        ' 
+        ' txtProductName
+        ' 
+        txtProductName.Location = New Point(84, 42)
+        txtProductName.Margin = New Padding(2, 2, 2, 2)
+        txtProductName.Name = "txtProductName"
+        txtProductName.Size = New Size(141, 23)
+        txtProductName.TabIndex = 6
+        ' 
+        ' lblProduct
+        ' 
+        lblProduct.AutoSize = True
+        lblProduct.Location = New Point(21, 45)
+        lblProduct.Margin = New Padding(2, 0, 2, 0)
+        lblProduct.Name = "lblProduct"
+        lblProduct.Size = New Size(52, 15)
+        lblProduct.TabIndex = 7
+        lblProduct.Text = "Product:"
+        ' 
+        ' txtQuantity
+        ' 
+        txtQuantity.Location = New Point(308, 42)
+        txtQuantity.Margin = New Padding(2, 2, 2, 2)
+        txtQuantity.Name = "txtQuantity"
+        txtQuantity.Size = New Size(71, 23)
+        txtQuantity.TabIndex = 7
+        ' 
+        ' lblQuantity
+        ' 
+        lblQuantity.AutoSize = True
+        lblQuantity.Location = New Point(245, 45)
+        lblQuantity.Margin = New Padding(2, 0, 2, 0)
+        lblQuantity.Name = "lblQuantity"
+        lblQuantity.Size = New Size(56, 15)
+        lblQuantity.TabIndex = 8
+        lblQuantity.Text = "Quantity:"
+        ' 
+        ' InventoryMain
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        ClientSize = New Size(812, 422)
+        Controls.Add(dgvInventory)
+        Controls.Add(btnAdd)
+        Controls.Add(btnEdit)
+        Controls.Add(btnDelete)
+        Controls.Add(btnRefresh)
+        Controls.Add(txtSearch)
+        Controls.Add(lblSearch)
+        Controls.Add(txtProductName)
+        Controls.Add(lblProduct)
+        Controls.Add(txtQuantity)
+        Controls.Add(lblQuantity)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        Margin = New Padding(2, 2, 2, 2)
+        Name = "InventoryMain"
+        Text = "Inventory Management"
+        CType(dgvInventory, ComponentModel.ISupportInitialize).EndInit()
+        ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents dgvInventory As DataGridView

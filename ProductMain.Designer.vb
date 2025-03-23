@@ -43,7 +43,6 @@ Partial Class ProductMain
         btnDelete = New Button()
         btnEdit = New Button()
         btnSave = New Button()
-        btnAddProduct = New Button()
         CType(dgvProducts, ComponentModel.ISupportInitialize).BeginInit()
         PanelProduct.SuspendLayout()
         SuspendLayout()
@@ -51,12 +50,12 @@ Partial Class ProductMain
         ' dgvProducts
         ' 
         dgvProducts.ColumnHeadersHeight = 34
-        dgvProducts.Location = New Point(12, 267)
+        dgvProducts.Location = New Point(12, 93)
         dgvProducts.Name = "dgvProducts"
         dgvProducts.ReadOnly = True
         dgvProducts.RowHeadersWidth = 62
         dgvProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvProducts.Size = New Size(1016, 508)
+        dgvProducts.Size = New Size(1016, 448)
         dgvProducts.TabIndex = 0
         ' 
         ' txtProductName
@@ -64,7 +63,7 @@ Partial Class ProductMain
         txtProductName.Font = New Font("Segoe UI", 12F)
         txtProductName.Location = New Point(201, 34)
         txtProductName.Name = "txtProductName"
-        txtProductName.Size = New Size(344, 39)
+        txtProductName.Size = New Size(344, 29)
         txtProductName.TabIndex = 1
         ' 
         ' txtBarcode
@@ -72,7 +71,7 @@ Partial Class ProductMain
         txtBarcode.Font = New Font("Segoe UI", 12F)
         txtBarcode.Location = New Point(201, 79)
         txtBarcode.Name = "txtBarcode"
-        txtBarcode.Size = New Size(344, 39)
+        txtBarcode.Size = New Size(344, 29)
         txtBarcode.TabIndex = 2
         ' 
         ' txtSellingPrice
@@ -80,7 +79,7 @@ Partial Class ProductMain
         txtSellingPrice.Font = New Font("Segoe UI", 12F)
         txtSellingPrice.Location = New Point(201, 124)
         txtSellingPrice.Name = "txtSellingPrice"
-        txtSellingPrice.Size = New Size(344, 39)
+        txtSellingPrice.Size = New Size(344, 29)
         txtSellingPrice.TabIndex = 3
         ' 
         ' txtCostPrice
@@ -88,7 +87,7 @@ Partial Class ProductMain
         txtCostPrice.Font = New Font("Segoe UI", 12F)
         txtCostPrice.Location = New Point(201, 169)
         txtCostPrice.Name = "txtCostPrice"
-        txtCostPrice.Size = New Size(344, 39)
+        txtCostPrice.Size = New Size(344, 29)
         txtCostPrice.TabIndex = 4
         ' 
         ' txtDescription
@@ -106,7 +105,7 @@ Partial Class ProductMain
         cmbCategories.Font = New Font("Segoe UI", 12F)
         cmbCategories.Location = New Point(201, 310)
         cmbCategories.Name = "cmbCategories"
-        cmbCategories.Size = New Size(344, 40)
+        cmbCategories.Size = New Size(344, 29)
         cmbCategories.TabIndex = 6
         ' 
         ' cmbExpirationOption
@@ -116,12 +115,12 @@ Partial Class ProductMain
         cmbExpirationOption.Items.AddRange(New Object() {"With Expiration", "Without Expiration"})
         cmbExpirationOption.Location = New Point(201, 360)
         cmbExpirationOption.Name = "cmbExpirationOption"
-        cmbExpirationOption.Size = New Size(344, 40)
+        cmbExpirationOption.Size = New Size(344, 29)
         cmbExpirationOption.TabIndex = 7
         ' 
         ' lblProductName
         ' 
-        lblProductName.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblProductName.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblProductName.Location = New Point(37, 34)
         lblProductName.Name = "lblProductName"
         lblProductName.Size = New Size(195, 36)
@@ -130,7 +129,7 @@ Partial Class ProductMain
         ' 
         ' lblBarcode
         ' 
-        lblBarcode.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblBarcode.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblBarcode.Location = New Point(37, 79)
         lblBarcode.Name = "lblBarcode"
         lblBarcode.Size = New Size(120, 33)
@@ -139,7 +138,7 @@ Partial Class ProductMain
         ' 
         ' lblSellingPrice
         ' 
-        lblSellingPrice.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblSellingPrice.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblSellingPrice.Location = New Point(36, 124)
         lblSellingPrice.Name = "lblSellingPrice"
         lblSellingPrice.Size = New Size(168, 33)
@@ -148,7 +147,7 @@ Partial Class ProductMain
         ' 
         ' lblCostPrice
         ' 
-        lblCostPrice.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblCostPrice.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblCostPrice.Location = New Point(37, 169)
         lblCostPrice.Name = "lblCostPrice"
         lblCostPrice.Size = New Size(153, 33)
@@ -157,7 +156,7 @@ Partial Class ProductMain
         ' 
         ' lblDescription
         ' 
-        lblDescription.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblDescription.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblDescription.Location = New Point(36, 214)
         lblDescription.Name = "lblDescription"
         lblDescription.Size = New Size(152, 35)
@@ -166,16 +165,17 @@ Partial Class ProductMain
         ' 
         ' lblCategories
         ' 
-        lblCategories.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblCategories.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblCategories.Location = New Point(42, 310)
         lblCategories.Name = "lblCategories"
         lblCategories.Size = New Size(130, 35)
         lblCategories.TabIndex = 13
         lblCategories.Text = "CATEGORY :"
+        lblCategories.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' lblExpirationOption
         ' 
-        lblExpirationOption.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        lblExpirationOption.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblExpirationOption.Location = New Point(42, 360)
         lblExpirationOption.Name = "lblExpirationOption"
         lblExpirationOption.Size = New Size(205, 38)
@@ -202,9 +202,9 @@ Partial Class ProductMain
         PanelProduct.Controls.Add(lblCostPrice)
         PanelProduct.Controls.Add(lblBarcode)
         PanelProduct.Controls.Add(lblSellingPrice)
-        PanelProduct.Location = New Point(391, 59)
+        PanelProduct.Location = New Point(60, 67)
         PanelProduct.Name = "PanelProduct"
-        PanelProduct.Size = New Size(669, 548)
+        PanelProduct.Size = New Size(616, 536)
         PanelProduct.TabIndex = 19
         PanelProduct.Visible = False
         ' 
@@ -214,18 +214,18 @@ Partial Class ProductMain
         btnExitPanel.FlatAppearance.BorderSize = 0
         btnExitPanel.FlatStyle = FlatStyle.Flat
         btnExitPanel.Image = CType(resources.GetObject("btnExitPanel.Image"), Image)
-        btnExitPanel.Location = New Point(604, 3)
+        btnExitPanel.Location = New Point(551, 13)
         btnExitPanel.Name = "btnExitPanel"
-        btnExitPanel.Size = New Size(62, 56)
+        btnExitPanel.Size = New Size(50, 41)
         btnExitPanel.TabIndex = 69
         btnExitPanel.UseVisualStyleBackColor = False
         ' 
         ' btnDelete
         ' 
-        btnDelete.BackColor = SystemColors.GrayText
+        btnDelete.BackColor = Color.DarkRed
         btnDelete.FlatStyle = FlatStyle.Flat
         btnDelete.ForeColor = SystemColors.ButtonHighlight
-        btnDelete.Location = New Point(483, 444)
+        btnDelete.Location = New Point(414, 449)
         btnDelete.Name = "btnDelete"
         btnDelete.Padding = New Padding(1, 0, 0, 0)
         btnDelete.Size = New Size(135, 47)
@@ -235,10 +235,10 @@ Partial Class ProductMain
         ' 
         ' btnEdit
         ' 
-        btnEdit.BackColor = SystemColors.ActiveCaptionText
+        btnEdit.BackColor = Color.DarkRed
         btnEdit.FlatStyle = FlatStyle.Flat
         btnEdit.ForeColor = SystemColors.ButtonHighlight
-        btnEdit.Location = New Point(342, 444)
+        btnEdit.Location = New Point(263, 449)
         btnEdit.Name = "btnEdit"
         btnEdit.Padding = New Padding(1, 0, 0, 0)
         btnEdit.Size = New Size(135, 47)
@@ -248,10 +248,10 @@ Partial Class ProductMain
         ' 
         ' btnSave
         ' 
-        btnSave.BackColor = SystemColors.ActiveCaptionText
+        btnSave.BackColor = Color.DarkRed
         btnSave.FlatStyle = FlatStyle.Flat
         btnSave.ForeColor = SystemColors.ButtonHighlight
-        btnSave.Location = New Point(201, 444)
+        btnSave.Location = New Point(112, 449)
         btnSave.Name = "btnSave"
         btnSave.Padding = New Padding(1, 0, 0, 0)
         btnSave.Size = New Size(135, 47)
@@ -259,22 +259,9 @@ Partial Class ProductMain
         btnSave.Text = "ADD"
         btnSave.UseVisualStyleBackColor = False
         ' 
-        ' btnAddProduct
-        ' 
-        btnAddProduct.BackColor = Color.Transparent
-        btnAddProduct.FlatAppearance.BorderSize = 0
-        btnAddProduct.FlatStyle = FlatStyle.Flat
-        btnAddProduct.Image = CType(resources.GetObject("btnAddProduct.Image"), Image)
-        btnAddProduct.Location = New Point(12, 205)
-        btnAddProduct.Name = "btnAddProduct"
-        btnAddProduct.Size = New Size(62, 56)
-        btnAddProduct.TabIndex = 68
-        btnAddProduct.UseVisualStyleBackColor = False
-        ' 
         ' ProductMain
         ' 
-        ClientSize = New Size(1062, 786)
-        Controls.Add(btnAddProduct)
+        ClientSize = New Size(1062, 792)
         Controls.Add(PanelProduct)
         Controls.Add(dgvProducts)
         FormBorderStyle = FormBorderStyle.None
@@ -309,6 +296,5 @@ Partial Class ProductMain
     Friend WithEvents btnDelete As Button
     Friend WithEvents btnEdit As Button
     Friend WithEvents btnSave As Button
-    Friend WithEvents btnAddProduct As Button
     Friend WithEvents btnExitPanel As Button
 End Class

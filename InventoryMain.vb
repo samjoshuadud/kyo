@@ -21,7 +21,7 @@ Public Class InventoryMain
         LoadInventoryData()
     End Sub
 
-    
+
 
 
     ' Load Inventory data into the grid
@@ -187,8 +187,15 @@ Public Class InventoryMain
 
         Return True
     End Function
-
+    Private Sub txtQuantity_TextChanged(sender As Object, e As EventArgs) Handles txtQuantity.TextChanged
+        ' Handle the text changed event here
+        ' For example, you can validate the input or update other controls
+    End Sub
     Private Sub InventoryMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
+
+    Private Sub dgvInventory_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvInventory.CellContentClick
 
     End Sub
 End Class

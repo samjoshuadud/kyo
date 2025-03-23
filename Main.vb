@@ -265,6 +265,7 @@ Public Class Main
     End Sub
 
     Private Sub ExpirationMaintenanceToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExpirationMaintenanceToolStripMenuItem.Click
+        LoadFormToPanel(New ExpirationMain())
     End Sub
 
     Private Sub SupplierToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SupplierToolStripMenuItem.Click
