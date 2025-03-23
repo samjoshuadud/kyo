@@ -85,6 +85,7 @@ Partial Class Main
         DeliveryMaintenanceToolStripMenuItem.Name = "DeliveryMaintenanceToolStripMenuItem"
         DeliveryMaintenanceToolStripMenuItem.Size = New Size(239, 26)
         DeliveryMaintenanceToolStripMenuItem.Text = "Delivery Maintenance"
+        DeliveryMaintenanceToolStripMenuItem.Visible = False
         ' 
         ' DiscountMaintenaceToolStripMenuItem
         ' 
@@ -113,6 +114,7 @@ Partial Class Main
         InventoryMaintenanceToolStripMenuItem1.Name = "InventoryMaintenanceToolStripMenuItem1"
         InventoryMaintenanceToolStripMenuItem1.Size = New Size(239, 26)
         InventoryMaintenanceToolStripMenuItem1.Text = "Inventory Maintenance"
+        InventoryMaintenanceToolStripMenuItem1.Visible = False
         ' 
         ' SupplierToolStripMenuItem
         ' 

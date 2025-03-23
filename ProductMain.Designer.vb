@@ -43,6 +43,11 @@ Partial Class ProductMain
         btnDelete = New Button()
         btnEdit = New Button()
         btnSave = New Button()
+        btnRefresh = New Button()
+        lblStockLevel = New Label()
+        lblStockStatus = New Label()
+        btnReceiveDelivery = New Button()
+        btnViewDeliveryHistory = New Button()
         CType(dgvProducts, ComponentModel.ISupportInitialize).BeginInit()
         PanelProduct.SuspendLayout()
         SuspendLayout()
@@ -184,6 +189,10 @@ Partial Class ProductMain
         ' 
         ' PanelProduct
         ' 
+        PanelProduct.Controls.Add(btnViewDeliveryHistory)
+        PanelProduct.Controls.Add(btnReceiveDelivery)
+        PanelProduct.Controls.Add(lblStockStatus)
+        PanelProduct.Controls.Add(lblStockLevel)
         PanelProduct.Controls.Add(btnExitPanel)
         PanelProduct.Controls.Add(btnDelete)
         PanelProduct.Controls.Add(cmbExpirationOption)
@@ -204,7 +213,7 @@ Partial Class ProductMain
         PanelProduct.Controls.Add(lblSellingPrice)
         PanelProduct.Location = New Point(60, 67)
         PanelProduct.Name = "PanelProduct"
-        PanelProduct.Size = New Size(616, 536)
+        PanelProduct.Size = New Size(616, 550)
         PanelProduct.TabIndex = 19
         PanelProduct.Visible = False
         ' 
@@ -259,9 +268,69 @@ Partial Class ProductMain
         btnSave.Text = "ADD"
         btnSave.UseVisualStyleBackColor = False
         ' 
+        ' btnRefresh
+        ' 
+        btnRefresh.BackColor = Color.DarkBlue
+        btnRefresh.FlatStyle = FlatStyle.Flat
+        btnRefresh.ForeColor = SystemColors.ButtonHighlight
+        btnRefresh.Location = New Point(850, 50)
+        btnRefresh.Name = "btnRefresh"
+        btnRefresh.Padding = New Padding(1, 0, 0, 0)
+        btnRefresh.Size = New Size(135, 30)
+        btnRefresh.TabIndex = 28
+        btnRefresh.Text = "REFRESH"
+        btnRefresh.UseVisualStyleBackColor = False
+        ' 
+        ' lblStockLevel
+        ' 
+        lblStockLevel.Font = New Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblStockLevel.Location = New Point(42, 400)
+        lblStockLevel.Name = "lblStockLevel"
+        lblStockLevel.Size = New Size(200, 25)
+        lblStockLevel.TabIndex = 20
+        lblStockLevel.Text = "Current Stock: 0"
+        ' 
+        ' lblStockStatus
+        ' 
+        lblStockStatus.BackColor = Color.LightGray
+        lblStockStatus.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblStockStatus.Location = New Point(253, 400)
+        lblStockStatus.Name = "lblStockStatus"
+        lblStockStatus.Size = New Size(130, 25)
+        lblStockStatus.TabIndex = 21
+        lblStockStatus.Text = "UNKNOWN"
+        lblStockStatus.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' btnReceiveDelivery
+        ' 
+        btnReceiveDelivery.BackColor = Color.Green
+        btnReceiveDelivery.FlatStyle = FlatStyle.Flat
+        btnReceiveDelivery.ForeColor = Color.White
+        btnReceiveDelivery.Location = New Point(150, 505)
+        btnReceiveDelivery.Name = "btnReceiveDelivery"
+        btnReceiveDelivery.Size = New Size(150, 35)
+        btnReceiveDelivery.TabIndex = 22
+        btnReceiveDelivery.Text = "Receive Delivery"
+        btnReceiveDelivery.UseVisualStyleBackColor = False
+        btnReceiveDelivery.Visible = False
+        ' 
+        ' btnViewDeliveryHistory
+        ' 
+        btnViewDeliveryHistory.BackColor = Color.RoyalBlue
+        btnViewDeliveryHistory.FlatStyle = FlatStyle.Flat
+        btnViewDeliveryHistory.ForeColor = Color.White
+        btnViewDeliveryHistory.Location = New Point(315, 505)
+        btnViewDeliveryHistory.Name = "btnViewDeliveryHistory"
+        btnViewDeliveryHistory.Size = New Size(150, 35)
+        btnViewDeliveryHistory.TabIndex = 23
+        btnViewDeliveryHistory.Text = "View History"
+        btnViewDeliveryHistory.UseVisualStyleBackColor = False
+        btnViewDeliveryHistory.Visible = False
+        ' 
         ' ProductMain
         ' 
         ClientSize = New Size(1062, 792)
+        Controls.Add(btnRefresh)
         Controls.Add(PanelProduct)
         Controls.Add(dgvProducts)
         FormBorderStyle = FormBorderStyle.None
@@ -297,4 +366,11 @@ Partial Class ProductMain
     Friend WithEvents btnEdit As Button
     Friend WithEvents btnSave As Button
     Friend WithEvents btnExitPanel As Button
+    
+    ' New controls for improved workflow
+    Friend WithEvents lblStockLevel As Label
+    Friend WithEvents lblStockStatus As Label
+    Friend WithEvents btnReceiveDelivery As Button
+    Friend WithEvents btnViewDeliveryHistory As Button
+    Friend WithEvents btnRefresh As Button
 End Class

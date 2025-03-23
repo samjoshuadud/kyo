@@ -223,9 +223,10 @@ Public Class Main
         LoadFormToPanel(New UserMain())
     End Sub
 
-    Private Sub DeliveryMaintenanceToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeliveryMaintenanceToolStripMenuItem.Click
-        LoadFormToPanel(New DeliveryMain())
-    End Sub
+    ' Commented out as deliveries are now accessed directly from ProductMain
+    'Private Sub DeliveryMaintenanceToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeliveryMaintenanceToolStripMenuItem.Click
+    '    LoadFormToPanel(New DeliveryMain())
+    'End Sub
 
     Private Sub DiscountMaintenaceToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DiscountMaintenaceToolStripMenuItem.Click
         LoadFormToPanel(New DiscountMain())
@@ -236,9 +237,10 @@ Public Class Main
     '    inventoryForm.Show()
     'End Sub
 
-    Private Sub InventoryMaintenanceToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles InventoryMaintenanceToolStripMenuItem1.Click
-        LoadFormToPanel(New InventoryMain())
-    End Sub
+    ' Commented out as inventory is now handled through ProductMain
+    'Private Sub InventoryMaintenanceToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles InventoryMaintenanceToolStripMenuItem1.Click
+    '    LoadFormToPanel(New InventoryMain())
+    'End Sub
 
     Private Sub CategoryMaintenanceToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CategoryMaintenanceToolStripMenuItem.Click
         LoadFormToPanel(New CategoryMain())
