@@ -30,8 +30,8 @@ Public Class DiscountMain
                 connection.Open()
             End If
 
-            ' Include discount_id in the query
-            Dim query As String = "SELECT discount_id, discount_name, discount_rate FROM discounts"
+            ' Include discount_id, start_date, and end_date in the query
+            Dim query As String = "SELECT discount_id, discount_name, discount_rate, start_date, end_date FROM discounts"
             Dim cmd As New MySqlCommand(query, connection)
             Dim reader As MySqlDataReader = cmd.ExecuteReader()
 
@@ -40,6 +40,9 @@ Public Class DiscountMain
             dt.Load(reader)
             dgvDiscounts.DataSource = dt
 
+            ' Set the DataGridView to fill the available space
+            dgvDiscounts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
             ' Optionally hide the discount_id column (if not needed for display)
             If dgvDiscounts.Columns.Contains("discount_id") Then
                 dgvDiscounts.Columns("discount_id").Visible = False
@@ -47,7 +50,15 @@ Public Class DiscountMain
 
             ' Format the discount_rate column to show % sign
             If dgvDiscounts.Columns.Contains("discount_rate") Then
-                dgvDiscounts.Columns("discount_rate").DefaultCellStyle.Format = "0.##\\%"
+                dgvDiscounts.Columns("discount_rate").DefaultCellStyle.Format = "0.##%"
+            End If
+
+            ' Ensure start_date and end_date columns are visible
+            If dgvDiscounts.Columns.Contains("start_date") Then
+                dgvDiscounts.Columns("start_date").Visible = True
+            End If
+            If dgvDiscounts.Columns.Contains("end_date") Then
+                dgvDiscounts.Columns("end_date").Visible = True
             End If
 
             reader.Close()
@@ -65,19 +76,36 @@ Public Class DiscountMain
             If e.RowIndex >= 0 Then
                 Dim row As DataGridViewRow = dgvDiscounts.Rows(e.RowIndex)
 
-                ' Ensure the discount_id column exists
-                If dgvDiscounts.Columns.Contains("discount_id") Then
+                ' Check if the row is empty or new
+                If row.IsNewRow OrElse IsDBNull(row.Cells("discount_id").Value) Then
+                    ' Enable Add button and disable Edit/Delete buttons
+                    pnlInputs.Visible = True
+                    btnAdd.Enabled = True
+                    btnEdit.Enabled = False
+                    btnDelete.Enabled = False
+                    ClearFields()
+                    Return
+                End If
+
+                ' Ensure the discount_id column exists and is not DBNull
+                If dgvDiscounts.Columns.Contains("discount_id") AndAlso Not IsDBNull(row.Cells("discount_id").Value) Then
                     selectedDiscountId = Convert.ToInt32(row.Cells("discount_id").Value)
                 Else
-                    selectedDiscountId = -1 ' Reset if column is missing
-                    MessageBox.Show("The 'discount_id' column is not available.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    selectedDiscountId = -1 ' Reset if column is missing or value is DBNull
+                    MessageBox.Show("The 'discount_id' column is not available or the value is empty.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Return
                 End If
 
                 ' Populate input fields with selected row data and format the discount rate with %
-                txtDiscountName.Text = row.Cells("discount_name").Value.ToString()
-                Dim discountRate As Decimal = Convert.ToDecimal(row.Cells("discount_rate").Value)
+                txtDiscountName.Text = If(IsDBNull(row.Cells("discount_name").Value), "", row.Cells("discount_name").Value.ToString())
+                Dim discountRate As Decimal = If(IsDBNull(row.Cells("discount_rate").Value), 0, Convert.ToDecimal(row.Cells("discount_rate").Value))
                 txtDiscountRate.Text = discountRate.ToString("0.##") & "%"
+
+                ' Show the panel or form for editing
+                pnlInputs.Visible = True
+                btnAdd.Enabled = False ' Disable add button when editing
+                btnEdit.Enabled = True
+                btnDelete.Enabled = True
             End If
         Catch ex As Exception
             MessageBox.Show("Error selecting Discount: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -129,15 +157,17 @@ Public Class DiscountMain
 
         Try
             connection.Open()
-            ' Prepare the query and remove % from the rate before saving to the database
-            Dim query As String = "INSERT INTO discounts (discount_name, discount_rate) VALUES (@name, @rate)"
+            ' Prepare the query and convert percentage to decimal before saving
+            Dim query As String = "INSERT INTO discounts (discount_name, discount_rate, start_date, end_date) VALUES (@name, @rate, @start_date, @end_date)"
             Dim cmd As New MySqlCommand(query, connection)
             cmd.Parameters.AddWithValue("@name", txtDiscountName.Text)
 
-            ' Remove % before converting to a decimal
+            ' Convert percentage to decimal
             Dim discountRateText As String = txtDiscountRate.Text.Replace("%", "").Trim()
-            Dim discountRate As Decimal = Convert.ToDecimal(discountRateText)
+            Dim discountRate As Decimal = Convert.ToDecimal(discountRateText) / 100
             cmd.Parameters.AddWithValue("@rate", discountRate)
+            cmd.Parameters.AddWithValue("@start_date", dtpStartDate.Value)
+            cmd.Parameters.AddWithValue("@end_date", dtpEndDate.Value)
             cmd.ExecuteNonQuery()
 
             MessageBox.Show("Discount added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -169,14 +199,16 @@ Public Class DiscountMain
 
         Try
             connection.Open()
-            Dim query As String = "UPDATE discounts SET discount_name = @name, discount_rate = @rate WHERE discount_id = @id"
+            Dim query As String = "UPDATE discounts SET discount_name = @name, discount_rate = @rate, start_date = @start_date, end_date = @end_date WHERE discount_id = @id"
             Dim cmd As New MySqlCommand(query, connection)
             cmd.Parameters.AddWithValue("@name", txtDiscountName.Text)
             
-            ' Remove % before converting to a decimal
+            ' Convert percentage to decimal
             Dim discountRateText As String = txtDiscountRate.Text.Replace("%", "").Trim()
-            Dim discountRate As Decimal = Convert.ToDecimal(discountRateText)
+            Dim discountRate As Decimal = Convert.ToDecimal(discountRateText) / 100
             cmd.Parameters.AddWithValue("@rate", discountRate)
+            cmd.Parameters.AddWithValue("@start_date", dtpStartDate.Value)
+            cmd.Parameters.AddWithValue("@end_date", dtpEndDate.Value)
             cmd.Parameters.AddWithValue("@id", selectedDiscountId)
             cmd.ExecuteNonQuery()
 
@@ -192,7 +224,7 @@ Public Class DiscountMain
 
     ' Delete selected Discount
     Private Sub BtnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
-        If selectedDiscountId = -1 Then
+        If String.IsNullOrWhiteSpace(txtDiscountName.Text) Then
             MessageBox.Show("Please select a Discount to delete.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
@@ -205,34 +237,31 @@ Public Class DiscountMain
         End If
 
         Try
-            connection.Open()
-            
-            ' First check if the discount is being used in any sales
-            Dim checkQuery As String = "SELECT COUNT(*) FROM sales WHERE discount_id = @id"
-            Dim checkCmd As New MySqlCommand(checkQuery, connection)
-            checkCmd.Parameters.AddWithValue("@id", selectedDiscountId)
-            Dim count As Integer = Convert.ToInt32(checkCmd.ExecuteScalar())
-            
-            If count > 0 Then
-                MessageBox.Show("This discount is being used in " & count & " sales records. It cannot be deleted.", 
-                                "Cannot Delete", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Return
+            If connection.State = ConnectionState.Closed Then
+                connection.Open()
             End If
             
-            ' If no sales use this discount, proceed with deletion
-            Dim query As String = "DELETE FROM discounts WHERE discount_id = @id"
+            ' Proceed with deletion using discount_name
+            Dim query As String = "DELETE FROM discounts WHERE discount_name = @name"
             Dim cmd As New MySqlCommand(query, connection)
-            cmd.Parameters.AddWithValue("@id", selectedDiscountId)
-            cmd.ExecuteNonQuery()
+            cmd.Parameters.AddWithValue("@name", txtDiscountName.Text)
+            
+            Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
 
-            MessageBox.Show("Discount deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            LoadDiscountData()
-            ClearFields()
-            selectedDiscountId = -1 ' Reset selection
+            If rowsAffected > 0 Then
+                MessageBox.Show("Discount deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                LoadDiscountData()
+                ClearFields()
+                selectedDiscountId = -1 ' Reset selection
+            Else
+                MessageBox.Show("No discount was deleted. Please check the discount name.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         Catch ex As Exception
             MessageBox.Show("Error deleting Discount: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
-            connection.Close()
+            If connection.State = ConnectionState.Open Then
+                connection.Close()
+            End If
         End Try
     End Sub
 
@@ -274,6 +303,12 @@ Public Class DiscountMain
             Return False
         End If
 
+        ' Validate date range
+        If dtpStartDate.Value > dtpEndDate.Value Then
+            MessageBox.Show("Start date must be before end date.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+
         Return True
     End Function
 
@@ -292,5 +327,19 @@ Public Class DiscountMain
 
     Private Sub DiscountMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadDiscountData()
+    End Sub
+
+    ' Add a method to show the panel for adding a new discount
+    Private Sub ShowAddDiscountPanel()
+        ClearFields()
+        pnlInputs.Visible = True
+        btnAdd.Enabled = True
+        btnEdit.Enabled = False
+        btnDelete.Enabled = False
+    End Sub
+
+    ' Add a button click event to show the add discount panel
+    Private Sub btnShowAddDiscount_Click(sender As Object, e As EventArgs) Handles btnShowAddDiscount.Click
+        ShowAddDiscountPanel()
     End Sub
 End Class
