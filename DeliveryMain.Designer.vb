@@ -98,7 +98,7 @@ Partial Class DeliveryMain
         btnSave.BackColor = Color.DarkRed
         btnSave.FlatStyle = FlatStyle.Flat
         btnSave.ForeColor = Color.White
-        btnSave.Location = New Point(100, 200)
+        btnSave.Location = New Point(104, 515)
         btnSave.Name = "btnSave"
         btnSave.Size = New Size(120, 39)
         btnSave.TabIndex = 6
@@ -110,7 +110,7 @@ Partial Class DeliveryMain
         btnClose.BackColor = Color.DarkRed
         btnClose.FlatStyle = FlatStyle.Flat
         btnClose.ForeColor = Color.White
-        btnClose.Location = New Point(260, 200)
+        btnClose.Location = New Point(274, 515)
         btnClose.Name = "btnClose"
         btnClose.Size = New Size(120, 39)
         btnClose.TabIndex = 7
@@ -120,7 +120,7 @@ Partial Class DeliveryMain
         ' DeliveryMain
         ' 
         BackColor = SystemColors.Control
-        ClientSize = New Size(484, 348)
+        ClientSize = New Size(484, 584)
         Controls.Add(lblTransactionTitle)
         Controls.Add(lblTransactionNumber)
         Controls.Add(lblSupplier)

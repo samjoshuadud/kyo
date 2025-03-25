@@ -8,14 +8,15 @@ Public Class ProductMain
     Private Sub ProductMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = "Product & Inventory Management"
         connection = New MySqlConnection(connectionString)
-        
+
         ' Set initial button states
         SetInitialButtonStates()
-        
+
         ' Try the alternative loading method that doesn't use a subquery
         LoadProductsAlternate()
-        
+
         LoadCategories()
+        LoadSuppliers() ' Load suppliers into ComboBox
         LoadExpirationOptions() ' Load expiration options into ComboBox
         CustomizeDataGridView()
     End Sub
@@ -61,10 +62,10 @@ Public Class ProductMain
             dgvProducts.Columns("category_name").HeaderText = "Category"
             dgvProducts.Columns("stock_level").HeaderText = "Current Stock"
             dgvProducts.Columns("product_id").Visible = False ' Hide product_id column
-            
+
             ' Apply conditional formatting to stock level column
             ApplyStockLevelFormatting()
-            
+
         Catch ex As MySqlException
             MessageBox.Show("MySQL Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Catch ex As Exception
@@ -82,17 +83,18 @@ Public Class ProductMain
             If connection.State = ConnectionState.Closed Then
                 connection.Open()
             End If
-            
-            ' Using a JOIN approach to get inventory data instead of a subquery
+
             Dim query As String = "
             SELECT p.product_id, p.product_name, p.barcode, p.selling_price, p.cost_price, p.description, 
-            p.expiration_option AS expiration_status, c.category_name,
+            p.expiration_option AS expiration_status, c.category_name, p.reorder_point, p.unit_of_measure,
+            s.supplier_name, p.is_active,
             IFNULL(SUM(i.current_quantity), 0) AS stock_level
             FROM products p 
             LEFT JOIN categories c ON p.category_id = c.category_id
+            LEFT JOIN suppliers s ON p.supplier_id = s.supplier_id
             LEFT JOIN inventory i ON p.product_id = i.product_id
             GROUP BY p.product_id, p.product_name, p.barcode, p.selling_price, p.cost_price, p.description, 
-            p.expiration_option, c.category_name"
+            p.expiration_option, c.category_name, p.reorder_point, p.unit_of_measure, s.supplier_name, p.is_active"
 
             Using cmd As New MySqlCommand(query, connection)
                 Using adapter As New MySqlDataAdapter(cmd)
@@ -110,12 +112,16 @@ Public Class ProductMain
             dgvProducts.Columns("description").HeaderText = "Description"
             dgvProducts.Columns("expiration_status").HeaderText = "Expiration Status"
             dgvProducts.Columns("category_name").HeaderText = "Category"
+            dgvProducts.Columns("supplier_name").HeaderText = "Supplier"
+            dgvProducts.Columns("reorder_point").HeaderText = "Reorder Point"
+            dgvProducts.Columns("unit_of_measure").HeaderText = "Unit"
             dgvProducts.Columns("stock_level").HeaderText = "Current Stock"
-            dgvProducts.Columns("product_id").Visible = False ' Hide product_id column
-            
+            dgvProducts.Columns("product_id").Visible = False
+            dgvProducts.Columns("is_active").Visible = False
+
             ' Apply conditional formatting to stock level column
             ApplyStockLevelFormatting()
-            
+
         Catch ex As MySqlException
             MessageBox.Show("MySQL Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Catch ex As Exception
@@ -130,12 +136,12 @@ Public Class ProductMain
     ' Apply conditional formatting to stock levels
     Private Sub ApplyStockLevelFormatting()
         Dim stockColumn As DataGridViewColumn = dgvProducts.Columns("stock_level")
-        
+
         If stockColumn IsNot Nothing Then
             For Each row As DataGridViewRow In dgvProducts.Rows
                 If row.Cells("stock_level").Value IsNot Nothing Then
                     Dim stockValue As Integer = Convert.ToInt32(row.Cells("stock_level").Value)
-                    
+
                     ' Color code based on stock levels
                     If stockValue <= 0 Then
                         ' Out of stock - Red
@@ -169,6 +175,25 @@ Public Class ProductMain
             cmbCategories.ValueMember = "category_id"
         Catch ex As Exception
             MessageBox.Show("Error loading categories: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            If connection.State = ConnectionState.Open Then connection.Close()
+        End Try
+    End Sub
+
+    ' Load Suppliers into ComboBox
+    Private Sub LoadSuppliers()
+        Try
+            If connection.State = ConnectionState.Closed Then connection.Open()
+            Dim query As String = "SELECT supplier_id, supplier_name FROM suppliers WHERE status = 'active'"
+            Dim cmd As New MySqlCommand(query, connection)
+            Dim adapter As New MySqlDataAdapter(cmd)
+            Dim dt As New DataTable()
+            adapter.Fill(dt)
+            cmbSuppliers.DataSource = dt
+            cmbSuppliers.DisplayMember = "supplier_name"
+            cmbSuppliers.ValueMember = "supplier_id"
+        Catch ex As Exception
+            MessageBox.Show("Error loading suppliers: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
             If connection.State = ConnectionState.Open Then connection.Close()
         End Try
@@ -405,9 +430,9 @@ Public Class ProductMain
     Private Sub dgvProducts_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvProducts.CellClick
         If e.RowIndex >= 0 Then ' Ensure the click is on a valid row (not on headers)
             Dim selectedRow As DataGridViewRow = dgvProducts.Rows(e.RowIndex)
-            
+
             ' Check if the row is empty (has no product_id or all cells are empty)
-            If selectedRow.Cells("product_id").Value Is Nothing OrElse 
+            If selectedRow.Cells("product_id").Value Is Nothing OrElse
                String.IsNullOrEmpty(selectedRow.Cells("product_id").Value.ToString()) Then
                 ' Empty row - prepare for adding a new product
                 ResetForm()
@@ -437,20 +462,20 @@ Public Class ProductMain
             Else
                 MessageBox.Show("Category not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
-            
+
             ' Set button states for existing product
             btnSave.Enabled = False
             btnEdit.Enabled = True
             btnDelete.Enabled = True
-            
+
             ' Show delivery-related buttons for existing products
             btnReceiveDelivery.Visible = True
             btnViewDeliveryHistory.Visible = True
-            
+
             ' Show current stock level
             Dim stockLevel As Integer = Convert.ToInt32(selectedRow.Cells("stock_level").Value)
             lblStockLevel.Text = "Current Stock: " & stockLevel.ToString()
-            
+
             ' Set stock status indicator
             If stockLevel <= 0 Then
                 lblStockStatus.Text = "OUT OF STOCK"
@@ -465,10 +490,10 @@ Public Class ProductMain
                 lblStockStatus.ForeColor = Color.White
                 lblStockStatus.BackColor = Color.Green
             End If
-            
+
             ' Store selected product ID for later use
             _currentProductId = selectedRow.Cells("product_id").Value
-            
+
             ' Make sure the panel becomes visible
             PanelProduct.Visible = True
         End If
@@ -529,8 +554,19 @@ Public Class ProductMain
     End Sub
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        PanelProduct.Size = New Size(623, 548) ' Set panel size
-        PanelProduct.Location = New Point(437, 59) ' Set panel location
+        Me.Text = "Product & Inventory Management"
+        connection = New MySqlConnection(connectionString)
+
+        ' Set initial button states
+        SetInitialButtonStates()
+
+        ' Try the alternative loading method that doesn't use a subquery
+        LoadProductsAlternate()
+
+        LoadCategories()
+        LoadSuppliers() ' Load suppliers into ComboBox
+        LoadExpirationOptions() ' Load expiration options into ComboBox
+        CustomizeDataGridView()
     End Sub
 
     'Private Sub btnAddProduct_Click(sender As Object, e As EventArgs)
@@ -580,7 +616,7 @@ Public Class ProductMain
     Private Sub btnExitPanel_Click(sender As Object, e As EventArgs) Handles btnExitPanel.Click
         ' Hide the product panel when exit button is clicked
         PanelProduct.Visible = False
-        
+
         ' Clear form fields
         ResetForm()
     End Sub
@@ -594,16 +630,16 @@ Public Class ProductMain
             MessageBox.Show("Please select a product first.", "No Product Selected", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Return
         End If
-        
+
         ' Show delivery history for the selected product
         ShowDeliveryHistory(_currentProductId)
     End Sub
-    
+
     ' Show Delivery History for selected product
     Private Sub ShowDeliveryHistory(productId As Integer)
         Try
             If connection.State = ConnectionState.Closed Then connection.Open()
-            
+
             ' Use the correct query based on the actual table structure
             Dim query As String = "
             SELECT d.transaction_number, d.delivery_date, s.supplier_name, di.quantity
@@ -612,52 +648,52 @@ Public Class ProductMain
             JOIN suppliers s ON d.supplier_id = s.supplier_id
             WHERE di.product_id = @product_id
             ORDER BY d.delivery_date DESC"
-            
+
             Dim cmd As New MySqlCommand(query, connection)
             cmd.Parameters.AddWithValue("@product_id", productId)
-            
+
             Dim dt As New DataTable()
             Using adapter As New MySqlDataAdapter(cmd)
                 adapter.Fill(dt)
             End Using
-            
+
             If dt.Rows.Count > 0 Then
                 Dim lastDelivery = dt.Rows(0)
-                Dim message = $"Last Delivery: {lastDelivery("delivery_date")} by {lastDelivery("supplier_name")}" & 
+                Dim message = $"Last Delivery: {lastDelivery("delivery_date")} by {lastDelivery("supplier_name")}" &
                               Environment.NewLine & $"Quantity: {lastDelivery("quantity")}"
-                
+
                 MessageBox.Show(message, "Recent Delivery Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 MessageBox.Show("No delivery history found for this product.", "No History", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
-            
+
         Catch ex As Exception
             MessageBox.Show("Error retrieving delivery history: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
             If connection.State = ConnectionState.Open Then connection.Close()
         End Try
     End Sub
-    
+
     ' Receive Delivery button click handler
     Private Sub btnReceiveDelivery_Click(sender As Object, e As EventArgs) Handles btnReceiveDelivery.Click
         If _currentProductId <= 0 Then
             MessageBox.Show("Please select a product first.", "No Product Selected", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Return
         End If
-        
+
         ' Get the selected product details
         Dim productName As String = txtProductName.Text
         Dim barcode As String = txtBarcode.Text
         Dim category As String = cmbCategories.Text
-        
+
         ' Store selected product details in the data transfer object
         Dim dataTransfer = ProductDeliveryData.GetInstance()
         dataTransfer.SetProductDetails(_currentProductId, productName, barcode, category)
-        
+
         ' Get current stock and update the data transfer object
         Dim currentStock As Integer = Convert.ToInt32(dgvProducts.CurrentRow.Cells("stock_level").Value)
         dataTransfer.UpdateStockInfo(currentStock)
-        
+
         ' Open the delivery form
         Dim deliveryForm As New DeliveryMain()
         deliveryForm.ShowInProductContext()
@@ -667,16 +703,16 @@ Public Class ProductMain
     Public Sub RefreshAfterDelivery()
         ' Reload the products data using the alternative method
         LoadProductsAlternate()
-        
+
         ' If the product detail panel is visible and we have a current product ID, update the stock display
         If PanelProduct.Visible AndAlso dgvProducts.CurrentRow IsNot Nothing Then
             Dim stockLevel As Integer = Convert.ToInt32(dgvProducts.CurrentRow.Cells("stock_level").Value)
-            
+
             ' Update the stock level label
             If lblStockLevel IsNot Nothing Then
                 lblStockLevel.Text = "Current Stock: " & stockLevel.ToString()
             End If
-            
+
             ' Update stock status
             If lblStockStatus IsNot Nothing Then
                 If stockLevel <= 0 Then
@@ -695,10 +731,22 @@ Public Class ProductMain
             End If
         End If
     End Sub
-    
+
     ' Refresh button click handler
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         LoadProductsAlternate()
         MessageBox.Show("Product data has been refreshed.", "Refresh Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End Sub
+
+    Private Sub lblUnitOfMeasure_Click(sender As Object, e As EventArgs) Handles lblUnitOfMeasure.Click
+
+    End Sub
+
+    Private Sub PanelProduct_Paint(sender As Object, e As PaintEventArgs) Handles PanelProduct.Paint
+
+    End Sub
+
+    Private Sub txtDescription_TextChanged(sender As Object, e As EventArgs) Handles txtDescription.TextChanged
+
     End Sub
 End Class

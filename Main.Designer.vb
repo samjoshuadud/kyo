@@ -63,27 +63,27 @@ Partial Class Main
         ContextMenuStrip1.ImageScalingSize = New Size(24, 24)
         ContextMenuStrip1.Items.AddRange(New ToolStripItem() {UserMaintenanceToolStripMenuItem, ProductMaintenanceToolStripMenuItem, DeliveryMaintenanceToolStripMenuItem, DiscountMaintenaceToolStripMenuItem, ExpirationMaintenanceToolStripMenuItem, CategoryMaintenanceToolStripMenuItem, InventoryMaintenanceToolStripMenuItem1, SupplierToolStripMenuItem})
         ContextMenuStrip1.Name = "ContextMenuStrip1"
-        ContextMenuStrip1.Size = New Size(240, 212)
+        ContextMenuStrip1.Size = New Size(268, 260)
         ' 
         ' UserMaintenanceToolStripMenuItem
         ' 
         UserMaintenanceToolStripMenuItem.Font = New Font("Poppins", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         UserMaintenanceToolStripMenuItem.Name = "UserMaintenanceToolStripMenuItem"
-        UserMaintenanceToolStripMenuItem.Size = New Size(239, 26)
+        UserMaintenanceToolStripMenuItem.Size = New Size(267, 32)
         UserMaintenanceToolStripMenuItem.Text = "User Maintenance"
         ' 
         ' ProductMaintenanceToolStripMenuItem
         ' 
-        ProductMaintenanceToolStripMenuItem.Font = New Font("PoppinsI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        ProductMaintenanceToolStripMenuItem.Font = New Font("Microsoft Sans Serif", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         ProductMaintenanceToolStripMenuItem.Name = "ProductMaintenanceToolStripMenuItem"
-        ProductMaintenanceToolStripMenuItem.Size = New Size(239, 26)
+        ProductMaintenanceToolStripMenuItem.Size = New Size(267, 32)
         ProductMaintenanceToolStripMenuItem.Text = "Product Miantenance"
         ' 
         ' DeliveryMaintenanceToolStripMenuItem
         ' 
         DeliveryMaintenanceToolStripMenuItem.Font = New Font("Poppins", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         DeliveryMaintenanceToolStripMenuItem.Name = "DeliveryMaintenanceToolStripMenuItem"
-        DeliveryMaintenanceToolStripMenuItem.Size = New Size(239, 26)
+        DeliveryMaintenanceToolStripMenuItem.Size = New Size(267, 32)
         DeliveryMaintenanceToolStripMenuItem.Text = "Delivery Maintenance"
         DeliveryMaintenanceToolStripMenuItem.Visible = False
         ' 
@@ -91,28 +91,28 @@ Partial Class Main
         ' 
         DiscountMaintenaceToolStripMenuItem.Font = New Font("Poppins", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         DiscountMaintenaceToolStripMenuItem.Name = "DiscountMaintenaceToolStripMenuItem"
-        DiscountMaintenaceToolStripMenuItem.Size = New Size(239, 26)
+        DiscountMaintenaceToolStripMenuItem.Size = New Size(267, 32)
         DiscountMaintenaceToolStripMenuItem.Text = "Discount Maintenace"
         ' 
         ' ExpirationMaintenanceToolStripMenuItem
         ' 
         ExpirationMaintenanceToolStripMenuItem.Font = New Font("Poppins", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         ExpirationMaintenanceToolStripMenuItem.Name = "ExpirationMaintenanceToolStripMenuItem"
-        ExpirationMaintenanceToolStripMenuItem.Size = New Size(239, 26)
+        ExpirationMaintenanceToolStripMenuItem.Size = New Size(267, 32)
         ExpirationMaintenanceToolStripMenuItem.Text = "Expiration Maintenance"
         ' 
         ' CategoryMaintenanceToolStripMenuItem
         ' 
         CategoryMaintenanceToolStripMenuItem.Font = New Font("Poppins", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         CategoryMaintenanceToolStripMenuItem.Name = "CategoryMaintenanceToolStripMenuItem"
-        CategoryMaintenanceToolStripMenuItem.Size = New Size(239, 26)
+        CategoryMaintenanceToolStripMenuItem.Size = New Size(267, 32)
         CategoryMaintenanceToolStripMenuItem.Text = "Category Maintenance"
         ' 
         ' InventoryMaintenanceToolStripMenuItem1
         ' 
         InventoryMaintenanceToolStripMenuItem1.Font = New Font("Poppins", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         InventoryMaintenanceToolStripMenuItem1.Name = "InventoryMaintenanceToolStripMenuItem1"
-        InventoryMaintenanceToolStripMenuItem1.Size = New Size(239, 26)
+        InventoryMaintenanceToolStripMenuItem1.Size = New Size(267, 32)
         InventoryMaintenanceToolStripMenuItem1.Text = "Inventory Maintenance"
         InventoryMaintenanceToolStripMenuItem1.Visible = False
         ' 
@@ -120,7 +120,7 @@ Partial Class Main
         ' 
         SupplierToolStripMenuItem.Font = New Font("Poppins", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         SupplierToolStripMenuItem.Name = "SupplierToolStripMenuItem"
-        SupplierToolStripMenuItem.Size = New Size(239, 26)
+        SupplierToolStripMenuItem.Size = New Size(267, 32)
         SupplierToolStripMenuItem.Text = "Supplier"
         ' 
         ' ContextMenuStrip2
@@ -129,18 +129,18 @@ Partial Class Main
         ContextMenuStrip2.ImageScalingSize = New Size(24, 24)
         ContextMenuStrip2.Items.AddRange(New ToolStripItem() {SalesReportsToolStripMenuItem, InventoryReportsToolStripMenuItem})
         ContextMenuStrip2.Name = "ContextMenuStrip2"
-        ContextMenuStrip2.Size = New Size(205, 56)
+        ContextMenuStrip2.Size = New Size(224, 68)
         ' 
         ' SalesReportsToolStripMenuItem
         ' 
         SalesReportsToolStripMenuItem.Name = "SalesReportsToolStripMenuItem"
-        SalesReportsToolStripMenuItem.Size = New Size(204, 26)
+        SalesReportsToolStripMenuItem.Size = New Size(223, 32)
         SalesReportsToolStripMenuItem.Text = "Sales Reports"
         ' 
         ' InventoryReportsToolStripMenuItem
         ' 
         InventoryReportsToolStripMenuItem.Name = "InventoryReportsToolStripMenuItem"
-        InventoryReportsToolStripMenuItem.Size = New Size(204, 26)
+        InventoryReportsToolStripMenuItem.Size = New Size(223, 32)
         InventoryReportsToolStripMenuItem.Text = "Inventory Reports"
         ' 
         ' ContextMenuStrip3
@@ -149,18 +149,18 @@ Partial Class Main
         ContextMenuStrip3.ImageScalingSize = New Size(24, 24)
         ContextMenuStrip3.Items.AddRange(New ToolStripItem() {LogHistoryToolStripMenuItem, AuditTrailToolStripMenuItem})
         ContextMenuStrip3.Name = "ContextMenuStrip3"
-        ContextMenuStrip3.Size = New Size(161, 56)
+        ContextMenuStrip3.Size = New Size(171, 68)
         ' 
         ' LogHistoryToolStripMenuItem
         ' 
         LogHistoryToolStripMenuItem.Name = "LogHistoryToolStripMenuItem"
-        LogHistoryToolStripMenuItem.Size = New Size(160, 26)
+        LogHistoryToolStripMenuItem.Size = New Size(170, 32)
         LogHistoryToolStripMenuItem.Text = "Log History"
         ' 
         ' AuditTrailToolStripMenuItem
         ' 
         AuditTrailToolStripMenuItem.Name = "AuditTrailToolStripMenuItem"
-        AuditTrailToolStripMenuItem.Size = New Size(160, 26)
+        AuditTrailToolStripMenuItem.Size = New Size(170, 32)
         AuditTrailToolStripMenuItem.Text = "Audit Trail"
         ' 
         ' CentralPanel
@@ -174,7 +174,7 @@ Partial Class Main
         ' 
         MainPanel.Location = New Point(224, 0)
         MainPanel.Name = "MainPanel"
-        MainPanel.Size = New Size(1036, 628)
+        MainPanel.Size = New Size(1036, 627)
         MainPanel.TabIndex = 21
         ' 
         ' PanelMaintenance
@@ -185,7 +185,7 @@ Partial Class Main
         PanelMaintenance.Font = New Font("Poppins", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         PanelMaintenance.Location = New Point(0, 0)
         PanelMaintenance.Name = "PanelMaintenance"
-        PanelMaintenance.Size = New Size(1260, 628)
+        PanelMaintenance.Size = New Size(1260, 627)
         PanelMaintenance.TabIndex = 0
         ' 
         ' PanelButtons
@@ -199,7 +199,7 @@ Partial Class Main
         PanelButtons.ForeColor = SystemColors.ActiveCaptionText
         PanelButtons.Location = New Point(0, 0)
         PanelButtons.Name = "PanelButtons"
-        PanelButtons.Size = New Size(218, 628)
+        PanelButtons.Size = New Size(218, 627)
         PanelButtons.TabIndex = 18
         ' 
         ' btnLogout

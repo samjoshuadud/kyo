@@ -31,6 +31,9 @@ Partial Class ProductMain
         txtDescription = New TextBox()
         cmbCategories = New ComboBox()
         cmbExpirationOption = New ComboBox()
+        cmbSuppliers = New ComboBox()
+        txtReorderPoint = New TextBox()
+        txtUnitOfMeasure = New TextBox()
         lblProductName = New Label()
         lblBarcode = New Label()
         lblSellingPrice = New Label()
@@ -38,16 +41,19 @@ Partial Class ProductMain
         lblDescription = New Label()
         lblCategories = New Label()
         lblExpirationOption = New Label()
+        lblSupplier = New Label()
+        lblReorderPoint = New Label()
+        lblUnitOfMeasure = New Label()
         PanelProduct = New Panel()
+        btnViewDeliveryHistory = New Button()
+        btnReceiveDelivery = New Button()
+        lblStockStatus = New Label()
+        lblStockLevel = New Label()
         btnExitPanel = New Button()
         btnDelete = New Button()
         btnEdit = New Button()
         btnSave = New Button()
         btnRefresh = New Button()
-        lblStockLevel = New Label()
-        lblStockStatus = New Label()
-        btnReceiveDelivery = New Button()
-        btnViewDeliveryHistory = New Button()
         CType(dgvProducts, ComponentModel.ISupportInitialize).BeginInit()
         PanelProduct.SuspendLayout()
         SuspendLayout()
@@ -68,64 +74,89 @@ Partial Class ProductMain
         txtProductName.Font = New Font("Segoe UI", 12F)
         txtProductName.Location = New Point(201, 34)
         txtProductName.Name = "txtProductName"
-        txtProductName.Size = New Size(344, 29)
+        txtProductName.Size = New Size(182, 29)
         txtProductName.TabIndex = 1
         ' 
         ' txtBarcode
         ' 
-        txtBarcode.Font = New Font("Segoe UI", 12F)
+        txtBarcode.Font = New Font("Segoe UI", 12.0F)
         txtBarcode.Location = New Point(201, 79)
         txtBarcode.Name = "txtBarcode"
-        txtBarcode.Size = New Size(344, 29)
+        txtBarcode.Size = New Size(182, 29)
         txtBarcode.TabIndex = 2
         ' 
         ' txtSellingPrice
         ' 
-        txtSellingPrice.Font = New Font("Segoe UI", 12F)
+        txtSellingPrice.Font = New Font("Segoe UI", 12.0F)
         txtSellingPrice.Location = New Point(201, 124)
         txtSellingPrice.Name = "txtSellingPrice"
-        txtSellingPrice.Size = New Size(344, 29)
+        txtSellingPrice.Size = New Size(182, 29)
         txtSellingPrice.TabIndex = 3
         ' 
         ' txtCostPrice
         ' 
-        txtCostPrice.Font = New Font("Segoe UI", 12F)
+        txtCostPrice.Font = New Font("Segoe UI", 12.0F)
         txtCostPrice.Location = New Point(201, 169)
         txtCostPrice.Name = "txtCostPrice"
-        txtCostPrice.Size = New Size(344, 29)
+        txtCostPrice.Size = New Size(187, 29)
         txtCostPrice.TabIndex = 4
         ' 
         ' txtDescription
         ' 
-        txtDescription.Font = New Font("Segoe UI", 12F)
-        txtDescription.Location = New Point(201, 214)
+        txtDescription.Font = New Font("Segoe UI", 12.0F)
+        txtDescription.Location = New Point(415, 73)
         txtDescription.Multiline = True
         txtDescription.Name = "txtDescription"
-        txtDescription.Size = New Size(344, 80)
+        txtDescription.Size = New Size(299, 80)
         txtDescription.TabIndex = 5
         ' 
         ' cmbCategories
         ' 
         cmbCategories.DropDownStyle = ComboBoxStyle.DropDownList
-        cmbCategories.Font = New Font("Segoe UI", 12F)
-        cmbCategories.Location = New Point(201, 310)
+        cmbCategories.Font = New Font("Segoe UI", 12.0F)
+        cmbCategories.Location = New Point(503, 175)
         cmbCategories.Name = "cmbCategories"
-        cmbCategories.Size = New Size(344, 29)
+        cmbCategories.Size = New Size(211, 29)
         cmbCategories.TabIndex = 6
         ' 
         ' cmbExpirationOption
         ' 
         cmbExpirationOption.DropDownStyle = ComboBoxStyle.DropDownList
-        cmbExpirationOption.Font = New Font("Segoe UI", 12F)
+        cmbExpirationOption.Font = New Font("Segoe UI", 12.0F)
         cmbExpirationOption.Items.AddRange(New Object() {"With Expiration", "Without Expiration"})
-        cmbExpirationOption.Location = New Point(201, 360)
+        cmbExpirationOption.Location = New Point(201, 213)
         cmbExpirationOption.Name = "cmbExpirationOption"
-        cmbExpirationOption.Size = New Size(344, 29)
+        cmbExpirationOption.Size = New Size(187, 29)
         cmbExpirationOption.TabIndex = 7
+        ' 
+        ' cmbSuppliers
+        ' 
+        cmbSuppliers.DropDownStyle = ComboBoxStyle.DropDownList
+        cmbSuppliers.Font = New Font("Segoe UI", 12.0F)
+        cmbSuppliers.Location = New Point(503, 264)
+        cmbSuppliers.Name = "cmbSuppliers"
+        cmbSuppliers.Size = New Size(211, 29)
+        cmbSuppliers.TabIndex = 10
+        ' 
+        ' txtReorderPoint
+        ' 
+        txtReorderPoint.Font = New Font("Segoe UI", 12.0F)
+        txtReorderPoint.Location = New Point(201, 319)
+        txtReorderPoint.Name = "txtReorderPoint"
+        txtReorderPoint.Size = New Size(187, 29)
+        txtReorderPoint.TabIndex = 9
+        ' 
+        ' txtUnitOfMeasure
+        ' 
+        txtUnitOfMeasure.Font = New Font("Segoe UI", 12.0F)
+        txtUnitOfMeasure.Location = New Point(201, 264)
+        txtUnitOfMeasure.Name = "txtUnitOfMeasure"
+        txtUnitOfMeasure.Size = New Size(187, 29)
+        txtUnitOfMeasure.TabIndex = 8
         ' 
         ' lblProductName
         ' 
-        lblProductName.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblProductName.Font = New Font("Poppins", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblProductName.Location = New Point(37, 34)
         lblProductName.Name = "lblProductName"
         lblProductName.Size = New Size(195, 36)
@@ -134,7 +165,7 @@ Partial Class ProductMain
         ' 
         ' lblBarcode
         ' 
-        lblBarcode.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblBarcode.Font = New Font("Poppins", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblBarcode.Location = New Point(37, 79)
         lblBarcode.Name = "lblBarcode"
         lblBarcode.Size = New Size(120, 33)
@@ -143,7 +174,7 @@ Partial Class ProductMain
         ' 
         ' lblSellingPrice
         ' 
-        lblSellingPrice.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblSellingPrice.Font = New Font("Poppins", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblSellingPrice.Location = New Point(36, 124)
         lblSellingPrice.Name = "lblSellingPrice"
         lblSellingPrice.Size = New Size(168, 33)
@@ -152,7 +183,7 @@ Partial Class ProductMain
         ' 
         ' lblCostPrice
         ' 
-        lblCostPrice.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblCostPrice.Font = New Font("Poppins", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblCostPrice.Location = New Point(37, 169)
         lblCostPrice.Name = "lblCostPrice"
         lblCostPrice.Size = New Size(153, 33)
@@ -161,17 +192,17 @@ Partial Class ProductMain
         ' 
         ' lblDescription
         ' 
-        lblDescription.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblDescription.Location = New Point(36, 214)
+        lblDescription.Font = New Font("Poppins", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblDescription.Location = New Point(415, 38)
         lblDescription.Name = "lblDescription"
         lblDescription.Size = New Size(152, 35)
         lblDescription.TabIndex = 12
-        lblDescription.Text = "DISCRIPTION :"
+        lblDescription.Text = "DESCRIPTION :"
         ' 
         ' lblCategories
         ' 
-        lblCategories.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblCategories.Location = New Point(42, 310)
+        lblCategories.Font = New Font("Poppins", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblCategories.Location = New Point(415, 169)
         lblCategories.Name = "lblCategories"
         lblCategories.Size = New Size(130, 35)
         lblCategories.TabIndex = 13
@@ -180,15 +211,47 @@ Partial Class ProductMain
         ' 
         ' lblExpirationOption
         ' 
-        lblExpirationOption.Font = New Font("Poppins", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblExpirationOption.Location = New Point(42, 360)
+        lblExpirationOption.Font = New Font("Poppins", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblExpirationOption.Location = New Point(37, 213)
         lblExpirationOption.Name = "lblExpirationOption"
         lblExpirationOption.Size = New Size(205, 38)
         lblExpirationOption.TabIndex = 14
         lblExpirationOption.Text = "EXPIRATION OPTION :"
         ' 
+        ' lblSupplier
+        ' 
+        lblSupplier.Font = New Font("Poppins", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblSupplier.Location = New Point(415, 264)
+        lblSupplier.Name = "lblSupplier"
+        lblSupplier.Size = New Size(130, 35)
+        lblSupplier.TabIndex = 17
+        lblSupplier.Text = "SUPPLIER :"
+        lblSupplier.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblReorderPoint
+        ' 
+        lblReorderPoint.Font = New Font("Poppins", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblReorderPoint.Location = New Point(37, 313)
+        lblReorderPoint.Name = "lblReorderPoint"
+        lblReorderPoint.Size = New Size(130, 35)
+        lblReorderPoint.TabIndex = 16
+        lblReorderPoint.Text = "REORDER POINT :"
+        lblReorderPoint.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblUnitOfMeasure
+        ' 
+        lblUnitOfMeasure.Font = New Font("Poppins", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblUnitOfMeasure.Location = New Point(36, 264)
+        lblUnitOfMeasure.Name = "lblUnitOfMeasure"
+        lblUnitOfMeasure.Size = New Size(130, 35)
+        lblUnitOfMeasure.TabIndex = 15
+        lblUnitOfMeasure.Text = "UNIT OF MEASURE :"
+        lblUnitOfMeasure.TextAlign = ContentAlignment.MiddleLeft
+        ' 
         ' PanelProduct
         ' 
+        PanelProduct.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        PanelProduct.BackColor = Color.White
         PanelProduct.Controls.Add(btnViewDeliveryHistory)
         PanelProduct.Controls.Add(btnReceiveDelivery)
         PanelProduct.Controls.Add(lblStockStatus)
@@ -211,11 +274,68 @@ Partial Class ProductMain
         PanelProduct.Controls.Add(lblCostPrice)
         PanelProduct.Controls.Add(lblBarcode)
         PanelProduct.Controls.Add(lblSellingPrice)
-        PanelProduct.Location = New Point(60, 67)
+        PanelProduct.Controls.Add(cmbSuppliers)
+        PanelProduct.Controls.Add(txtReorderPoint)
+        PanelProduct.Controls.Add(txtUnitOfMeasure)
+        PanelProduct.Controls.Add(lblSupplier)
+        PanelProduct.Controls.Add(lblReorderPoint)
+        PanelProduct.Controls.Add(lblUnitOfMeasure)
+        PanelProduct.Location = New Point(12, 93)
+        PanelProduct.MinimumSize = New Size(800, 500)
+        PanelProduct.MaximumSize = New Size(1200, 800)
         PanelProduct.Name = "PanelProduct"
-        PanelProduct.Size = New Size(616, 550)
+        PanelProduct.Size = New Size(1016, 650)
         PanelProduct.TabIndex = 19
         PanelProduct.Visible = False
+        PanelProduct.AutoScroll = True
+        PanelProduct.AutoSize = True
+        PanelProduct.AutoSizeMode = AutoSizeMode.GrowAndShrink
+        ' 
+        ' btnViewDeliveryHistory
+        ' 
+        btnViewDeliveryHistory.BackColor = Color.RoyalBlue
+        btnViewDeliveryHistory.FlatStyle = FlatStyle.Flat
+        btnViewDeliveryHistory.ForeColor = Color.White
+        btnViewDeliveryHistory.Location = New Point(573, 311)
+        btnViewDeliveryHistory.Name = "btnViewDeliveryHistory"
+        btnViewDeliveryHistory.Size = New Size(150, 35)
+        btnViewDeliveryHistory.TabIndex = 23
+        btnViewDeliveryHistory.Text = "View History"
+        btnViewDeliveryHistory.UseVisualStyleBackColor = False
+        btnViewDeliveryHistory.Visible = False
+        ' 
+        ' btnReceiveDelivery
+        ' 
+        btnReceiveDelivery.BackColor = Color.Green
+        btnReceiveDelivery.FlatStyle = FlatStyle.Flat
+        btnReceiveDelivery.ForeColor = Color.White
+        btnReceiveDelivery.Location = New Point(417, 311)
+        btnReceiveDelivery.Name = "btnReceiveDelivery"
+        btnReceiveDelivery.Size = New Size(150, 35)
+        btnReceiveDelivery.TabIndex = 22
+        btnReceiveDelivery.Text = "Receive Delivery"
+        btnReceiveDelivery.UseVisualStyleBackColor = False
+        btnReceiveDelivery.Visible = False
+        ' 
+        ' lblStockStatus
+        ' 
+        lblStockStatus.BackColor = Color.LightGray
+        lblStockStatus.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblStockStatus.Location = New Point(557, 217)
+        lblStockStatus.Name = "lblStockStatus"
+        lblStockStatus.Size = New Size(130, 25)
+        lblStockStatus.TabIndex = 21
+        lblStockStatus.Text = "UNKNOWN"
+        lblStockStatus.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' lblStockLevel
+        ' 
+        lblStockLevel.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblStockLevel.Location = New Point(415, 219)
+        lblStockLevel.Name = "lblStockLevel"
+        lblStockLevel.Size = New Size(200, 25)
+        lblStockLevel.TabIndex = 20
+        lblStockLevel.Text = "Current Stock: 0"
         ' 
         ' btnExitPanel
         ' 
@@ -223,7 +343,7 @@ Partial Class ProductMain
         btnExitPanel.FlatAppearance.BorderSize = 0
         btnExitPanel.FlatStyle = FlatStyle.Flat
         btnExitPanel.Image = CType(resources.GetObject("btnExitPanel.Image"), Image)
-        btnExitPanel.Location = New Point(551, 13)
+        btnExitPanel.Location = New Point(781, 3)
         btnExitPanel.Name = "btnExitPanel"
         btnExitPanel.Size = New Size(50, 41)
         btnExitPanel.TabIndex = 69
@@ -234,7 +354,7 @@ Partial Class ProductMain
         btnDelete.BackColor = Color.DarkRed
         btnDelete.FlatStyle = FlatStyle.Flat
         btnDelete.ForeColor = SystemColors.ButtonHighlight
-        btnDelete.Location = New Point(414, 449)
+        btnDelete.Location = New Point(454, 393)
         btnDelete.Name = "btnDelete"
         btnDelete.Padding = New Padding(1, 0, 0, 0)
         btnDelete.Size = New Size(135, 47)
@@ -247,7 +367,7 @@ Partial Class ProductMain
         btnEdit.BackColor = Color.DarkRed
         btnEdit.FlatStyle = FlatStyle.Flat
         btnEdit.ForeColor = SystemColors.ButtonHighlight
-        btnEdit.Location = New Point(263, 449)
+        btnEdit.Location = New Point(313, 393)
         btnEdit.Name = "btnEdit"
         btnEdit.Padding = New Padding(1, 0, 0, 0)
         btnEdit.Size = New Size(135, 47)
@@ -260,7 +380,7 @@ Partial Class ProductMain
         btnSave.BackColor = Color.DarkRed
         btnSave.FlatStyle = FlatStyle.Flat
         btnSave.ForeColor = SystemColors.ButtonHighlight
-        btnSave.Location = New Point(112, 449)
+        btnSave.Location = New Point(167, 393)
         btnSave.Name = "btnSave"
         btnSave.Padding = New Padding(1, 0, 0, 0)
         btnSave.Size = New Size(135, 47)
@@ -281,58 +401,12 @@ Partial Class ProductMain
         btnRefresh.Text = "REFRESH"
         btnRefresh.UseVisualStyleBackColor = False
         ' 
-        ' lblStockLevel
-        ' 
-        lblStockLevel.Font = New Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblStockLevel.Location = New Point(42, 400)
-        lblStockLevel.Name = "lblStockLevel"
-        lblStockLevel.Size = New Size(200, 25)
-        lblStockLevel.TabIndex = 20
-        lblStockLevel.Text = "Current Stock: 0"
-        ' 
-        ' lblStockStatus
-        ' 
-        lblStockStatus.BackColor = Color.LightGray
-        lblStockStatus.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblStockStatus.Location = New Point(253, 400)
-        lblStockStatus.Name = "lblStockStatus"
-        lblStockStatus.Size = New Size(130, 25)
-        lblStockStatus.TabIndex = 21
-        lblStockStatus.Text = "UNKNOWN"
-        lblStockStatus.TextAlign = ContentAlignment.MiddleCenter
-        ' 
-        ' btnReceiveDelivery
-        ' 
-        btnReceiveDelivery.BackColor = Color.Green
-        btnReceiveDelivery.FlatStyle = FlatStyle.Flat
-        btnReceiveDelivery.ForeColor = Color.White
-        btnReceiveDelivery.Location = New Point(150, 505)
-        btnReceiveDelivery.Name = "btnReceiveDelivery"
-        btnReceiveDelivery.Size = New Size(150, 35)
-        btnReceiveDelivery.TabIndex = 22
-        btnReceiveDelivery.Text = "Receive Delivery"
-        btnReceiveDelivery.UseVisualStyleBackColor = False
-        btnReceiveDelivery.Visible = False
-        ' 
-        ' btnViewDeliveryHistory
-        ' 
-        btnViewDeliveryHistory.BackColor = Color.RoyalBlue
-        btnViewDeliveryHistory.FlatStyle = FlatStyle.Flat
-        btnViewDeliveryHistory.ForeColor = Color.White
-        btnViewDeliveryHistory.Location = New Point(315, 505)
-        btnViewDeliveryHistory.Name = "btnViewDeliveryHistory"
-        btnViewDeliveryHistory.Size = New Size(150, 35)
-        btnViewDeliveryHistory.TabIndex = 23
-        btnViewDeliveryHistory.Text = "View History"
-        btnViewDeliveryHistory.UseVisualStyleBackColor = False
-        btnViewDeliveryHistory.Visible = False
-        ' 
         ' ProductMain
         ' 
         ClientSize = New Size(1062, 792)
-        Controls.Add(btnRefresh)
         Controls.Add(PanelProduct)
         Controls.Add(dgvProducts)
+        Controls.Add(btnRefresh)
         FormBorderStyle = FormBorderStyle.None
         Name = "ProductMain"
         Text = "Product Management"
@@ -340,7 +414,11 @@ Partial Class ProductMain
         PanelProduct.ResumeLayout(False)
         PanelProduct.PerformLayout()
         ResumeLayout(False)
-
+        '
+        ' Adjust the form's properties to allow resizing
+        Me.AutoScroll = True
+        Me.AutoSize = True
+        Me.AutoSizeMode = AutoSizeMode.GrowAndShrink
     End Sub
 
     ' Declare components
@@ -352,6 +430,9 @@ Partial Class ProductMain
     Friend WithEvents txtDescription As TextBox
     Friend WithEvents cmbCategories As ComboBox
     Friend WithEvents cmbExpirationOption As ComboBox
+    Friend WithEvents cmbSuppliers As ComboBox
+    Friend WithEvents txtReorderPoint As TextBox
+    Friend WithEvents txtUnitOfMeasure As TextBox
 
     ' Declare Labels
     Friend WithEvents lblProductName As Label
@@ -361,6 +442,9 @@ Partial Class ProductMain
     Friend WithEvents lblDescription As Label
     Friend WithEvents lblCategories As Label
     Friend WithEvents lblExpirationOption As Label
+    Friend WithEvents lblSupplier As Label
+    Friend WithEvents lblReorderPoint As Label
+    Friend WithEvents lblUnitOfMeasure As Label
     Friend WithEvents PanelProduct As Panel
     Friend WithEvents btnDelete As Button
     Friend WithEvents btnEdit As Button
