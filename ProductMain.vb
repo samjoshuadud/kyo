@@ -9,12 +9,24 @@ Public Class ProductMain
         Me.Text = "Product & Inventory Management"
         connection = New MySqlConnection(connectionString)
         
+        ' Set initial button states
+        SetInitialButtonStates()
+        
         ' Try the alternative loading method that doesn't use a subquery
         LoadProductsAlternate()
         
         LoadCategories()
         LoadExpirationOptions() ' Load expiration options into ComboBox
         CustomizeDataGridView()
+    End Sub
+
+    ' Set initial button states
+    Private Sub SetInitialButtonStates()
+        btnSave.Enabled = True
+        btnEdit.Enabled = False
+        btnDelete.Enabled = False
+        btnReceiveDelivery.Visible = False
+        btnViewDeliveryHistory.Visible = False
     End Sub
 
     ' Load Products into DataGridView with Inventory Levels
@@ -24,26 +36,6 @@ Public Class ProductMain
                 connection.Open()
             End If
 
-            ' First check the version of MySQL to see if there are any compatibility issues
-            Dim versionQuery As String = "SELECT VERSION() as version"
-            Dim versionCmd As New MySqlCommand(versionQuery, connection)
-            Dim version As String = versionCmd.ExecuteScalar().ToString()
-            MessageBox.Show("MySQL Version: " & version, "Database Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            
-            ' Check that the inventory table exists and has the correct structure
-            Dim tableCheckQuery As String = "DESCRIBE inventory"
-            Dim tableCheckAdapter As New MySqlDataAdapter(tableCheckQuery, connection)
-            Dim tableStructure As New DataTable()
-            tableCheckAdapter.Fill(tableStructure)
-            
-            Dim output As String = "Inventory Table Structure:" & Environment.NewLine
-            For Each row As DataRow In tableStructure.Rows
-                output &= row("Field").ToString() & " - " & row("Type").ToString() & Environment.NewLine
-            Next
-            
-            MessageBox.Show(output, "Table Structure", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            
-            ' Now proceed with the original query
             Dim query As String = "
             SELECT p.product_id, p.product_name, p.barcode, p.selling_price, p.cost_price, p.description, 
             p.expiration_option AS expiration_status, c.category_name,
@@ -254,10 +246,8 @@ Public Class ProductMain
         End Try
     End Sub
 
-
-
     ' Update Product
-    Private Sub btnUpdate_Click(sender As Object, e As EventArgs)
+    Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
         If Not ValidateInputs() Then Exit Sub
         If dgvProducts.CurrentRow Is Nothing Then
             MessageBox.Show("Select a product to update.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -330,7 +320,7 @@ Public Class ProductMain
             cmd.ExecuteNonQuery()
 
             MessageBox.Show("Product updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            LoadProducts()
+            LoadProductsAlternate()
             ResetForm()
 
             ' Log detailed changes
@@ -341,7 +331,7 @@ Public Class ProductMain
                 End If
             Next
 
-            ' ✅ Log Audit Trail for Edit Product
+            ' Log Audit Trail for Edit Product
             Logaudittrail(role, fullName, changes)
 
         Catch ex As Exception
@@ -351,18 +341,23 @@ Public Class ProductMain
         End Try
     End Sub
 
-
     ' Delete Product
-    Private Sub btnDelete_Click(sender As Object, e As EventArgs)
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         If dgvProducts.CurrentRow Is Nothing Then
             MessageBox.Show("Select a product to delete.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        ' Ask for confirmation before deleting
+        Dim confirmResult = MessageBox.Show("Are you sure you want to delete this product?", "Confirm Delete",
+                                          MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If confirmResult = DialogResult.No Then
             Return
         End If
 
         ' Get the product ID and category name before deletion
         Dim productID As Integer = dgvProducts.CurrentRow.Cells("product_id").Value
         Dim productName = dgvProducts.CurrentRow.Cells("product_name").Value.ToString
-        Dim categoryName = dgvProducts.CurrentRow.Cells("category_name").Value.ToString
 
         Try
             If connection.State = ConnectionState.Closed Then connection.Open()
@@ -375,15 +370,16 @@ Public Class ProductMain
             ' Execute the delete command
             cmd.ExecuteNonQuery()
 
-            ' Log the product deletion with category
-            Logaudittrail(role, fullName, "Deleted product: " & txtProductName.Text)
+            ' Log the product deletion
+            Logaudittrail(role, fullName, "Deleted product: " & productName)
 
             ' Show success message
             MessageBox.Show("Product deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             ' Reload product list and reset form
-            LoadProducts()
+            LoadProductsAlternate()
             ResetForm()
+            PanelProduct.Visible = False ' Hide the panel after deletion
 
         Catch ex As Exception
             ' Handle any errors that may occur
@@ -393,8 +389,6 @@ Public Class ProductMain
             If connection.State = ConnectionState.Open Then connection.Close()
         End Try
     End Sub
-
-
 
     Private Function GetCategoryIdByName(categoryName As String) As Integer
         ' Check through each item in the ComboBox to find the matching category name
@@ -408,8 +402,6 @@ Public Class ProductMain
         Return -1
     End Function
 
-
-
     Private Sub dgvProducts_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvProducts.CellClick
         If e.RowIndex >= 0 Then ' Ensure the click is on a valid row (not on headers)
             Dim selectedRow As DataGridViewRow = dgvProducts.Rows(e.RowIndex)
@@ -420,6 +412,10 @@ Public Class ProductMain
                 ' Empty row - prepare for adding a new product
                 ResetForm()
                 PanelProduct.Visible = True
+                ' Set button states for new product
+                btnSave.Enabled = True
+                btnEdit.Enabled = False
+                btnDelete.Enabled = False
                 ' Hide delivery-related buttons for new products
                 btnReceiveDelivery.Visible = False
                 btnViewDeliveryHistory.Visible = False
@@ -441,6 +437,11 @@ Public Class ProductMain
             Else
                 MessageBox.Show("Category not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
+            
+            ' Set button states for existing product
+            btnSave.Enabled = False
+            btnEdit.Enabled = True
+            btnDelete.Enabled = True
             
             ' Show delivery-related buttons for existing products
             btnReceiveDelivery.Visible = True
@@ -472,7 +473,6 @@ Public Class ProductMain
             PanelProduct.Visible = True
         End If
     End Sub
-
 
     ' Validate Input Fields
     Private Function ValidateInputs() As Boolean
