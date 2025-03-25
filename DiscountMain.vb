@@ -304,6 +304,7 @@ Public Class DiscountMain
         End If
 
         ' Validate date range
+        
         If dtpStartDate.Value > dtpEndDate.Value Then
             MessageBox.Show("Start date must be before end date.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return False

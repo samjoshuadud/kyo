@@ -23,12 +23,10 @@ Partial Class SupplierMain
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         dgvSuppliers = New DataGridView()
-        txtSupplierID = New TextBox()
         txtSupplierName = New TextBox()
         txtAddress = New TextBox()
         txtContactNumber = New TextBox()
         txtEmail = New TextBox()
-        lblSupplierID = New Label()
         lblSupplierName = New Label()
         lblAddress = New Label()
         lblContactNumber = New Label()
@@ -36,73 +34,74 @@ Partial Class SupplierMain
         btnAdd = New Button()
         btnEdit = New Button()
         btnDelete = New Button()
-        btnSearch = New Button()
+        btnReset = New Button()
+        pnlInputs = New Panel()
         CType(dgvSuppliers, ComponentModel.ISupportInitialize).BeginInit()
+        pnlInputs.SuspendLayout()
         SuspendLayout()
         ' 
         ' dgvSuppliers
         ' 
+        dgvSuppliers.AllowUserToAddRows = False
+        dgvSuppliers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgvSuppliers.ColumnHeadersHeight = 34
-        dgvSuppliers.Location = New Point(14, 138)
-        dgvSuppliers.Margin = New Padding(2, 2, 2, 2)
+        dgvSuppliers.Location = New Point(14, 200)
+        dgvSuppliers.Margin = New Padding(2)
         dgvSuppliers.Name = "dgvSuppliers"
         dgvSuppliers.RowHeadersWidth = 62
+        dgvSuppliers.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         dgvSuppliers.Size = New Size(698, 314)
         dgvSuppliers.TabIndex = 0
         ' 
-        ' txtSupplierID
+        ' pnlInputs
         ' 
-        txtSupplierID.Location = New Point(145, 12)
-        txtSupplierID.Margin = New Padding(2, 2, 2, 2)
-        txtSupplierID.Name = "txtSupplierID"
-        txtSupplierID.ReadOnly = True
-        txtSupplierID.Size = New Size(71, 23)
-        txtSupplierID.TabIndex = 1
+        pnlInputs.Controls.Add(txtSupplierName)
+        pnlInputs.Controls.Add(txtAddress)
+        pnlInputs.Controls.Add(txtContactNumber)
+        pnlInputs.Controls.Add(txtEmail)
+        pnlInputs.Controls.Add(lblSupplierName)
+        pnlInputs.Controls.Add(lblAddress)
+        pnlInputs.Controls.Add(lblContactNumber)
+        pnlInputs.Controls.Add(lblEmail)
+        pnlInputs.Location = New Point(14, 12)
+        pnlInputs.Size = New Size(400, 150)
+        pnlInputs.TabIndex = 15
         ' 
         ' txtSupplierName
         ' 
-        txtSupplierName.Location = New Point(145, 30)
-        txtSupplierName.Margin = New Padding(2, 2, 2, 2)
+        txtSupplierName.Location = New Point(145, 20)
+        txtSupplierName.Margin = New Padding(2)
         txtSupplierName.Name = "txtSupplierName"
-        txtSupplierName.Size = New Size(71, 23)
+        txtSupplierName.Size = New Size(200, 23)
         txtSupplierName.TabIndex = 2
         ' 
         ' txtAddress
         ' 
-        txtAddress.Location = New Point(145, 48)
-        txtAddress.Margin = New Padding(2, 2, 2, 2)
+        txtAddress.Location = New Point(145, 50)
+        txtAddress.Margin = New Padding(2)
         txtAddress.Name = "txtAddress"
-        txtAddress.Size = New Size(71, 23)
+        txtAddress.Size = New Size(200, 23)
         txtAddress.TabIndex = 3
         ' 
         ' txtContactNumber
         ' 
-        txtContactNumber.Location = New Point(145, 66)
-        txtContactNumber.Margin = New Padding(2, 2, 2, 2)
+        txtContactNumber.Location = New Point(145, 80)
+        txtContactNumber.Margin = New Padding(2)
         txtContactNumber.Name = "txtContactNumber"
-        txtContactNumber.Size = New Size(71, 23)
+        txtContactNumber.Size = New Size(200, 23)
         txtContactNumber.TabIndex = 4
         ' 
         ' txtEmail
         ' 
-        txtEmail.Location = New Point(145, 84)
-        txtEmail.Margin = New Padding(2, 2, 2, 2)
+        txtEmail.Location = New Point(145, 110)
+        txtEmail.Margin = New Padding(2)
         txtEmail.Name = "txtEmail"
-        txtEmail.Size = New Size(71, 23)
+        txtEmail.Size = New Size(200, 23)
         txtEmail.TabIndex = 5
-        ' 
-        ' lblSupplierID
-        ' 
-        lblSupplierID.Location = New Point(14, 12)
-        lblSupplierID.Margin = New Padding(2, 0, 2, 0)
-        lblSupplierID.Name = "lblSupplierID"
-        lblSupplierID.Size = New Size(110, 14)
-        lblSupplierID.TabIndex = 6
-        lblSupplierID.Text = "Supplier ID:"
         ' 
         ' lblSupplierName
         ' 
-        lblSupplierName.Location = New Point(14, 30)
+        lblSupplierName.Location = New Point(14, 23)
         lblSupplierName.Margin = New Padding(2, 0, 2, 0)
         lblSupplierName.Name = "lblSupplierName"
         lblSupplierName.Size = New Size(110, 14)
@@ -111,7 +110,7 @@ Partial Class SupplierMain
         ' 
         ' lblAddress
         ' 
-        lblAddress.Location = New Point(14, 48)
+        lblAddress.Location = New Point(14, 53)
         lblAddress.Margin = New Padding(2, 0, 2, 0)
         lblAddress.Name = "lblAddress"
         lblAddress.Size = New Size(110, 14)
@@ -120,7 +119,7 @@ Partial Class SupplierMain
         ' 
         ' lblContactNumber
         ' 
-        lblContactNumber.Location = New Point(14, 66)
+        lblContactNumber.Location = New Point(14, 83)
         lblContactNumber.Margin = New Padding(2, 0, 2, 0)
         lblContactNumber.Name = "lblContactNumber"
         lblContactNumber.Size = New Size(110, 14)
@@ -129,7 +128,7 @@ Partial Class SupplierMain
         ' 
         ' lblEmail
         ' 
-        lblEmail.Location = New Point(14, 84)
+        lblEmail.Location = New Point(14, 113)
         lblEmail.Margin = New Padding(2, 0, 2, 0)
         lblEmail.Name = "lblEmail"
         lblEmail.Size = New Size(110, 14)
@@ -138,82 +137,73 @@ Partial Class SupplierMain
         ' 
         ' btnAdd
         ' 
-        btnAdd.Location = New Point(248, 68)
-        btnAdd.Margin = New Padding(2, 2, 2, 2)
+        btnAdd.Location = New Point(450, 30)
+        btnAdd.Margin = New Padding(2)
         btnAdd.Name = "btnAdd"
-        btnAdd.Size = New Size(52, 29)
+        btnAdd.Size = New Size(80, 29)
         btnAdd.TabIndex = 11
         btnAdd.Text = "Add"
         ' 
         ' btnEdit
         ' 
-        btnEdit.Location = New Point(304, 68)
-        btnEdit.Margin = New Padding(2, 2, 2, 2)
+        btnEdit.Location = New Point(450, 70)
+        btnEdit.Margin = New Padding(2)
         btnEdit.Name = "btnEdit"
-        btnEdit.Size = New Size(52, 29)
+        btnEdit.Size = New Size(80, 29)
         btnEdit.TabIndex = 12
         btnEdit.Text = "Edit"
         ' 
         ' btnDelete
         ' 
-        btnDelete.Location = New Point(360, 68)
-        btnDelete.Margin = New Padding(2, 2, 2, 2)
+        btnDelete.Location = New Point(450, 110)
+        btnDelete.Margin = New Padding(2)
         btnDelete.Name = "btnDelete"
-        btnDelete.Size = New Size(52, 29)
+        btnDelete.Size = New Size(80, 29)
         btnDelete.TabIndex = 13
         btnDelete.Text = "Delete"
         ' 
-        ' btnSearch
+        ' btnReset
         ' 
-        btnSearch.Location = New Point(416, 68)
-        btnSearch.Margin = New Padding(2, 2, 2, 2)
-        btnSearch.Name = "btnSearch"
-        btnSearch.Size = New Size(52, 29)
-        btnSearch.TabIndex = 14
-        btnSearch.Text = "Search"
+        btnReset.Location = New Point(450, 150)
+        btnReset.Margin = New Padding(2)
+        btnReset.Name = "btnReset"
+        btnReset.Size = New Size(80, 29)
+        btnReset.TabIndex = 14
+        btnReset.Text = "Reset"
         ' 
         ' SupplierMain
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(723, 510)
+        ClientSize = New Size(723, 530)
+        Controls.Add(pnlInputs)
         Controls.Add(dgvSuppliers)
-        Controls.Add(txtSupplierID)
-        Controls.Add(txtSupplierName)
-        Controls.Add(txtAddress)
-        Controls.Add(txtContactNumber)
-        Controls.Add(txtEmail)
-        Controls.Add(lblSupplierID)
-        Controls.Add(lblSupplierName)
-        Controls.Add(lblAddress)
-        Controls.Add(lblContactNumber)
-        Controls.Add(lblEmail)
         Controls.Add(btnAdd)
         Controls.Add(btnEdit)
         Controls.Add(btnDelete)
-        Controls.Add(btnSearch)
-        Margin = New Padding(2, 2, 2, 2)
+        Controls.Add(btnReset)
+        Margin = New Padding(2)
         Name = "SupplierMain"
         Text = "Supplier Management"
         CType(dgvSuppliers, ComponentModel.ISupportInitialize).EndInit()
+        pnlInputs.ResumeLayout(False)
+        pnlInputs.PerformLayout()
         ResumeLayout(False)
-        PerformLayout()
     End Sub
 
-    Friend WithEvents dgvSuppliers As System.Windows.Forms.DataGridView
-    Friend WithEvents txtSupplierID As System.Windows.Forms.TextBox
-    Friend WithEvents txtSupplierName As System.Windows.Forms.TextBox
-    Friend WithEvents txtAddress As System.Windows.Forms.TextBox
-    Friend WithEvents txtContactNumber As System.Windows.Forms.TextBox
-    Friend WithEvents txtEmail As System.Windows.Forms.TextBox
-    Friend WithEvents lblSupplierID As System.Windows.Forms.Label
-    Friend WithEvents lblSupplierName As System.Windows.Forms.Label
-    Friend WithEvents lblAddress As System.Windows.Forms.Label
-    Friend WithEvents lblContactNumber As System.Windows.Forms.Label
-    Friend WithEvents lblEmail As System.Windows.Forms.Label
-    Friend WithEvents btnAdd As System.Windows.Forms.Button
-    Friend WithEvents btnEdit As System.Windows.Forms.Button
-    Friend WithEvents btnDelete As System.Windows.Forms.Button
-    Friend WithEvents btnSearch As System.Windows.Forms.Button
+    Friend WithEvents dgvSuppliers As DataGridView
+    Friend WithEvents txtSupplierName As TextBox
+    Friend WithEvents txtAddress As TextBox
+    Friend WithEvents txtContactNumber As TextBox
+    Friend WithEvents txtEmail As TextBox
+    Friend WithEvents lblSupplierName As Label
+    Friend WithEvents lblAddress As Label
+    Friend WithEvents lblContactNumber As Label
+    Friend WithEvents lblEmail As Label
+    Friend WithEvents btnAdd As Button
+    Friend WithEvents btnEdit As Button
+    Friend WithEvents btnDelete As Button
+    Friend WithEvents btnReset As Button
+    Friend WithEvents pnlInputs As Panel
 
 End Class

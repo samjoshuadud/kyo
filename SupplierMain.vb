@@ -7,27 +7,26 @@ Public Class SupplierMain
 
     Private connectionString As String = "server=localhost;database=smgsisbstp;uid=root;pwd=;"
     Private connection As MySqlConnection
-
-
+    Private selectedSupplierId As Integer = -1 ' Tracks the selected Supplier ID
 
     Public Sub New()
         InitializeComponent()
         Me.Text = "Supplier Management"
-        Me.Width = 900
-        Me.Height = 700
-        Me.StartPosition = FormStartPosition.CenterScreen
-
         connection = New MySqlConnection(connectionString)
-        AddHandler Me.Load, AddressOf SupplierMain_Load
+
+        ' Initialize button states
+        SetInitialButtonStates()
+        
+        ' Load Suppliers
+        LoadSuppliers()
     End Sub
 
-    ' Initialize UI Components
-
-
-
-    ' Load Event
-    Private Sub SupplierMain_Load(sender As Object, e As EventArgs)
-        LoadSuppliers()
+    ' Set initial button states
+    Private Sub SetInitialButtonStates()
+        btnAdd.Enabled = True
+        btnEdit.Enabled = False
+        btnDelete.Enabled = False
+        ClearFields()
     End Sub
 
     ' Load Suppliers into DataGridView
@@ -41,12 +40,15 @@ Public Class SupplierMain
             adapter.Fill(dt)
             dgvSuppliers.DataSource = dt
 
-            ' Rename columns for readability
-            dgvSuppliers.Columns("supplier_id").HeaderText = "Supplier ID"
+            ' Format the DataGridView
+            dgvSuppliers.Columns("supplier_id").Visible = False
             dgvSuppliers.Columns("supplier_name").HeaderText = "Name"
             dgvSuppliers.Columns("contact_number").HeaderText = "Contact Number"
             dgvSuppliers.Columns("address").HeaderText = "Address"
             dgvSuppliers.Columns("email").HeaderText = "Email"
+
+            ' Auto-size columns
+            dgvSuppliers.AutoResizeColumns()
         Catch ex As Exception
             MessageBox.Show("Error loading suppliers: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
@@ -55,7 +57,7 @@ Public Class SupplierMain
     End Sub
 
     ' Add Supplier
-    Private Sub BtnAdd_Click(sender As Object, e As EventArgs)
+    Private Sub BtnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
         If Not ValidateInputs() Then Exit Sub
 
         Try
@@ -70,6 +72,7 @@ Public Class SupplierMain
             cmd.ExecuteNonQuery()
             MessageBox.Show("Supplier added successfully!")
             LoadSuppliers()
+            ClearFields()
         Catch ex As Exception
             MessageBox.Show("Error adding supplier: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
@@ -77,10 +80,14 @@ Public Class SupplierMain
         End Try
     End Sub
 
-
     ' Update Supplier
-    Private Sub BtnUpdate_Click(sender As Object, e As EventArgs)
-        If String.IsNullOrWhiteSpace(txtSupplierId.Text) OrElse Not ValidateInputs() Then Exit Sub
+    Private Sub BtnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
+        If selectedSupplierId = -1 Then
+            MessageBox.Show("Please select a supplier to edit.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        If Not ValidateInputs() Then Exit Sub
 
         Try
             If connection.State = ConnectionState.Closed Then connection.Open()
@@ -90,11 +97,12 @@ Public Class SupplierMain
             cmd.Parameters.AddWithValue("@name", txtSupplierName.Text)
             cmd.Parameters.AddWithValue("@contact", txtContactNumber.Text)
             cmd.Parameters.AddWithValue("@address", txtAddress.Text)
-            cmd.Parameters.AddWithValue("@id", txtSupplierId.Text)
             cmd.Parameters.AddWithValue("@email", txtEmail.Text)
+            cmd.Parameters.AddWithValue("@id", selectedSupplierId)
             cmd.ExecuteNonQuery()
             MessageBox.Show("Supplier updated successfully!")
             LoadSuppliers()
+            ClearFields()
         Catch ex As Exception
             MessageBox.Show("Error updating supplier: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
@@ -103,20 +111,28 @@ Public Class SupplierMain
     End Sub
 
     ' Delete Supplier
-    Private Sub BtnDelete_Click(sender As Object, e As EventArgs)
-        If String.IsNullOrWhiteSpace(txtSupplierId.Text) Then
-            MessageBox.Show("Select a supplier to delete.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    Private Sub BtnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        If selectedSupplierId = -1 Then
+            MessageBox.Show("Please select a supplier to delete.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
+        End If
+
+        ' Ask for confirmation before deleting
+        Dim confirmResult = MessageBox.Show("Are you sure you want to delete this supplier?", "Confirm Delete",
+                                          MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If confirmResult = DialogResult.No Then
+            Return
         End If
 
         Try
             If connection.State = ConnectionState.Closed Then connection.Open()
             Dim query As String = "DELETE FROM suppliers WHERE supplier_id = @id"
             Dim cmd As New MySqlCommand(query, connection)
-            cmd.Parameters.AddWithValue("@id", txtSupplierId.Text)
+            cmd.Parameters.AddWithValue("@id", selectedSupplierId)
             cmd.ExecuteNonQuery()
             MessageBox.Show("Supplier deleted successfully!")
             LoadSuppliers()
+            ClearFields()
         Catch ex As Exception
             MessageBox.Show("Error deleting supplier: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
@@ -125,25 +141,47 @@ Public Class SupplierMain
     End Sub
 
     ' Reset Fields
-    Private Sub BtnReset_Click(sender As Object, e As EventArgs)
-        txtSupplierId.Clear()
+    Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+        ClearFields()
+    End Sub
+
+    ' Clear all input fields and reset button states
+    Private Sub ClearFields()
         txtSupplierName.Clear()
         txtContactNumber.Clear()
         txtAddress.Clear()
         txtEmail.Clear()
+        selectedSupplierId = -1
+        btnAdd.Enabled = True
+        btnEdit.Enabled = False
+        btnDelete.Enabled = False
     End Sub
 
     ' DataGridView Row Click
-    Private Sub DgvSuppliers_CellClick(sender As Object, e As DataGridViewCellEventArgs)
+    Private Sub DgvSuppliers_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvSuppliers.CellClick
         Try
             If e.RowIndex >= 0 Then
                 Dim row As DataGridViewRow = dgvSuppliers.Rows(e.RowIndex)
 
-                txtSupplierId.Text = If(row.Cells("supplier_id").Value IsNot Nothing, row.Cells("supplier_id").Value.ToString(), String.Empty)
+                ' Check if the row is empty or new
+                If row.IsNewRow OrElse IsDBNull(row.Cells("supplier_id").Value) Then
+                    ClearFields()
+                    Return
+                End If
+
+                ' Get the supplier ID and update selected ID
+                selectedSupplierId = Convert.ToInt32(row.Cells("supplier_id").Value)
+
+                ' Populate input fields
                 txtSupplierName.Text = If(row.Cells("supplier_name").Value IsNot Nothing, row.Cells("supplier_name").Value.ToString(), String.Empty)
                 txtContactNumber.Text = If(row.Cells("contact_number").Value IsNot Nothing, row.Cells("contact_number").Value.ToString(), String.Empty)
                 txtAddress.Text = If(row.Cells("address").Value IsNot Nothing, row.Cells("address").Value.ToString(), String.Empty)
                 txtEmail.Text = If(row.Cells("email").Value IsNot Nothing, row.Cells("email").Value.ToString(), String.Empty)
+
+                ' Update button states
+                btnAdd.Enabled = False
+                btnEdit.Enabled = True
+                btnDelete.Enabled = True
             End If
         Catch ex As Exception
             MessageBox.Show("Error selecting row: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -151,17 +189,10 @@ Public Class SupplierMain
     End Sub
 
     ' Validate Inputs
-    ' Validate Inputs
     Private Function ValidateInputs() As Boolean
         ' Validate supplier name
         If String.IsNullOrWhiteSpace(txtSupplierName.Text) Then
             MessageBox.Show("Supplier name is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return False
-        End If
-
-        ' Validate duplicate supplier name
-        If CheckDuplicateSupplierName(txtSupplierName.Text) Then
-            MessageBox.Show("Supplier name already exists.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return False
         End If
 
@@ -178,14 +209,7 @@ Public Class SupplierMain
             Return False
         End If
 
-        ' Validate duplicate address
-        If CheckDuplicateAddress(txtAddress.Text) Then
-            MessageBox.Show("Address already exists.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return False
-        End If
-
         ' Validate email
-        ' Use Contains(char) for single character search
         If String.IsNullOrWhiteSpace(txtEmail.Text) OrElse Not txtEmail.Text.Contains("@"c) Then
             MessageBox.Show("Valid email is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return False
@@ -193,42 +217,31 @@ Public Class SupplierMain
 
         Return True
     End Function
+
     ' Check if Supplier Name already exists in the database
-    Private Function CheckDuplicateSupplierName(supplierName As String) As Boolean
+    Private Function CheckDuplicateSupplierName(supplierName As String, Optional excludeId As Integer = -1) As Boolean
         Try
             If connection.State = ConnectionState.Closed Then connection.Open()
-            Dim query As String = "SELECT COUNT(*) FROM suppliers WHERE supplier_name = @name"
+            Dim query As String
+            If excludeId > 0 Then
+                query = "SELECT COUNT(*) FROM suppliers WHERE supplier_name = @name AND supplier_id <> @id"
+            Else
+                query = "SELECT COUNT(*) FROM suppliers WHERE supplier_name = @name"
+            End If
+            
             Dim cmd As New MySqlCommand(query, connection)
             cmd.Parameters.AddWithValue("@name", supplierName)
+            If excludeId > 0 Then
+                cmd.Parameters.AddWithValue("@id", excludeId)
+            End If
+            
             Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
-            Return count > 0 ' Returns True if supplier name already exists
+            Return count > 0
         Catch ex As Exception
             MessageBox.Show("Error checking duplicate supplier name: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return True ' Return True in case of error (so the action won't continue)
+            Return True
         Finally
             connection.Close()
         End Try
     End Function
-
-    ' Check if Address already exists in the database
-    Private Function CheckDuplicateAddress(address As String) As Boolean
-        Try
-            If connection.State = ConnectionState.Closed Then connection.Open()
-            Dim query As String = "SELECT COUNT(*) FROM suppliers WHERE address = @address"
-            Dim cmd As New MySqlCommand(query, connection)
-            cmd.Parameters.AddWithValue("@address", address)
-            Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
-            Return count > 0 ' Returns True if address already exists
-        Catch ex As Exception
-            MessageBox.Show("Error checking duplicate address: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return True ' Return True in case of error (so the action won't continue)
-        Finally
-            connection.Close()
-        End Try
-    End Function
-
-
-    Private Sub SupplierMain_Load_1(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    End Sub
 End Class
