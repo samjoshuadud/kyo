@@ -235,8 +235,8 @@ Public Class ProductMain
 
             ' Proceed to insert the new product if no duplicates are found
             Dim insertQuery = "
-        INSERT INTO products (product_name, barcode, selling_price, cost_price, description, expiration_option, category_id)
-        VALUES (@product_name, @barcode, @selling_price, @cost_price, @description, @expiration_option, @category_id)"
+        INSERT INTO products (product_name, barcode, selling_price, cost_price, description, expiration_option, category_id, supplier_id)
+        VALUES (@product_name, @barcode, @selling_price, @cost_price, @description, @expiration_option, @category_id, @supplier_id)"
 
             ' Create MySQL command and add parameters
             Dim cmd As New MySqlCommand(insertQuery, connection)
@@ -247,6 +247,13 @@ Public Class ProductMain
             cmd.Parameters.AddWithValue("@description", txtDescription.Text)
             cmd.Parameters.AddWithValue("@expiration_option", cmbExpirationOption.SelectedItem.ToString)
             cmd.Parameters.AddWithValue("@category_id", cmbCategories.SelectedValue)
+            
+            ' Add supplier ID parameter
+            If cmbSuppliers.SelectedValue IsNot Nothing Then
+                cmd.Parameters.AddWithValue("@supplier_id", cmbSuppliers.SelectedValue)
+            Else
+                cmd.Parameters.AddWithValue("@supplier_id", DBNull.Value)
+            End If
 
             ' Execute insert query
             cmd.ExecuteNonQuery()
@@ -259,7 +266,7 @@ Public Class ProductMain
             MessageBox.Show("Product added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             ' Reload product list and reset form
-            LoadProducts()
+            LoadProductsAlternate()
             ResetForm()
 
         Catch ex As Exception
@@ -286,7 +293,7 @@ Public Class ProductMain
             Dim originalProduct As New Dictionary(Of String, String)
             Dim updatedProduct As New Dictionary(Of String, String)
 
-            Dim selectQuery = "SELECT product_name, barcode, selling_price, cost_price, description, expiration_option, category_id FROM products WHERE product_id = @product_id"
+            Dim selectQuery = "SELECT product_name, barcode, selling_price, cost_price, description, expiration_option, category_id, supplier_id FROM products WHERE product_id = @product_id"
             Dim selectCmd As New MySqlCommand(selectQuery, connection)
             selectCmd.Parameters.AddWithValue("@product_id", dgvProducts.CurrentRow.Cells("product_id").Value)
 
@@ -300,6 +307,7 @@ Public Class ProductMain
                         originalProduct("description") = reader("description").ToString
                         originalProduct("expiration_option") = reader("expiration_option").ToString
                         originalProduct("category_id") = reader("category_id").ToString
+                        originalProduct("supplier_id") = If(reader.IsDBNull(reader.GetOrdinal("supplier_id")), "NULL", reader("supplier_id").ToString)
                     End If
                 End Using
             Catch ex As Exception
@@ -315,6 +323,7 @@ Public Class ProductMain
             updatedProduct("description") = txtDescription.Text
             updatedProduct("expiration_option") = cmbExpirationOption.SelectedItem.ToString
             updatedProduct("category_id") = cmbCategories.SelectedValue.ToString
+            updatedProduct("supplier_id") = If(cmbSuppliers.SelectedValue IsNot Nothing, cmbSuppliers.SelectedValue.ToString, "NULL")
 
             ' Check for unique barcode (excluding the current product)
             Dim checkQuery = "SELECT COUNT(*) FROM products WHERE barcode = @barcode AND product_id != @product_id"
@@ -332,7 +341,7 @@ Public Class ProductMain
             Dim query = "
         UPDATE products SET product_name = @product_name, barcode = @barcode, selling_price = @selling_price, 
         cost_price = @cost_price, description = @description, expiration_option = @expiration_option, 
-        category_id = @category_id WHERE product_id = @product_id"
+        category_id = @category_id, supplier_id = @supplier_id WHERE product_id = @product_id"
             Dim cmd As New MySqlCommand(query, connection)
             cmd.Parameters.AddWithValue("@product_name", txtProductName.Text)
             cmd.Parameters.AddWithValue("@barcode", txtBarcode.Text)
@@ -341,6 +350,14 @@ Public Class ProductMain
             cmd.Parameters.AddWithValue("@description", txtDescription.Text)
             cmd.Parameters.AddWithValue("@expiration_option", cmbExpirationOption.SelectedItem.ToString)
             cmd.Parameters.AddWithValue("@category_id", cmbCategories.SelectedValue)
+            
+            ' Add supplier ID parameter
+            If cmbSuppliers.SelectedValue IsNot Nothing Then
+                cmd.Parameters.AddWithValue("@supplier_id", cmbSuppliers.SelectedValue)
+            Else
+                cmd.Parameters.AddWithValue("@supplier_id", DBNull.Value)
+            End If
+            
             cmd.Parameters.AddWithValue("@product_id", dgvProducts.CurrentRow.Cells("product_id").Value)
             cmd.ExecuteNonQuery()
 
@@ -681,22 +698,41 @@ Public Class ProductMain
             Return
         End If
 
+        ' Verify the product exists in the database
+        Try
+            If connection.State = ConnectionState.Closed Then connection.Open()
+            Dim checkProductQuery As String = "SELECT COUNT(*) FROM products WHERE product_id = @product_id"
+            Dim checkCmd As New MySqlCommand(checkProductQuery, connection)
+            checkCmd.Parameters.AddWithValue("@product_id", _currentProductId)
+            Dim productExists As Integer = Convert.ToInt32(checkCmd.ExecuteScalar())
+
+            If productExists = 0 Then
+                MessageBox.Show($"Product with ID {_currentProductId} does not exist in the database.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return
+            End If
+        Catch ex As Exception
+            MessageBox.Show($"Error checking product existence: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return
+        Finally
+            If connection.State = ConnectionState.Open Then connection.Close()
+        End Try
+
         ' Get the selected product details
         Dim productName As String = txtProductName.Text
         Dim barcode As String = txtBarcode.Text
         Dim category As String = cmbCategories.Text
-
-        ' Store selected product details in the data transfer object
-        Dim dataTransfer = ProductDeliveryData.GetInstance()
-        dataTransfer.SetProductDetails(_currentProductId, productName, barcode, category)
-
-        ' Get current stock and update the data transfer object
         Dim currentStock As Integer = Convert.ToInt32(dgvProducts.CurrentRow.Cells("stock_level").Value)
-        dataTransfer.UpdateStockInfo(currentStock)
+        
+        ' Store product details in variables for direct passing
+        Dim productId As Integer = _currentProductId
 
-        ' Open the delivery form
-        Dim deliveryForm As New DeliveryMain()
-        deliveryForm.ShowInProductContext()
+        Try
+            ' Open the delivery form and pass product data directly
+            Dim deliveryForm As New DeliveryMain(productId, productName, barcode, category, currentStock)
+            deliveryForm.ShowInProductContext()
+        Catch ex As Exception
+            MessageBox.Show($"Error creating delivery form: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     ' Method to reload data and reflect inventory changes after a delivery
