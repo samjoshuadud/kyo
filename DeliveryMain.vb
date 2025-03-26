@@ -8,18 +8,49 @@ Public Class DeliveryMain
     ' Flag to indicate if we're in product context mode
     Private _productContextMode As Boolean = False
 
-    ' Constructor for the DeliveryMain Form
+    ' Constructor for the DeliveryMain Form with direct product data
+    Public Sub New(productId As Integer, productName As String, barcode As String, category As String, stock As Integer)
+        InitializeComponent()
+
+        ' Initialize the form properties
+        Me.Text = $"Receive Delivery - {productName}"
+        Me.FormBorderStyle = FormBorderStyle.Sizable
+        Me.MinimumSize = New Size(500, 600)
+        Me.MaximumSize = New Size(800, 800)
+        Me.StartPosition = FormStartPosition.CenterScreen
+        Me.BackColor = ColorTranslator.FromHtml("#B2DFEE") ' Light blue background
+        Me.AutoScroll = True
+
+        ' Initialize the database connection
+        connection = New MySqlConnection(connectionString)
+
+        ' Generate the transaction number
+        GenerateTransactionNumber()
+        
+        ' Set product data both in the singleton and in local variables
+        Dim dataTransfer = ProductDeliveryData.GetInstance()
+        If productId > 0 Then
+            dataTransfer.RestoreState(productId, productName, barcode, category, stock)
+            _productContextMode = True
+            
+            ' Populate form with product info
+            PopulateProductInfo(dataTransfer)
+        End If
+    End Sub
+
+    ' Default constructor for the DeliveryMain Form
     Public Sub New()
         InitializeComponent()
 
         ' Initialize the form properties
         Me.Text = "Delivery Maintenance"
-        Me.Width = 500
-        Me.Height = 350
+        Me.FormBorderStyle = FormBorderStyle.Sizable
+        Me.MinimumSize = New Size(500, 600)
+        Me.MaximumSize = New Size(800, 800)
         Me.StartPosition = FormStartPosition.CenterScreen
         Me.BackColor = ColorTranslator.FromHtml("#B2DFEE") ' Light blue background
+        Me.AutoScroll = True
 
-        ' Initialize UI components
         ' Initialize the database connection
         connection = New MySqlConnection(connectionString)
 
@@ -29,17 +60,27 @@ Public Class DeliveryMain
 
     ' Show the form in product context (called from ProductMain)
     Public Sub ShowInProductContext()
-        ' Set flag to indicate we're in product context mode
-        _productContextMode = True
+        ' This method assumes the form was created with the overloaded constructor
+        ' that already passed in all the product data
+        
+        ' Make sure we're in product context mode (should have been set in constructor)
+        If Not _productContextMode Then
+            ' Get the product data from our data transfer object as a fallback
+            Dim productData = ProductDeliveryData.GetInstance()
+            
+            ' Verify that we have a valid product ID before proceeding
+            If productData.ProductID <= 0 Then
+                MessageBox.Show($"Product ID is invalid (ID: {productData.ProductID}). This may be because the data wasn't properly passed from the Products screen.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Me.Close()
+                Return
+            End If
 
-        ' Get the product data from our data transfer object
-        Dim productData = ProductDeliveryData.GetInstance()
-
-        ' Set form title to indicate product context
-        Me.Text = $"Receive Delivery - {productData.ProductName}"
-
-        ' Display product information in the form
-        PopulateProductInfo(productData)
+            ' Display product information in the form
+            PopulateProductInfo(productData)
+            
+            ' Set flag to indicate we're in product context mode
+            _productContextMode = True
+        End If
 
         ' Show the form
         Me.ShowDialog()
@@ -47,88 +88,44 @@ Public Class DeliveryMain
 
     ' Populate the form with product information in product context mode
     Private Sub PopulateProductInfo(productData As ProductDeliveryData)
-        ' Create a label to show which product we're receiving
-        Dim lblProduct As New Label()
+        ' Update product information
         lblProduct.Text = $"Product: {productData.ProductName} (Barcode: {productData.Barcode})"
-        lblProduct.Font = New Font("Segoe UI", 10, FontStyle.Bold)
-        lblProduct.AutoSize = True
-        lblProduct.Location = New Point(20, 70)
-        Me.Controls.Add(lblProduct)
+        lblProduct.Visible = True
 
-        ' Add stock level information
-        Dim lblStock As New Label()
+        ' Update stock information
         lblStock.Text = $"Current Stock: {productData.CurrentStock}"
-        lblStock.Font = New Font("Segoe UI", 9)
-        lblStock.AutoSize = True
-        lblStock.Location = New Point(20, 95)
-        Me.Controls.Add(lblStock)
+        lblStock.Visible = True
 
-        ' Add quantity field for this specific product
-        Dim lblQuantity As New Label()
-        lblQuantity.Text = "Quantity to Receive:"
-        lblQuantity.AutoSize = True
-        lblQuantity.Location = New Point(20, 130)
-        Me.Controls.Add(lblQuantity)
+        ' Show quantity field
+        lblQuantity.Visible = True
+        txtQuantity.Text = "1"
+        txtQuantity.Visible = True
 
-        Dim txtQuantity As New TextBox()
-        txtQuantity.Name = "txtQuantity"
-        txtQuantity.Size = New Size(100, 25)
-        txtQuantity.Location = New Point(150, 125)
-        txtQuantity.Text = "1" ' Default quantity
-        Me.Controls.Add(txtQuantity)
+        ' Show unit price field
+        lblUnitPrice.Visible = True
+        txtUnitPrice.Visible = True
 
-        ' Add unit price field
-        Dim lblUnitPrice As New Label()
-        lblUnitPrice.Text = "Unit Price:"
-        lblUnitPrice.AutoSize = True
-        lblUnitPrice.Location = New Point(20, 165)
-        Me.Controls.Add(lblUnitPrice)
+        ' Show batch number field
+        lblBatchNumber.Visible = True
+        txtBatchNumber.Visible = True
 
-        Dim txtUnitPrice As New TextBox()
-        txtUnitPrice.Name = "txtUnitPrice"
-        txtUnitPrice.Size = New Size(100, 25)
-        txtUnitPrice.Location = New Point(150, 160)
-        Me.Controls.Add(txtUnitPrice)
+        ' Show notes field
+        lblNotes.Visible = True
+        txtNotes.Visible = True
 
-        ' Add batch number field
-        Dim lblBatchNumber As New Label()
-        lblBatchNumber.Text = "Batch Number:"
-        lblBatchNumber.AutoSize = True
-        lblBatchNumber.Location = New Point(20, 200)
-        Me.Controls.Add(lblBatchNumber)
+        ' Show return button
+        btnReturn.Visible = True
 
-        Dim txtBatchNumber As New TextBox()
-        txtBatchNumber.Name = "txtBatchNumber"
-        txtBatchNumber.Size = New Size(100, 25)
-        txtBatchNumber.Location = New Point(150, 195)
-        Me.Controls.Add(txtBatchNumber)
-
-        ' Add notes field
-        Dim lblNotes As New Label()
-        lblNotes.Text = "Notes:"
-        lblNotes.AutoSize = True
-        lblNotes.Location = New Point(20, 235)
-        Me.Controls.Add(lblNotes)
-
-        Dim txtNotes As New TextBox()
-        txtNotes.Name = "txtNotes"
-        txtNotes.Size = New Size(300, 60)
-        txtNotes.Location = New Point(150, 230)
-        txtNotes.Multiline = True
-        Me.Controls.Add(txtNotes)
-
-        ' Create a "Return to Products" button
-        Dim btnReturn As New Button()
-        btnReturn.Text = "Return to Products"
-        btnReturn.Size = New Size(150, 35)
-        btnReturn.Location = New Point(20, 300)
-        btnReturn.BackColor = Color.LightGray
-        AddHandler btnReturn.Click, AddressOf ReturnToProducts
-        Me.Controls.Add(btnReturn)
+        ' Make sure all controls are properly enabled
+        txtQuantity.Enabled = True
+        txtUnitPrice.Enabled = True
+        txtBatchNumber.Enabled = True
+        txtNotes.Enabled = True
+        btnReturn.Enabled = True
     End Sub
 
     ' Return to Products button click handler
-    Private Sub ReturnToProducts(sender As Object, e As EventArgs)
+    Private Sub btnReturn_Click(sender As Object, e As EventArgs) Handles btnReturn.Click
         ' Close this form and return to ProductMain
         Me.Close()
     End Sub
@@ -152,12 +149,7 @@ Public Class DeliveryMain
             Return
         End If
 
-        ' Get quantity from the dynamically created TextBox
-        Dim txtQuantity As TextBox = DirectCast(Me.Controls("txtQuantity"), TextBox)
-        Dim txtUnitPrice As TextBox = DirectCast(Me.Controls("txtUnitPrice"), TextBox)
-        Dim txtBatchNumber As TextBox = DirectCast(Me.Controls("txtBatchNumber"), TextBox)
-        Dim txtNotes As TextBox = DirectCast(Me.Controls("txtNotes"), TextBox)
-
+        ' Get quantity and other inputs
         If String.IsNullOrEmpty(txtQuantity.Text) OrElse Not IsNumeric(txtQuantity.Text) Then
             MessageBox.Show("Please enter a valid quantity.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
@@ -168,13 +160,36 @@ Public Class DeliveryMain
             Return
         End If
 
+        ' Get product data from our data transfer object
+        Dim productData = ProductDeliveryData.GetInstance()
+        
+        ' Validate that we have a valid product ID
+        If productData.ProductID <= 0 Then
+            MessageBox.Show($"Invalid product ID: {productData.ProductID}. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return
+        End If
+
+        ' Verify product exists in database before proceeding
+        Try
+            If connection.State = ConnectionState.Closed Then connection.Open()
+            Dim checkQuery As String = "SELECT COUNT(*) FROM products WHERE product_id = @product_id"
+            Dim checkCmd As New MySqlCommand(checkQuery, connection)
+            checkCmd.Parameters.AddWithValue("@product_id", productData.ProductID)
+            Dim productExists As Integer = Convert.ToInt32(checkCmd.ExecuteScalar())
+
+            If productExists = 0 Then
+                MessageBox.Show($"Product with ID {productData.ProductID} does not exist in the database. Product Name: {productData.ProductName}, Barcode: {productData.Barcode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return
+            End If
+        Catch ex As Exception
+            MessageBox.Show($"Error checking product existence: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return
+        End Try
+
         Dim quantity As Integer = Integer.Parse(txtQuantity.Text)
         Dim unitPrice As Decimal = Decimal.Parse(txtUnitPrice.Text)
         Dim batchNumber As String = If(String.IsNullOrEmpty(txtBatchNumber.Text), Nothing, txtBatchNumber.Text)
         Dim notes As String = If(String.IsNullOrEmpty(txtNotes.Text), Nothing, txtNotes.Text)
-
-        ' Get product data from our data transfer object
-        Dim productData = ProductDeliveryData.GetInstance()
 
         Try
             ' Begin a transaction to ensure data consistency
@@ -212,7 +227,7 @@ Public Class DeliveryMain
             End Try
 
         Catch ex As Exception
-            MessageBox.Show("Error saving delivery: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show($"Error saving delivery: {ex.Message}{Environment.NewLine}Product ID: {productData.ProductID}{Environment.NewLine}Product Name: {productData.ProductName}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
             If connection.State = ConnectionState.Open Then connection.Close()
         End Try
@@ -287,16 +302,15 @@ Public Class DeliveryMain
 
     ' Helper method to insert delivery record with notes
     Private Function InsertDeliveryRecord(transaction As MySqlTransaction, notes As String) As Integer
-        ' Insert into deliveries table
-        Dim query As String = "INSERT INTO deliveries (transaction_number, supplier_id, delivery_date, status, notes, received_by) 
-                             VALUES (@transaction_number, @supplier_id, @delivery_date, 'received', @notes, @received_by); 
+        ' Insert into deliveries table without received_by field
+        Dim query As String = "INSERT INTO deliveries (transaction_number, supplier_id, delivery_date, status, notes) 
+                             VALUES (@transaction_number, @supplier_id, @delivery_date, 'received', @notes); 
                              SELECT LAST_INSERT_ID();"
         Dim cmd As New MySqlCommand(query, connection, transaction)
         cmd.Parameters.AddWithValue("@transaction_number", lblTransactionNumber.Text)
         cmd.Parameters.AddWithValue("@supplier_id", cmbSupplier.SelectedValue)
         cmd.Parameters.AddWithValue("@delivery_date", dtpDeliveryDate.Value)
         cmd.Parameters.AddWithValue("@notes", If(String.IsNullOrEmpty(notes), DBNull.Value, notes))
-        cmd.Parameters.AddWithValue("@received_by", 1) ' TODO: Replace with actual user ID from login
 
         ' Get the newly inserted delivery_id
         Return Convert.ToInt32(cmd.ExecuteScalar())
@@ -305,6 +319,17 @@ Public Class DeliveryMain
     ' Helper method to insert delivery item with batch number
     Private Sub InsertDeliveryItem(deliveryId As Integer, productId As Integer, quantity As Integer,
                                  unitPrice As Decimal, batchNumber As String, transaction As MySqlTransaction)
+        ' First verify that the product exists
+        Dim checkQuery As String = "SELECT COUNT(*) FROM products WHERE product_id = @product_id"
+        Dim checkCmd As New MySqlCommand(checkQuery, connection, transaction)
+        checkCmd.Parameters.AddWithValue("@product_id", productId)
+        Dim productExists As Integer = Convert.ToInt32(checkCmd.ExecuteScalar())
+
+        If productExists = 0 Then
+            Throw New Exception($"Product with ID {productId} does not exist.")
+        End If
+
+        ' If product exists, proceed with insertion
         Dim query As String = "INSERT INTO delivery_items (delivery_id, product_id, quantity, unit_price, batch_number, status) 
                              VALUES (@delivery_id, @product_id, @quantity, @unit_price, @batch_number, 'active')"
         Dim cmd As New MySqlCommand(query, connection, transaction)
@@ -319,14 +344,13 @@ Public Class DeliveryMain
     ' Helper method to record stock movement
     Private Sub RecordStockMovement(productId As Integer, quantity As Integer, movementType As String,
                                   referenceId As Integer, transaction As MySqlTransaction)
-        Dim query As String = "INSERT INTO stock_movements (product_id, movement_type, quantity, reference_id, performed_by) 
-                             VALUES (@product_id, @movement_type, @quantity, @reference_id, @performed_by)"
+        Dim query As String = "INSERT INTO stock_movements (product_id, movement_type, quantity, reference_id) 
+                             VALUES (@product_id, @movement_type, @quantity, @reference_id)"
         Dim cmd As New MySqlCommand(query, connection, transaction)
         cmd.Parameters.AddWithValue("@product_id", productId)
         cmd.Parameters.AddWithValue("@movement_type", movementType)
         cmd.Parameters.AddWithValue("@quantity", quantity)
         cmd.Parameters.AddWithValue("@reference_id", referenceId.ToString())
-        cmd.Parameters.AddWithValue("@performed_by", 1) ' TODO: Replace with actual user ID from login
         cmd.ExecuteNonQuery()
     End Sub
 
@@ -340,14 +364,14 @@ Public Class DeliveryMain
 
         If recordExists Then
             ' Update existing record
-            Dim updateQuery As String = "UPDATE inventory SET quantity = quantity + @quantity WHERE product_id = @product_id"
+            Dim updateQuery As String = "UPDATE inventory SET current_quantity = current_quantity + @quantity WHERE product_id = @product_id"
             Dim updateCmd As New MySqlCommand(updateQuery, connection, transaction)
             updateCmd.Parameters.AddWithValue("@product_id", productId)
             updateCmd.Parameters.AddWithValue("@quantity", quantity)
             updateCmd.ExecuteNonQuery()
         Else
             ' Insert new record
-            Dim insertQuery As String = "INSERT INTO inventory (product_id, quantity) VALUES (@product_id, @quantity)"
+            Dim insertQuery As String = "INSERT INTO inventory (product_id, current_quantity) VALUES (@product_id, @quantity)"
             Dim insertCmd As New MySqlCommand(insertQuery, connection, transaction)
             insertCmd.Parameters.AddWithValue("@product_id", productId)
             insertCmd.Parameters.AddWithValue("@quantity", quantity)
@@ -425,5 +449,10 @@ Public Class DeliveryMain
 
     Private Sub DeliveryMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadSuppliers()
+    End Sub
+
+    ' Close button click handler
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Me.Close()
     End Sub
 End Class
