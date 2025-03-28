@@ -428,13 +428,46 @@ Public Class DeliveryMain
         cmd.Parameters.AddWithValue("@batch_number", If(String.IsNullOrEmpty(batchNumber), DBNull.Value, batchNumber))
         
         ' Add expiration date if product has expiration
+        Dim expirationDate As DateTime? = Nothing
         If dtpExpirationDate.Visible Then
-            cmd.Parameters.AddWithValue("@expiration_date", dtpExpirationDate.Value)
+            expirationDate = dtpExpirationDate.Value
+            cmd.Parameters.AddWithValue("@expiration_date", expirationDate)
+            
+            ' Also update the expiration_tracking table
+            UpdateExpirationTracking(productId, quantity, expirationDate, transaction)
         Else
             cmd.Parameters.AddWithValue("@expiration_date", DBNull.Value)
         End If
         
         cmd.ExecuteNonQuery()
+    End Sub
+
+    ' Helper method to update expiration tracking
+    Private Sub UpdateExpirationTracking(productId As Integer, quantity As Integer, expirationDate As DateTime, transaction As MySqlTransaction)
+        ' First check if a record already exists for this product and expiration date
+        Dim checkQuery As String = "SELECT COUNT(*) FROM expiration_tracking WHERE product_id = @product_id AND expiration_date = @expiration_date"
+        Dim checkCmd As New MySqlCommand(checkQuery, connection, transaction)
+        checkCmd.Parameters.AddWithValue("@product_id", productId)
+        checkCmd.Parameters.AddWithValue("@expiration_date", expirationDate.Date)
+        Dim recordExists As Boolean = Convert.ToInt32(checkCmd.ExecuteScalar()) > 0
+        
+        If recordExists Then
+            ' Update existing record
+            Dim updateQuery As String = "UPDATE expiration_tracking SET quantity = quantity + @quantity WHERE product_id = @product_id AND expiration_date = @expiration_date"
+            Dim updateCmd As New MySqlCommand(updateQuery, connection, transaction)
+            updateCmd.Parameters.AddWithValue("@product_id", productId)
+            updateCmd.Parameters.AddWithValue("@expiration_date", expirationDate.Date)
+            updateCmd.Parameters.AddWithValue("@quantity", quantity)
+            updateCmd.ExecuteNonQuery()
+        Else
+            ' Insert new record
+            Dim insertQuery As String = "INSERT INTO expiration_tracking (product_id, expiration_date, quantity) VALUES (@product_id, @expiration_date, @quantity)"
+            Dim insertCmd As New MySqlCommand(insertQuery, connection, transaction)
+            insertCmd.Parameters.AddWithValue("@product_id", productId)
+            insertCmd.Parameters.AddWithValue("@expiration_date", expirationDate.Date)
+            insertCmd.Parameters.AddWithValue("@quantity", quantity)
+            insertCmd.ExecuteNonQuery()
+        End If
     End Sub
 
     ' Helper method to record stock movement
