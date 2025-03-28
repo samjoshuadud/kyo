@@ -54,6 +54,7 @@ Partial Class POS
         Button1 = New Button()
         btnProcessPayment = New Button()
         btnClearcart = New Button()
+        btnVoid = New Button()
         dgvCart = New DataGridView()
         Panel1 = New Panel()
         Label11 = New Label()
@@ -404,6 +405,16 @@ Partial Class POS
         btnClearcart.TabIndex = 4
         btnClearcart.Text = "Clear Cart"
         ' 
+        ' btnVoid
+        ' 
+        btnVoid.Location = New Point(851, 470)
+        btnVoid.Name = "btnVoid"
+        btnVoid.Size = New Size(163, 54)
+        btnVoid.TabIndex = 18
+        btnVoid.Text = "Void Item"
+        btnVoid.BackColor = Color.FromArgb(255, 128, 128)
+        btnVoid.ForeColor = Color.Black
+        ' 
         ' dgvCart
         ' 
         dgvCart.AllowUserToAddRows = False
@@ -568,6 +579,7 @@ Partial Class POS
         Controls.Add(Button3)
         Controls.Add(PanelPay)
         Controls.Add(btnClearcart)
+        Controls.Add(btnVoid)
         Controls.Add(Button1)
         Controls.Add(Panel1)
         Controls.Add(Panel2)
@@ -618,6 +630,7 @@ Partial Class POS
     Private WithEvents Button1 As Button
     Private WithEvents btnProcessPayment As Button
     Private WithEvents btnClearcart As Button
+    Private WithEvents btnVoid As Button
     Private WithEvents dgvCart As DataGridView
     Friend WithEvents Panel1 As Panel
     Private WithEvents Label10 As Label

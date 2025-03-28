@@ -36,8 +36,6 @@ Public Class POS
         ' Initialize UI and backend
         GenerateTransactionNumber()
         InitializeCashierDetails()
-        Dim lblCashier As New Label() ' Make sure this is declared in the form's designer
-
     End Sub
 
 
@@ -167,42 +165,56 @@ Public Class POS
     End Sub
 
     Private Sub AddToCart(barcode As String)
-        If String.IsNullOrWhiteSpace(barcode) Then Return ' Exit if barcode is empty or null
+        If String.IsNullOrWhiteSpace(barcode) Then 
+            MessageBox.Show("Please enter a valid barcode.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return 
+        End If
 
         ' Initialize the cart DataTable if it's not already done
         If cart Is Nothing Then InitializeCart()
 
         Try
-            ' Query to fetch product details based on the scanned barcode
-            Dim query As String = "SELECT p.product_name, p.selling_price, i.current_quantity 
+            ' Improved query to fetch product details based on the scanned barcode
+            ' Use LEFT JOIN instead of INNER JOIN to avoid missing products that haven't been delivered yet
+            Dim query As String = "SELECT p.product_id, p.product_name, p.selling_price, IFNULL(i.current_quantity, 0) as current_quantity 
                                FROM products p
-                               INNER JOIN delivery_items di ON p.product_id = di.product_id
-                               INNER JOIN inventory i ON i.product_id = p.product_id
+                               LEFT JOIN inventory i ON p.product_id = i.product_id
                                WHERE p.barcode = @barcode"
             Dim parameters As MySqlParameter() = {New MySqlParameter("@barcode", barcode)}
             Dim productTable As DataTable = dbHelper.ExecuteQuery(query, parameters)
 
             ' Check if product exists
             If productTable.Rows.Count = 0 Then
-                MessageBox.Show("Product not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Product not found. Please verify the barcode.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Return
             End If
 
             ' Extract product details from the database result
+            Dim productId As Integer = Convert.ToInt32(productTable.Rows(0)("product_id"))
             Dim productName As String = productTable.Rows(0)("product_name").ToString()
             Dim unitPrice As Decimal = Convert.ToDecimal(productTable.Rows(0)("selling_price"))
             Dim availableQuantity As Integer = Convert.ToInt32(productTable.Rows(0)("current_quantity"))
             Dim discount As Decimal = 0 ' Add discount logic if needed
 
+            ' Check if the product has been delivered before allowing sale
+            If Not IsProductDelivered(productId) Then
+                MessageBox.Show("This product has not been delivered yet. Please update the delivery records first.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return
+            End If
+
             ' Get the manual quantity from the txtQuantity TextBox or set default to 1
             Dim manualQuantity As Integer = 1
-            If Not String.IsNullOrWhiteSpace(txtQuantity.Text) Then
-                manualQuantity = Convert.ToInt32(txtQuantity.Text)
+            If Not String.IsNullOrWhiteSpace(txtQuantity.Text) AndAlso Integer.TryParse(txtQuantity.Text, manualQuantity) Then
+                ' Validate that quantity is greater than zero
+                If manualQuantity <= 0 Then
+                    MessageBox.Show("Quantity must be greater than zero.", "Invalid Quantity", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Return
+                End If
             End If
 
             ' Check if the requested quantity exceeds the available quantity in inventory
             If manualQuantity > availableQuantity Then
-                MessageBox.Show("Insufficient stock. Only " & availableQuantity.ToString() & " items are available.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                MessageBox.Show("Insufficient stock. Only " & availableQuantity.ToString() & " items are available.", "Stock Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Return
             End If
 
@@ -210,8 +222,16 @@ Public Class POS
             Dim existingRow = cart.AsEnumerable().FirstOrDefault(Function(row) row.Field(Of String)("Barcode") = barcode)
             If existingRow IsNot Nothing Then
                 ' If the product exists, increment the quantity and update the total
-                existingRow("Quantity") += manualQuantity
-                existingRow("Total") = existingRow("Quantity") * existingRow("UnitPrice")
+                Dim newQuantity As Integer = existingRow("Quantity") + manualQuantity
+                
+                ' Additional check to ensure we don't exceed stock even when adding to existing items
+                If newQuantity > availableQuantity Then
+                    MessageBox.Show("Insufficient stock. Cannot add " & manualQuantity & " more items. Only " & (availableQuantity - existingRow("Quantity")) & " additional items can be added.", "Stock Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Return
+                End If
+                
+                existingRow("Quantity") = newQuantity
+                existingRow("Total") = newQuantity * existingRow("UnitPrice")
             Else
                 ' If the product is not yet in the cart, add a new row
                 Dim rowIndex As Integer = cart.Rows.Count + 1
@@ -221,12 +241,15 @@ Public Class POS
             ' Refresh the DataGridView to show the updated cart
             dgvCart.DataSource = Nothing
             dgvCart.DataSource = cart
+            AddImageColumns() ' Add image columns again after rebinding
 
             ' Update the cart summary, such as total price, item count, etc.
             UpdateCartSummary()
 
             ' Clear the quantity input after adding the product to the cart
             txtQuantity.Clear()
+            txtBarcode.Clear()
+            txtBarcode.Focus() ' Set focus back to barcode for next scan
 
         Catch ex As Exception
             MessageBox.Show("Error adding item: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -263,36 +286,61 @@ Public Class POS
     End Class
 
     Private Sub BtnProcessPayment_Click(sender As Object, e As EventArgs) Handles btnProcessPayment.Click
-        Dim amountPaid As Decimal
-
-        ' Validate the amount paid
-        If Not Decimal.TryParse(txtAmountPaid.Text, amountPaid) OrElse amountPaid < Convert.ToDecimal(lblTotal.Text) Then
-            MessageBox.Show("Insufficient amount paid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        ' Check if cart is empty
+        If cart Is Nothing OrElse cart.Rows.Count = 0 Then
+            MessageBox.Show("Cart is empty. Please add items before processing payment.", "Empty Cart", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
 
-        ' Get the selected discount (Ensure ComboBox is properly bound)
-        Dim selectedDiscountRate = Convert.ToDecimal(CType(cmbDiscount.SelectedItem, DataRowView)("discount_rate")) / 100
-        Dim totalAmount = Convert.ToDecimal(lblTotal.Text)
-        Dim discountAmount = totalAmount * selectedDiscountRate
-        Dim netAmount = totalAmount - discountAmount
+        Dim amountPaid As Decimal
+
+        ' Validate the amount paid
+        If Not Decimal.TryParse(txtAmountPaid.Text, amountPaid) Then
+            MessageBox.Show("Please enter a valid amount.", "Invalid Amount", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+        
+        ' Calculate total amount and discount
+        Dim totalAmount As Decimal = Convert.ToDecimal(lblTotal.Text)
+        Dim discountRate As Decimal = 0
+        
+        ' Get the selected discount only if a selection was made
+        If cmbDiscount.SelectedItem IsNot Nothing Then
+            discountRate = Convert.ToDecimal(CType(cmbDiscount.SelectedItem, DataRowView)("discount_rate")) / 100
+        End If
+        
+        Dim discountAmount As Decimal = totalAmount * discountRate
+        Dim netAmount As Decimal = totalAmount - discountAmount
+        
+        ' Check if amount paid is sufficient
+        If amountPaid < netAmount Then
+            MessageBox.Show($"Insufficient amount paid. Required: {netAmount:C}", "Payment Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return
+        End If
 
         ' Update UI for discount and total
         lblDiscount.Text = discountAmount.ToString("0.00")
         lblTotal.Text = netAmount.ToString("0.00")
 
-        ' Stock and Payment Process
+        ' Validate stock availability for all items before proceeding
         For Each row As DataRow In cart.Rows
-            Dim productId = GetProductId(row("Barcode"))
+            Dim productId = GetProductId(row("Barcode").ToString())
             Dim quantityRequested = Convert.ToInt32(row("Quantity"))
 
             ' Check stock availability
             Dim stockQuery = "SELECT current_quantity FROM inventory WHERE product_id = @product_id"
             Dim stockParams = {New MySqlParameter("@product_id", productId)}
-            Dim currentStock = Convert.ToInt32(dbHelper.ExecuteScalar(stockQuery, stockParams))
+            Dim result = dbHelper.ExecuteScalar(stockQuery, stockParams)
+            
+            If result Is Nothing Then
+                MessageBox.Show($"Product '{row("ItemName").ToString()}' is not in inventory.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return
+            End If
+            
+            Dim currentStock = Convert.ToInt32(result)
 
             If quantityRequested > currentStock Then
-                MessageBox.Show($"Insufficient stock for product: {row("ItemName").ToString}. Only {currentStock} available.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show($"Insufficient stock for product: {row("ItemName").ToString()}. Only {currentStock} available.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Return ' Exit the process if stock is insufficient
             End If
         Next
@@ -301,20 +349,23 @@ Public Class POS
         Dim change = amountPaid - netAmount
         lblChange.Text = change.ToString("0.00")
 
+        ' Generate receipt number
+        Dim receiptNumber = "RCP-" & DateTime.Now.ToString("yyyyMMddHHmmss")
+
         Try
             dbHelper.BeginTransaction()
 
             ' Insert the sale details into the sales table
             Dim saleQuery = "INSERT INTO sales (transaction_number, sale_date, cashier_id, total_amount, discount_amount, vat_amount, net_amount) 
-                                   VALUES (@transaction_number, NOW(), @cashier_id, @total_amount, @discount_amount, @vat_amount, @net_amount)"
+                                 VALUES (@transaction_number, NOW(), @cashier_id, @total_amount, @discount_amount, @vat_amount, @net_amount)"
             Dim saleParams = {
-            New MySqlParameter("@transaction_number", transactionNumber),
-            New MySqlParameter("@cashier_id", CurrentCashierId),
-            New MySqlParameter("@total_amount", totalAmount),
-            New MySqlParameter("@discount_amount", discountAmount),
-            New MySqlParameter("@vat_amount", lblVAT.Text), ' Add VAT calculation before this if needed
-            New MySqlParameter("@net_amount", netAmount)
-        }
+                New MySqlParameter("@transaction_number", transactionNumber),
+                New MySqlParameter("@cashier_id", CurrentCashierId),
+                New MySqlParameter("@total_amount", totalAmount),
+                New MySqlParameter("@discount_amount", discountAmount),
+                New MySqlParameter("@vat_amount", Convert.ToDecimal(lblVAT.Text)), 
+                New MySqlParameter("@net_amount", netAmount)
+            }
             dbHelper.ExecuteNonQuery(saleQuery, saleParams)
 
             ' Get the Sale ID for sale_items
@@ -326,19 +377,19 @@ Public Class POS
 
             ' Prepare Order Data
             For Each row As DataRow In cart.Rows
-                Dim productId = GetProductId(row("Barcode"))
+                Dim productId = GetProductId(row("Barcode").ToString())
                 Dim quantity = Convert.ToInt32(row("Quantity"))
 
                 ' Insert into Sale Items Table
                 Dim itemQuery = "INSERT INTO sale_items (sale_id, product_id, quantity, unit_price, total_price) 
-                                       VALUES (@sale_id, @product_id, @quantity, @unit_price, @total_price)"
+                                   VALUES (@sale_id, @product_id, @quantity, @unit_price, @total_price)"
                 Dim itemParams = {
-                New MySqlParameter("@sale_id", saleId),
-                New MySqlParameter("@product_id", productId),
-                New MySqlParameter("@quantity", quantity),
-                New MySqlParameter("@unit_price", row("UnitPrice")),
-                New MySqlParameter("@total_price", row("Total"))
-            }
+                    New MySqlParameter("@sale_id", saleId),
+                    New MySqlParameter("@product_id", productId),
+                    New MySqlParameter("@quantity", quantity),
+                    New MySqlParameter("@unit_price", row("UnitPrice")),
+                    New MySqlParameter("@total_price", row("Total"))
+                }
                 dbHelper.ExecuteNonQuery(itemQuery, itemParams)
 
                 ' Add product to the order dictionary
@@ -352,18 +403,31 @@ Public Class POS
             ' Update Inventory and Expiration Tracking
             UpdateInventory(order)
             UpdateExpirationTracking(order)
+            
+            ' Record the transaction in audit trail
+            Dim auditQuery = "INSERT INTO audittrail (Role, FullName, Action, Form, Date) VALUES (@role, @fullName, @action, @form, NOW())"
+            Dim auditParams = {
+                New MySqlParameter("@role", "Cashier"),
+                New MySqlParameter("@fullName", lblCashier.Text.Trim()),
+                New MySqlParameter("@action", $"Processed sale: {transactionNumber}, Receipt: {receiptNumber}, Items: {cart.Rows.Count}, Total: {netAmount:C}"),
+                New MySqlParameter("@form", "POS")
+            }
+            dbHelper.ExecuteNonQuery(auditQuery, auditParams)
 
             dbHelper.CommitTransaction()
 
             ' Success message
-            MessageBox.Show("Payment processed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show($"Payment processed successfully.{Environment.NewLine}Change: {change:C}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             ' Print receipt and reset POS form
-            PrintReceipt()
-            BtnClearCart_Click(sender, e)
+            PrintReceipt(receiptNumber)
+            btnClearcart.PerformClick() ' Use the existing Clear Cart functionality
             GenerateTransactionNumber()
             txtAmountPaid.Clear()
             lblChange.Text = "0.00"
+            
+            ' Close payment panel if open
+            PanelPay.Visible = False
 
         Catch ex As Exception
             dbHelper.RollbackTransaction()
@@ -461,6 +525,7 @@ Public Class POS
         DisplayDateAndTime() ' Initialize the label with the current date and time
         LoadDiscounts()
         PanelQuantity.Visible = False ' Ensure panel is hidden initially
+        
         ' Set Form Background Color
         Me.BackColor = Color.White
 
@@ -475,26 +540,16 @@ Public Class POS
         lblDiscount.ForeColor = Color.Black
         lblVAT.ForeColor = Color.Black
 
-
-        ' Set Form Background Color
-        Me.BackColor = Color.White
-
-        ' Set Label Background and Text Color
-        lblSubtotal.BackColor = Color.White
-        lblTotal.BackColor = Color.White
-        lblDiscount.BackColor = Color.White
-        lblVAT.BackColor = Color.White
-
-        lblSubtotal.ForeColor = Color.Black
-        lblTotal.ForeColor = Color.Black
-        lblDiscount.ForeColor = Color.Black
-        lblVAT.ForeColor = Color.Black
-
+        ' Set button colors
         btnClearcart.BackColor = Color.White
         btnClearcart.ForeColor = Color.Black
         btnProcessPayment.BackColor = Color.White  ' Set color for Process Payment button
         btnProcessPayment.ForeColor = Color.Black
+        btnVoid.BackColor = Color.FromArgb(255, 128, 128)
+        btnVoid.ForeColor = Color.Black
 
+        ' Add validation for preventing issues with invalid data
+        txtBarcode.Select() ' Set focus to barcode field to start scanning
     End Sub
 
     Private Function GetProductId(barcode As String) As Integer
@@ -516,12 +571,14 @@ Public Class POS
     Private WithEvents PrintDocument As New PrintDocument
     Private WithEvents PrintPreviewDialog As New PrintPreviewDialog
     Private PrinterSettings As New PrinterSettings()
+    Private currentReceiptNumber As String = "" ' Store receipt number here instead of using Tag
 
-    Private Sub PrintReceipt()
+    Private Sub PrintReceipt(receiptNumber As String)
         Try
             ' Set up print document settings
             AddHandler PrintDocument.PrintPage, AddressOf PrintDocument_PrintPage
             PrintDocument.PrinterSettings = PrinterSettings
+            currentReceiptNumber = receiptNumber ' Store in variable instead of Tag
             PrintPreviewDialog.Document = PrintDocument
             PrintPreviewDialog.ShowDialog()
             'PrintDocument.Print()
@@ -539,40 +596,58 @@ Public Class POS
 
     Private Function GenerateReceiptContent() As String
         Dim sb As New StringBuilder()
-        ' Header
-        sb.AppendLine("      RECEIPT      ")
-        sb.AppendLine("  ----------------  ")
-        sb.AppendLine($"Transaction #:")
-        sb.AppendLine($"{transactionNumber}")
-        sb.AppendLine($"Date: {DateTime.Now:yyyy-MM-dd HH:mm}")
-        sb.AppendLine($"Cashier: {fullName}")
+        
+        ' Get the receipt number from our variable instead of Tag property
+        Dim receiptNumber As String = currentReceiptNumber
+        
+        ' Store name and header
+        sb.AppendLine("      SALES RECEIPT      ")
+        sb.AppendLine("==========================")
+        sb.AppendLine($"Receipt #: {receiptNumber}")
+        sb.AppendLine($"Transaction #: {transactionNumber}")
+        sb.AppendLine($"Date: {DateTime.Now:yyyy-MM-dd HH:mm:ss}")
+        sb.AppendLine($"Cashier: {lblCashier.Text.Trim()}")
+        sb.AppendLine("==========================")
         sb.AppendLine()
 
-        ' Table Header
-        sb.AppendLine("Item      Qty  Price   Total")
-        sb.AppendLine("------------------------------")
+        ' Table Header with better alignment
+        sb.AppendLine("ITEM                QTY   PRICE    TOTAL")
+        sb.AppendLine("------------------------------------------")
 
-        ' Items
+        ' Items with better formatting
         For Each row As DataRow In cart.Rows
             Dim itemName As String = row("ItemName").ToString()
+            ' Truncate long names and pad for alignment
+            If itemName.Length > 18 Then
+                itemName = itemName.Substring(0, 15) & "..."
+            End If
+            itemName = itemName.PadRight(20)
+            
             Dim quantity As Integer = row("Quantity")
             Dim unitPrice As Decimal = row("UnitPrice")
             Dim totalPrice As Decimal = row("Total")
-            sb.AppendLine($"{itemName.PadRight(10).Substring(0, 10),-10} {quantity,3} {unitPrice,6:0.00} {totalPrice,6:0.00}")
+            
+            sb.AppendLine($"{itemName} {quantity,3}  {unitPrice,8:N2}  {totalPrice,8:N2}")
         Next
 
-        sb.AppendLine("------------------------------")
+        sb.AppendLine("------------------------------------------")
 
-        ' Summary
-        sb.AppendLine($"Subtotal:".PadRight(12) & lblSubtotal.Text.PadLeft(0))
-        sb.AppendLine($"Discount:".PadRight(12) & lblDiscount.Text.PadLeft(0))
-        sb.AppendLine($"VAT:".PadRight(12) & lblVAT.Text.PadLeft(0))
-        sb.AppendLine($"Total:".PadRight(12) & lblTotal.Text.PadLeft(0))
-        sb.AppendLine($"Paid:".PadRight(12) & txtAmountPaid.Text.PadLeft(0))
-        sb.AppendLine($"Change:".PadRight(12) & lblChange.Text.PadLeft(0))
-        sb.AppendLine("------------------------------")
-        sb.AppendLine("Thank you for shopping!")
-        sb.AppendLine("  Visit us again!")
+        ' Summary section with aligned values
+        Dim summaryLabelWidth As Integer = 12
+        sb.AppendLine()
+        sb.AppendLine($"{"Subtotal:".PadRight(summaryLabelWidth)}{lblSubtotal.Text,10:N2}")
+        sb.AppendLine($"{"Discount:".PadRight(summaryLabelWidth)}{lblDiscount.Text,10:N2}")
+        sb.AppendLine($"{"VAT:".PadRight(summaryLabelWidth)}{lblVAT.Text,10:N2}")
+        sb.AppendLine($"{"Total:".PadRight(summaryLabelWidth)}{lblTotal.Text,10:N2}")
+        sb.AppendLine("------------------------------------------")
+        sb.AppendLine($"{"Amount Paid:".PadRight(summaryLabelWidth)}{txtAmountPaid.Text,10:N2}")
+        sb.AppendLine($"{"Change:".PadRight(summaryLabelWidth)}{lblChange.Text,10:N2}")
+        sb.AppendLine("------------------------------------------")
+        sb.AppendLine()
+        sb.AppendLine("         Thank you for shopping!")
+        sb.AppendLine("           Please come again!")
+        sb.AppendLine()
+        sb.AppendLine("         " & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
 
         Return sb.ToString()
     End Function
@@ -816,5 +891,139 @@ Public Class POS
         End If
         PanelQuantity.Visible = True
     End Sub
+
+    Private Sub btnVoid_Click(sender As Object, e As EventArgs) Handles btnVoid.Click
+        ' Check if any row is selected in the cart
+        If dgvCart.SelectedRows.Count = 0 AndAlso dgvCart.CurrentRow Is Nothing Then
+            MessageBox.Show("Please select an item to void.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        ' Get the selected row (either through SelectedRows or CurrentRow)
+        Dim selectedRow As DataGridViewRow = If(dgvCart.SelectedRows.Count > 0, dgvCart.SelectedRows(0), dgvCart.CurrentRow)
+        
+        ' Get the item details for the audit trail
+        Dim itemName As String = selectedRow.Cells("ItemName").Value.ToString()
+        Dim quantity As Integer = Convert.ToInt32(selectedRow.Cells("Quantity").Value)
+        Dim barcode As String = selectedRow.Cells("Barcode").Value.ToString()
+        Dim unitPrice As Decimal = Convert.ToDecimal(selectedRow.Cells("UnitPrice").Value)
+        Dim totalPrice As Decimal = Convert.ToDecimal(selectedRow.Cells("Total").Value)
+        
+        ' Ask for confirmation before voiding
+        Dim confirmResult As DialogResult = MessageBox.Show(
+            $"Are you sure you want to void {quantity} x {itemName}?" & vbCrLf & 
+            $"Total: {totalPrice:C}", 
+            "Confirm Void", 
+            MessageBoxButtons.YesNo, 
+            MessageBoxIcon.Question)
+        
+        If confirmResult = DialogResult.Yes Then
+            ' Get the row index in the actual DataTable (may be different from the DataGridView due to filtering)
+            Dim rowIndex As Integer = dgvCart.Rows.IndexOf(selectedRow)
+            
+            ' Log the void action in audit trail
+            Try
+                Dim query As String = "INSERT INTO audittrail (Role, FullName, Action, Form, Date) VALUES (@role, @fullName, @action, @form, NOW())"
+                Dim parameters As MySqlParameter() = {
+                    New MySqlParameter("@role", "Cashier"),
+                    New MySqlParameter("@fullName", lblCashier.Text.Trim()),
+                    New MySqlParameter("@action", $"Voided {quantity} x {itemName} (Barcode: {barcode}) from transaction {transactionNumber}. Total: {totalPrice:C}"),
+                    New MySqlParameter("@form", "POS")
+                }
+                
+                dbHelper.ExecuteNonQuery(query, parameters)
+                
+                ' Remove the item from the cart
+                If cart.Rows.Count > rowIndex Then
+                    cart.Rows.RemoveAt(rowIndex)
+                End If
+                
+                ' Update the DataGridView and cart summary
+                dgvCart.DataSource = Nothing
+                dgvCart.DataSource = cart
+                UpdateCartSummary()
+                
+                MessageBox.Show("Item voided successfully.", "Void Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Catch ex As Exception
+                MessageBox.Show("Error voiding item: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
+    End Sub
+
+    ' Add a new Void Transaction function
+    Private Sub BtnVoidTransaction_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        ' Check if cart is empty
+        If cart Is Nothing OrElse cart.Rows.Count = 0 Then
+            MessageBox.Show("There are no items in the transaction to void.", "Empty Cart", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return
+        End If
+
+        ' Ask for confirmation with admin password for security
+        Dim confirmResult As DialogResult = MessageBox.Show(
+            $"Are you sure you want to void the entire transaction ({cart.Rows.Count} items)?" & vbCrLf &
+            $"Total: {lblTotal.Text}", 
+            "Confirm Void Transaction", 
+            MessageBoxButtons.YesNo, 
+            MessageBoxIcon.Warning)
+        
+        If confirmResult = DialogResult.Yes Then
+            ' Request admin password for additional security
+            Dim adminPassword As String = InputBox("Please enter admin password to void transaction:", "Authorization Required")
+            
+            ' Validate admin password - in a real system this should check against the database
+            Try
+                Dim validationQuery As String = "SELECT COUNT(*) FROM users WHERE role = 'Admin' AND password_hash = @passwordHash"
+                Dim parameters As MySqlParameter() = {New MySqlParameter("@passwordHash", GetSHA256Hash(adminPassword))}
+                Dim isValid As Integer = Convert.ToInt32(dbHelper.ExecuteScalar(validationQuery, parameters))
+                
+                If isValid > 0 Then
+                    ' Log the void transaction in audit trail
+                    Dim totalValue As Decimal = Convert.ToDecimal(lblTotal.Text)
+                    Dim itemCount As Integer = cart.Rows.Count
+                    
+                    Dim query As String = "INSERT INTO audittrail (Role, FullName, Action, Form, Date) VALUES (@role, @fullName, @action, @form, NOW())"
+                    Dim auditParams As MySqlParameter() = {
+                        New MySqlParameter("@role", "Cashier"),
+                        New MySqlParameter("@fullName", lblCashier.Text.Trim()),
+                        New MySqlParameter("@action", $"Voided entire transaction {transactionNumber} with {itemCount} items. Total value: {totalValue:C}"),
+                        New MySqlParameter("@form", "POS")
+                    }
+                    
+                    dbHelper.ExecuteNonQuery(query, auditParams)
+                    
+                    ' Clear the cart and reset the transaction
+                    cart.Clear()
+                    dgvCart.DataSource = Nothing
+                    dgvCart.DataSource = cart
+                    AddImageColumns() ' Add image columns again after rebinding
+                    
+                    UpdateCartSummary()
+                    GenerateTransactionNumber() ' Generate a new transaction number
+                    
+                    MessageBox.Show("Transaction voided successfully.", "Void Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    MessageBox.Show("Invalid administrator password. Transaction void cancelled.", "Authorization Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Error during authorization: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
+    End Sub
+
+    ' Helper function to generate SHA256 hash
+    Private Function GetSHA256Hash(input As String) As String
+        Using hasher As System.Security.Cryptography.SHA256 = System.Security.Cryptography.SHA256.Create()
+            ' Convert the input string to a byte array and compute the hash
+            Dim bytes As Byte() = hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(input))
+            
+            ' Convert byte array to a string
+            Dim builder As New System.Text.StringBuilder()
+            For i As Integer = 0 To bytes.Length - 1
+                builder.Append(bytes(i).ToString("x2"))
+            Next
+            
+            Return builder.ToString()
+        End Using
+    End Function
 
 End Class
