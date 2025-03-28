@@ -15,9 +15,6 @@ Public Class DeliveryMain
     Public Sub New(productId As Integer, productName As String, barcode As String, category As String, stock As Integer)
         InitializeComponent()
 
-        ' Debug the incoming parameters
-        MessageBox.Show($"Constructor received: Product ID={productId}, Name={productName}", "Debug Constructor")
-
         ' Store the product ID directly in this instance
         _productId = productId
 
@@ -69,8 +66,6 @@ Public Class DeliveryMain
             Dim cmd As New MySqlCommand(query, connection)
             cmd.Parameters.AddWithValue("@product_id", productId)
             Dim expirationOption As String = cmd.ExecuteScalar().ToString()
-
-            MessageBox.Show($"Database Expiration Option: '{expirationOption}' for Product ID: {productId}", "Debug Database Value")
 
             ' Update the singleton with the database value
             Dim dataTransfer As ProductDeliveryData = ProductDeliveryData.GetInstance()
@@ -197,7 +192,6 @@ Public Class DeliveryMain
         btnReturn.Visible = True
 
         ' Check if product has expiration
-        MessageBox.Show($"Product Expiration Option: '{productData.ExpirationOption}'", "Debug Info")
         If productData.ExpirationOption.Trim() = "With Expiration" Then
             lblExpirationDate.Visible = True
             dtpExpirationDate.Visible = True
@@ -234,9 +228,6 @@ Public Class DeliveryMain
 
     ' Save product-specific delivery (when coming from ProductMain)
     Private Sub SaveProductDelivery()
-        ' Debug message to trace execution flow
-        MessageBox.Show("Starting SaveProductDelivery method", "Debug")
-        
         ' Validate inputs
         If cmbSupplier.SelectedValue Is Nothing Then
             MessageBox.Show("Please select a supplier.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -256,9 +247,6 @@ Public Class DeliveryMain
 
         ' Get product data from our data transfer object for name and other details
         Dim productData = ProductDeliveryData.GetInstance()
-        
-        ' Debug the product data from singleton and our stored ID
-        MessageBox.Show($"Product data: Singleton ID={productData.ProductID}, Direct ID={_productId}, Name={productData.ProductName}", "Debug Product IDs")
         
         ' Use our stored product ID which was passed directly in the constructor
         Dim productId As Integer = _productId
@@ -281,10 +269,6 @@ Public Class DeliveryMain
                 MessageBox.Show($"Product with ID {productId} does not exist in the database. Product Name: {productData.ProductName}, Barcode: {productData.Barcode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Return
             End If
-            
-            ' Debug: confirm product exists
-            MessageBox.Show($"Product with ID {productId} exists in the database", "Debug Product Exists")
-            
         Catch ex As Exception
             MessageBox.Show($"Error checking product existence: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return
@@ -303,23 +287,18 @@ Public Class DeliveryMain
             Try
                 ' 1. Insert delivery record
                 Dim deliveryId As Integer = InsertDeliveryRecord(transaction, notes)
-                MessageBox.Show($"Created delivery record with ID: {deliveryId}", "Debug")
 
                 ' 2. Insert delivery item for the specific product
                 InsertDeliveryItem(deliveryId, productId, quantity, unitPrice, batchNumber, transaction)
-                MessageBox.Show("Inserted delivery item", "Debug")
 
                 ' 3. Update inventory record
                 UpdateInventory(productId, quantity, transaction)
-                MessageBox.Show("Updated inventory", "Debug")
 
                 ' 4. Record stock movement
                 RecordStockMovement(productId, quantity, "delivery", deliveryId, transaction)
-                MessageBox.Show("Recorded stock movement", "Debug")
 
                 ' Commit the transaction
                 transaction.Commit()
-                MessageBox.Show("Transaction committed successfully", "Debug")
 
                 ' Show success message
                 MessageBox.Show($"Delivery of {quantity} units of {productData.ProductName} has been recorded successfully.",

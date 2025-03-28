@@ -788,8 +788,6 @@ Public Class ProductMain
 
     Private Sub ShowInDeliveryContext()
         Try
-            MessageBox.Show("Starting ShowInDeliveryContext method", "Debug")
-            
             ' Check if there is a current row selected
             If dgvProducts.CurrentRow Is Nothing Then
                 MessageBox.Show("Please select a product first.", "No Product Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -812,7 +810,6 @@ Public Class ProductMain
                 ' First try to get the ID directly from the DataGridView
                 If dgvProducts.CurrentRow.Cells("product_id").Value IsNot Nothing Then
                     productId = Convert.ToInt32(dgvProducts.CurrentRow.Cells("product_id").Value)
-                    MessageBox.Show($"Retrieved product ID from grid: {productId}", "Debug Grid ID")
                 End If
                 
                 ' If still invalid, get it from the database by name
@@ -824,7 +821,6 @@ Public Class ProductMain
                     Dim result = idCmd.ExecuteScalar()
                     If result IsNot Nothing Then
                         productId = Convert.ToInt32(result)
-                        MessageBox.Show($"Retrieved product ID from database: {productId}", "Debug Database ID")
                     End If
                 End If
                 
@@ -845,16 +841,7 @@ Public Class ProductMain
             Dim category As String = dgvProducts.CurrentRow.Cells("category_name").Value.ToString()
             Dim stock As Integer = Convert.ToInt32(dgvProducts.CurrentRow.Cells("stock_level").Value)
 
-            ' Debug message with all product details
-            MessageBox.Show($"Product Details:{Environment.NewLine}" & _
-                          $"ID: {productId}{Environment.NewLine}" & _
-                          $"Name: {productName}{Environment.NewLine}" & _
-                          $"Barcode: {barcode}{Environment.NewLine}" & _
-                          $"Category: {category}{Environment.NewLine}" & _
-                          $"Stock: {stock}", "Debug Product Details")
-
             ' Create and show the delivery form with product data
-            MessageBox.Show("Creating DeliveryMain form with ID: " & productId, "Debug")
             Dim deliveryForm As New DeliveryMain(productId, productName, barcode, category, stock)
             deliveryForm.ShowDialog()
 
@@ -864,7 +851,7 @@ Public Class ProductMain
             End If
 
         Catch ex As Exception
-            MessageBox.Show($"Error in ShowInDeliveryContext: {ex.Message}{Environment.NewLine}Stack Trace: {ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show($"Error in ShowInDeliveryContext: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 End Class
