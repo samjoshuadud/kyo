@@ -39,7 +39,7 @@ Public Class ProductMain
 
             Dim query As String = "
             SELECT p.product_id, p.product_name, p.barcode, p.selling_price, p.cost_price, p.description, 
-            p.expiration_option AS expiration_status, c.category_name,
+            p.expiration_option, c.category_name,
             IFNULL((SELECT SUM(i.current_quantity) FROM inventory i WHERE i.product_id = p.product_id), 0) AS stock_level
             FROM products p 
             LEFT JOIN categories c ON p.category_id = c.category_id"
@@ -58,7 +58,7 @@ Public Class ProductMain
             dgvProducts.Columns("selling_price").HeaderText = "Selling Price"
             dgvProducts.Columns("cost_price").HeaderText = "Cost Price"
             dgvProducts.Columns("description").HeaderText = "Description"
-            dgvProducts.Columns("expiration_status").HeaderText = "Expiration Status"
+            dgvProducts.Columns("expiration_option").HeaderText = "Expiration Status"
             dgvProducts.Columns("category_name").HeaderText = "Category"
             dgvProducts.Columns("stock_level").HeaderText = "Current Stock"
             dgvProducts.Columns("product_id").Visible = False ' Hide product_id column
@@ -86,7 +86,7 @@ Public Class ProductMain
 
             Dim query As String = "
             SELECT p.product_id, p.product_name, p.barcode, p.selling_price, p.cost_price, p.description, 
-            p.expiration_option AS expiration_status, c.category_name, p.reorder_point, p.unit_of_measure,
+            p.expiration_option, c.category_name, p.reorder_point, p.unit_of_measure,
             s.supplier_name, p.is_active,
             IFNULL(SUM(i.current_quantity), 0) AS stock_level
             FROM products p 
@@ -110,7 +110,7 @@ Public Class ProductMain
             dgvProducts.Columns("selling_price").HeaderText = "Selling Price"
             dgvProducts.Columns("cost_price").HeaderText = "Cost Price"
             dgvProducts.Columns("description").HeaderText = "Description"
-            dgvProducts.Columns("expiration_status").HeaderText = "Expiration Status"
+            dgvProducts.Columns("expiration_option").HeaderText = "Expiration Status"
             dgvProducts.Columns("category_name").HeaderText = "Category"
             dgvProducts.Columns("supplier_name").HeaderText = "Supplier"
             dgvProducts.Columns("reorder_point").HeaderText = "Reorder Point"
@@ -470,7 +470,7 @@ Public Class ProductMain
             txtSellingPrice.Text = selectedRow.Cells("selling_price").Value.ToString()
             txtCostPrice.Text = selectedRow.Cells("cost_price").Value.ToString()
             txtDescription.Text = selectedRow.Cells("description").Value.ToString()
-            cmbExpirationOption.SelectedItem = selectedRow.Cells("expiration_status").Value.ToString()
+            cmbExpirationOption.SelectedItem = selectedRow.Cells("expiration_option").Value.ToString()
 
             ' Get the category ID and set the ComboBox
             Dim categoryId As Integer = GetCategoryIdByName(selectedRow.Cells("category_name").Value.ToString())
@@ -784,5 +784,87 @@ Public Class ProductMain
 
     Private Sub txtDescription_TextChanged(sender As Object, e As EventArgs) Handles txtDescription.TextChanged
 
+    End Sub
+
+    Private Sub ShowInDeliveryContext()
+        Try
+            MessageBox.Show("Starting ShowInDeliveryContext method", "Debug")
+            
+            ' Check if there is a current row selected
+            If dgvProducts.CurrentRow Is Nothing Then
+                MessageBox.Show("Please select a product first.", "No Product Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return
+            End If
+
+            ' Check if product_id column exists
+            If Not dgvProducts.Columns.Contains("product_id") Then
+                MessageBox.Show("The product_id column is not available in the DataGridView.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return
+            End If
+
+            ' Get product ID directly from database using the product name
+            Dim productName As String = dgvProducts.CurrentRow.Cells("product_name").Value.ToString()
+            Dim productId As Integer = 0
+            
+            Try
+                If connection.State = ConnectionState.Closed Then connection.Open()
+                
+                ' First try to get the ID directly from the DataGridView
+                If dgvProducts.CurrentRow.Cells("product_id").Value IsNot Nothing Then
+                    productId = Convert.ToInt32(dgvProducts.CurrentRow.Cells("product_id").Value)
+                    MessageBox.Show($"Retrieved product ID from grid: {productId}", "Debug Grid ID")
+                End If
+                
+                ' If still invalid, get it from the database by name
+                If productId <= 0 Then
+                    Dim idQuery As String = "SELECT product_id FROM products WHERE product_name = @product_name LIMIT 1"
+                    Dim idCmd As New MySqlCommand(idQuery, connection)
+                    idCmd.Parameters.AddWithValue("@product_name", productName)
+                    
+                    Dim result = idCmd.ExecuteScalar()
+                    If result IsNot Nothing Then
+                        productId = Convert.ToInt32(result)
+                        MessageBox.Show($"Retrieved product ID from database: {productId}", "Debug Database ID")
+                    End If
+                End If
+                
+                ' If still invalid, show error and exit
+                If productId <= 0 Then
+                    MessageBox.Show($"Could not determine valid product ID for '{productName}'", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Return
+                End If
+            Catch ex As Exception
+                MessageBox.Show($"Error retrieving product ID: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return
+            Finally
+                If connection.State = ConnectionState.Open Then connection.Close()
+            End Try
+
+            ' Get other product details
+            Dim barcode As String = dgvProducts.CurrentRow.Cells("barcode").Value.ToString()
+            Dim category As String = dgvProducts.CurrentRow.Cells("category_name").Value.ToString()
+            Dim stock As Integer = Convert.ToInt32(dgvProducts.CurrentRow.Cells("stock_level").Value)
+
+            ' Debug message with all product details
+            MessageBox.Show($"Product Details:{Environment.NewLine}" & _
+                          $"ID: {productId}{Environment.NewLine}" & _
+                          $"Name: {productName}{Environment.NewLine}" & _
+                          $"Barcode: {barcode}{Environment.NewLine}" & _
+                          $"Category: {category}{Environment.NewLine}" & _
+                          $"Stock: {stock}", "Debug Product Details")
+
+            ' Create and show the delivery form with product data
+            MessageBox.Show("Creating DeliveryMain form with ID: " & productId, "Debug")
+            Dim deliveryForm As New DeliveryMain(productId, productName, barcode, category, stock)
+            deliveryForm.ShowDialog()
+
+            ' Refresh the product list after delivery
+            If deliveryForm.DialogResult = DialogResult.OK Then
+                LoadProductsAlternate()
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show($"Error in ShowInDeliveryContext: {ex.Message}{Environment.NewLine}Stack Trace: {ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 End Class

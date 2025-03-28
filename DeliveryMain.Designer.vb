@@ -34,6 +34,8 @@ Partial Class DeliveryMain
     Private txtUnitPrice As System.Windows.Forms.TextBox
     Private lblBatchNumber As System.Windows.Forms.Label
     Private txtBatchNumber As System.Windows.Forms.TextBox
+    Private lblExpirationDate As System.Windows.Forms.Label
+    Private dtpExpirationDate As System.Windows.Forms.DateTimePicker
     Private lblNotes As System.Windows.Forms.Label
     Private txtNotes As System.Windows.Forms.TextBox
     Private WithEvents btnReturn As System.Windows.Forms.Button
@@ -57,21 +59,12 @@ Partial Class DeliveryMain
         txtUnitPrice = New TextBox()
         lblBatchNumber = New Label()
         txtBatchNumber = New TextBox()
+        lblExpirationDate = New Label()
+        dtpExpirationDate = New DateTimePicker()
         lblNotes = New Label()
         txtNotes = New TextBox()
         btnReturn = New Button()
         SuspendLayout()
-        ' 
-        ' Form Properties
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0F, 15.0F)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.FormBorderStyle = FormBorderStyle.Sizable
-        Me.MinimumSize = New Size(500, 600)
-        Me.MaximumSize = New Size(800, 800)
-        Me.AutoScroll = True
-        Me.StartPosition = FormStartPosition.CenterScreen
-        Me.ClientSize = New Size(600, 700)
         ' 
         ' lblTransactionTitle
         ' 
@@ -226,10 +219,28 @@ Partial Class DeliveryMain
         txtBatchNumber.Size = New Size(150, 25)
         txtBatchNumber.TabIndex = 15
         ' 
+        ' lblExpirationDate
+        ' 
+        lblExpirationDate.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        lblExpirationDate.Location = New Point(20, 340)
+        lblExpirationDate.Name = "lblExpirationDate"
+        lblExpirationDate.Size = New Size(150, 23)
+        lblExpirationDate.TabIndex = 19
+        lblExpirationDate.Text = "Expiration Date:"
+        ' 
+        ' dtpExpirationDate
+        ' 
+        dtpExpirationDate.Font = New Font("Segoe UI", 10F)
+        dtpExpirationDate.Format = DateTimePickerFormat.Short
+        dtpExpirationDate.Location = New Point(180, 340)
+        dtpExpirationDate.Name = "dtpExpirationDate"
+        dtpExpirationDate.Size = New Size(280, 25)
+        dtpExpirationDate.TabIndex = 20
+        ' 
         ' lblNotes
         ' 
         lblNotes.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
-        lblNotes.Location = New Point(20, 340)
+        lblNotes.Location = New Point(20, 380)
         lblNotes.Name = "lblNotes"
         lblNotes.Size = New Size(150, 23)
         lblNotes.TabIndex = 16
@@ -238,18 +249,18 @@ Partial Class DeliveryMain
         ' txtNotes
         ' 
         txtNotes.Font = New Font("Segoe UI", 10F)
-        txtNotes.Location = New Point(180, 340)
+        txtNotes.Location = New Point(176, 380)
+        txtNotes.Multiline = True
         txtNotes.Name = "txtNotes"
         txtNotes.Size = New Size(400, 100)
         txtNotes.TabIndex = 17
-        txtNotes.Multiline = True
         ' 
         ' btnReturn
         ' 
         btnReturn.BackColor = Color.LightGray
         btnReturn.FlatStyle = FlatStyle.Flat
         btnReturn.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
-        btnReturn.Location = New Point(20, 500)
+        btnReturn.Location = New Point(20, 530)
         btnReturn.Name = "btnReturn"
         btnReturn.Size = New Size(150, 35)
         btnReturn.TabIndex = 18
@@ -261,6 +272,7 @@ Partial Class DeliveryMain
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
+        AutoScroll = True
         BackColor = SystemColors.Control
         ClientSize = New Size(600, 700)
         Controls.Add(lblTransactionTitle)
@@ -279,14 +291,17 @@ Partial Class DeliveryMain
         Controls.Add(txtUnitPrice)
         Controls.Add(lblBatchNumber)
         Controls.Add(txtBatchNumber)
+        Controls.Add(lblExpirationDate)
+        Controls.Add(dtpExpirationDate)
         Controls.Add(lblNotes)
         Controls.Add(txtNotes)
         Controls.Add(btnReturn)
-        MinimumSize = New Size(500, 600)
         MaximumSize = New Size(800, 800)
+        MinimumSize = New Size(500, 600)
         Name = "DeliveryMain"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Delivery Maintenance"
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 End Class

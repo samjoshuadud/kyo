@@ -14,6 +14,7 @@ Public Class ProductDeliveryData
     Public Property Barcode As String
     Public Property Category As String
     Public Property CurrentStock As Integer = 0
+    Public Property ExpirationOption As String = "Without Expiration"
     
     ' Get the single instance of this class
     Public Shared Function GetInstance() As ProductDeliveryData
@@ -36,6 +37,7 @@ Public Class ProductDeliveryData
         Barcode = ""
         Category = ""
         CurrentStock = 0
+        ExpirationOption = "Without Expiration"
         _isInitialized = False
     End Sub
     
@@ -46,11 +48,12 @@ Public Class ProductDeliveryData
         Barcode = ""
         Category = ""
         CurrentStock = 0
+        ExpirationOption = "Without Expiration"
         _isInitialized = False
     End Sub
 
     ' Set product details from ProductMain form
-    Public Sub SetProductDetails(productId As Integer, name As String, barcode As String, category As String)
+    Public Sub SetProductDetails(productId As Integer, name As String, barcode As String, category As String, expirationOption As String)
         If productId <= 0 Then
             Throw New ArgumentException($"Invalid product ID: {productId}. Cannot set product details with an invalid ID.")
         End If
@@ -59,6 +62,7 @@ Public Class ProductDeliveryData
         ProductName = name
         Barcode = barcode
         Category = category
+        ExpirationOption = expirationOption
         _isInitialized = True
     End Sub
 

@@ -7,10 +7,19 @@ Public Class DeliveryMain
 
     ' Flag to indicate if we're in product context mode
     Private _productContextMode As Boolean = False
+    
+    ' Store the product ID directly in the class
+    Private _productId As Integer = 0
 
     ' Constructor for the DeliveryMain Form with direct product data
     Public Sub New(productId As Integer, productName As String, barcode As String, category As String, stock As Integer)
         InitializeComponent()
+
+        ' Debug the incoming parameters
+        MessageBox.Show($"Constructor received: Product ID={productId}, Name={productName}", "Debug Constructor")
+
+        ' Store the product ID directly in this instance
+        _productId = productId
 
         ' Initialize the form properties
         Me.Text = $"Receive Delivery - {productName}"
@@ -21,21 +30,92 @@ Public Class DeliveryMain
         Me.BackColor = ColorTranslator.FromHtml("#B2DFEE") ' Light blue background
         Me.AutoScroll = True
 
+        ' Ensure valid product ID
+        If productId <= 0 Then
+            MessageBox.Show($"Invalid product ID: {productId}. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.DialogResult = DialogResult.Cancel
+            Me.Close()
+            Return
+        End If
+
+        ' Set product context mode flag
+        _productContextMode = True
+
         ' Initialize the database connection
         connection = New MySqlConnection(connectionString)
 
         ' Generate the transaction number
         GenerateTransactionNumber()
         
-        ' Set product data both in the singleton and in local variables
-        Dim dataTransfer = ProductDeliveryData.GetInstance()
-        If productId > 0 Then
-            dataTransfer.RestoreState(productId, productName, barcode, category, stock)
-            _productContextMode = True
+        ' Get the expiration option directly from the database
+        Try
+            If connection.State = ConnectionState.Closed Then connection.Open()
             
-            ' Populate form with product info
-            PopulateProductInfo(dataTransfer)
-        End If
+            ' Verify product exists
+            Dim verifyQuery As String = "SELECT COUNT(*) FROM products WHERE product_id = @product_id"
+            Dim verifyCmd As New MySqlCommand(verifyQuery, connection)
+            verifyCmd.Parameters.AddWithValue("@product_id", productId)
+            Dim productExists As Integer = Convert.ToInt32(verifyCmd.ExecuteScalar())
+            
+            If productExists = 0 Then
+                MessageBox.Show($"Product with ID {productId} does not exist in the database.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Me.DialogResult = DialogResult.Cancel
+                Me.Close()
+                Return
+            End If
+            
+            ' Get expiration option
+            Dim query As String = "SELECT expiration_option FROM products WHERE product_id = @product_id"
+            Dim cmd As New MySqlCommand(query, connection)
+            cmd.Parameters.AddWithValue("@product_id", productId)
+            Dim expirationOption As String = cmd.ExecuteScalar().ToString()
+
+            MessageBox.Show($"Database Expiration Option: '{expirationOption}' for Product ID: {productId}", "Debug Database Value")
+
+            ' Update the singleton with the database value
+            Dim dataTransfer As ProductDeliveryData = ProductDeliveryData.GetInstance()
+            dataTransfer.SetProductDetails(productId, productName, barcode, category, expirationOption)
+            dataTransfer.CurrentStock = stock
+
+            ' Set product data in the form
+            lblProduct.Text = $"Product: {productName} (Barcode: {barcode})"
+            lblProduct.Visible = True
+
+            lblStock.Text = $"Current Stock: {stock}"
+            lblStock.Visible = True
+
+            lblQuantity.Visible = True
+            txtQuantity.Text = "1"
+            txtQuantity.Visible = True
+
+            lblUnitPrice.Visible = True
+            txtUnitPrice.Visible = True
+
+            lblBatchNumber.Visible = True
+            txtBatchNumber.Visible = True
+
+            lblNotes.Visible = True
+            txtNotes.Visible = True
+
+            btnReturn.Visible = True
+
+            ' Show/hide expiration date based on the database value
+            If expirationOption.Trim() = "With Expiration" Then
+                lblExpirationDate.Visible = True
+                dtpExpirationDate.Visible = True
+                dtpExpirationDate.MinDate = DateTime.Now.Date
+            Else
+                lblExpirationDate.Visible = False
+                dtpExpirationDate.Visible = False
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show($"Error in DeliveryMain constructor: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.DialogResult = DialogResult.Cancel
+            Me.Close()
+        Finally
+            If connection.State = ConnectionState.Open Then connection.Close()
+        End Try
     End Sub
 
     ' Default constructor for the DeliveryMain Form
@@ -116,6 +196,17 @@ Public Class DeliveryMain
         ' Show return button
         btnReturn.Visible = True
 
+        ' Check if product has expiration
+        MessageBox.Show($"Product Expiration Option: '{productData.ExpirationOption}'", "Debug Info")
+        If productData.ExpirationOption.Trim() = "With Expiration" Then
+            lblExpirationDate.Visible = True
+            dtpExpirationDate.Visible = True
+            dtpExpirationDate.MinDate = DateTime.Now.Date
+        Else
+            lblExpirationDate.Visible = False
+            dtpExpirationDate.Visible = False
+        End If
+
         ' Make sure all controls are properly enabled
         txtQuantity.Enabled = True
         txtUnitPrice.Enabled = True
@@ -143,6 +234,9 @@ Public Class DeliveryMain
 
     ' Save product-specific delivery (when coming from ProductMain)
     Private Sub SaveProductDelivery()
+        ' Debug message to trace execution flow
+        MessageBox.Show("Starting SaveProductDelivery method", "Debug")
+        
         ' Validate inputs
         If cmbSupplier.SelectedValue Is Nothing Then
             MessageBox.Show("Please select a supplier.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -160,12 +254,18 @@ Public Class DeliveryMain
             Return
         End If
 
-        ' Get product data from our data transfer object
+        ' Get product data from our data transfer object for name and other details
         Dim productData = ProductDeliveryData.GetInstance()
         
+        ' Debug the product data from singleton and our stored ID
+        MessageBox.Show($"Product data: Singleton ID={productData.ProductID}, Direct ID={_productId}, Name={productData.ProductName}", "Debug Product IDs")
+        
+        ' Use our stored product ID which was passed directly in the constructor
+        Dim productId As Integer = _productId
+        
         ' Validate that we have a valid product ID
-        If productData.ProductID <= 0 Then
-            MessageBox.Show($"Invalid product ID: {productData.ProductID}. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        If productId <= 0 Then
+            MessageBox.Show($"Invalid product ID: {productId}. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return
         End If
 
@@ -174,13 +274,17 @@ Public Class DeliveryMain
             If connection.State = ConnectionState.Closed Then connection.Open()
             Dim checkQuery As String = "SELECT COUNT(*) FROM products WHERE product_id = @product_id"
             Dim checkCmd As New MySqlCommand(checkQuery, connection)
-            checkCmd.Parameters.AddWithValue("@product_id", productData.ProductID)
+            checkCmd.Parameters.AddWithValue("@product_id", productId)
             Dim productExists As Integer = Convert.ToInt32(checkCmd.ExecuteScalar())
 
             If productExists = 0 Then
-                MessageBox.Show($"Product with ID {productData.ProductID} does not exist in the database. Product Name: {productData.ProductName}, Barcode: {productData.Barcode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show($"Product with ID {productId} does not exist in the database. Product Name: {productData.ProductName}, Barcode: {productData.Barcode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Return
             End If
+            
+            ' Debug: confirm product exists
+            MessageBox.Show($"Product with ID {productId} exists in the database", "Debug Product Exists")
+            
         Catch ex As Exception
             MessageBox.Show($"Error checking product existence: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return
@@ -199,18 +303,23 @@ Public Class DeliveryMain
             Try
                 ' 1. Insert delivery record
                 Dim deliveryId As Integer = InsertDeliveryRecord(transaction, notes)
+                MessageBox.Show($"Created delivery record with ID: {deliveryId}", "Debug")
 
                 ' 2. Insert delivery item for the specific product
-                InsertDeliveryItem(deliveryId, productData.ProductID, quantity, unitPrice, batchNumber, transaction)
+                InsertDeliveryItem(deliveryId, productId, quantity, unitPrice, batchNumber, transaction)
+                MessageBox.Show("Inserted delivery item", "Debug")
 
                 ' 3. Update inventory record
-                UpdateInventory(productData.ProductID, quantity, transaction)
+                UpdateInventory(productId, quantity, transaction)
+                MessageBox.Show("Updated inventory", "Debug")
 
                 ' 4. Record stock movement
-                RecordStockMovement(productData.ProductID, quantity, "delivery", deliveryId, transaction)
+                RecordStockMovement(productId, quantity, "delivery", deliveryId, transaction)
+                MessageBox.Show("Recorded stock movement", "Debug")
 
                 ' Commit the transaction
                 transaction.Commit()
+                MessageBox.Show("Transaction committed successfully", "Debug")
 
                 ' Show success message
                 MessageBox.Show($"Delivery of {quantity} units of {productData.ProductName} has been recorded successfully.",
@@ -223,11 +332,11 @@ Public Class DeliveryMain
             Catch ex As Exception
                 ' Rollback transaction on error
                 transaction.Rollback()
-                Throw ' Re-throw to be caught by the outer catch block
+                MessageBox.Show($"Error during transaction: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
 
         Catch ex As Exception
-            MessageBox.Show($"Error saving delivery: {ex.Message}{Environment.NewLine}Product ID: {productData.ProductID}{Environment.NewLine}Product Name: {productData.ProductName}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show($"Error saving delivery: {ex.Message}{Environment.NewLine}Product ID: {productId}{Environment.NewLine}Product Name: {productData.ProductName}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
             If connection.State = ConnectionState.Open Then connection.Close()
         End Try
@@ -330,14 +439,22 @@ Public Class DeliveryMain
         End If
 
         ' If product exists, proceed with insertion
-        Dim query As String = "INSERT INTO delivery_items (delivery_id, product_id, quantity, unit_price, batch_number, status) 
-                             VALUES (@delivery_id, @product_id, @quantity, @unit_price, @batch_number, 'active')"
+        Dim query As String = "INSERT INTO delivery_items (delivery_id, product_id, quantity, unit_price, batch_number, status, expiration_date) 
+                             VALUES (@delivery_id, @product_id, @quantity, @unit_price, @batch_number, 'active', @expiration_date)"
         Dim cmd As New MySqlCommand(query, connection, transaction)
         cmd.Parameters.AddWithValue("@delivery_id", deliveryId)
         cmd.Parameters.AddWithValue("@product_id", productId)
         cmd.Parameters.AddWithValue("@quantity", quantity)
         cmd.Parameters.AddWithValue("@unit_price", unitPrice)
         cmd.Parameters.AddWithValue("@batch_number", If(String.IsNullOrEmpty(batchNumber), DBNull.Value, batchNumber))
+        
+        ' Add expiration date if product has expiration
+        If dtpExpirationDate.Visible Then
+            cmd.Parameters.AddWithValue("@expiration_date", dtpExpirationDate.Value)
+        Else
+            cmd.Parameters.AddWithValue("@expiration_date", DBNull.Value)
+        End If
+        
         cmd.ExecuteNonQuery()
     End Sub
 
